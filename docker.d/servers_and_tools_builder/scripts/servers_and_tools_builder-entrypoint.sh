@@ -58,7 +58,7 @@ put_Cameras_dbc_and_maps_in_build_context_from_cache() {
   fi
 }
 
-put_Cameras_dbc_maps_in_build_context() {
+put_Cameras_dbc_and_maps_in_build_context() {
   if ! [ $USE_CACHED_CLIENT_DATA -eq 1 ]; then
     generate_and_cache_Cameras_dbc_and_maps_client_data
   fi
@@ -66,58 +66,13 @@ put_Cameras_dbc_maps_in_build_context() {
   put_Cameras_dbc_and_maps_in_build_context_from_cache
 }
 
-generate_Buildings_client_data() {
+generate_vmaps_client_data() {
   cd /home/docker/WoW-3.3.5a-12340/
 
   rm -rf Buildings
   rm -f vmap4extractor
   cp /home/trinitycore/trinitycore/bin/vmap4extractor .
   ./vmap4extractor
-
-  cd -
-}
-
-cache_Buildings_client_data() {
-  cd /home/docker/WoW-3.3.5a-12340/
-
-  local client_data_cache_dir=/home/docker/docker.d/worldserver/data
-
-  rm -rf $client_data_cache_dir/Buildings
-  cp -r Buildings $client_data_cache_dir
-
-  cd -
-}
-
-generate_and_cache_Buildings_client_data() {
-  generate_Buildings_client_data
-  cache_Buildings_client_data
-}
-
-is_Buildings_cache_set() {
-  local build_context_dir=/home/docker/docker.d/worldserver
-  local Buildings_dir=$build_context_dir/data/Buildings
-
-  if ! [ -d "$Buildings_dir" ]; then
-    return 1
-  fi
-}
-
-put_Buildings_in_build_context_from_cache() {
-  if ! is_Buildings_cache_set; then
-    generate_and_cache_Buildings_client_data
-  fi
-}
-
-put_Buildings_in_build_context() {
-  if ! [ $USE_CACHED_CLIENT_DATA ]; then
-    generate_and_cache_Buildings_client_data
-  fi
-
-  put_Buildings_in_build_context_from_cache
-}
-
-generate_vmaps_client_data() {
-  cd /home/docker/WoW-3.3.5a-12340/
 
   rm -rf vmaps
   rm -f vmap4assembler
@@ -217,8 +172,7 @@ put_mmaps_in_build_context() {
 }
 
 generate_client_data() {
-  put_Cameras_dbc_maps_in_build_context
-  put_Buildings_in_build_context
+  put_Cameras_dbc_and_maps_in_build_context
   put_vmaps_in_build_context
   put_mmaps_in_build_context
 }
