@@ -20,10 +20,10 @@ install_root_privileges() {
   apply_sql_file '/root/sql/root-privileges.sql'
 }
 
-fetch_and_patch_sql_script() {
+patch_create_mysql_script() {
   cd /root/sql
 
-  wget https://raw.githubusercontent.com/TrinityCore/TrinityCore/3.3.5/sql/create/create_mysql.sql
+  cp /root/TrinityCore/sql/create/create_mysql.sql .
   patch create_mysql.sql /root/diffs/sql/create_mysql.sql.diff
 
   cd -
@@ -34,7 +34,7 @@ apply_trinitycore_databases_creation_script() {
 }
 
 create_trinitycore_databases() {
-  fetch_and_patch_sql_script
+  patch_create_mysql_script
   apply_trinitycore_databases_creation_script
 }
 

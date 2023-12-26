@@ -16,6 +16,9 @@ services:
       - type: volume
         source: databases_data
         target: /var/lib/mysql/data
+      - type: volume
+        source: trinitycore_sources
+        target: /root/TrinityCore
   worldserver:
     depends_on:
       - databases

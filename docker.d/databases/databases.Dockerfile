@@ -9,3 +9,4 @@ COPY sql/root-privileges.sql ./sql/
 COPY diffs ./diffs/
 COPY --chmod=755 scripts/databases-entrypoint.sh ./scripts/databases-entrypoint.sh
 VOLUME /var/lib/mysql
+VOLUME /root/TrinityCore
