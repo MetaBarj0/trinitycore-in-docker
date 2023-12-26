@@ -26,6 +26,7 @@ services:
       - AUTHSERVER_IMAGE_TAG=${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
       - WORLDSERVER_IMAGE_TAG=${FQDN}/trinitycore/worldserver:${WORLDSERVER_VERSION}
       - USE_CACHED_CLIENT_DATA=${USE_CACHED_CLIENT_DATA}
+      - FQDN=${FQDN}
     entrypoint: /home/docker/servers_and_tools_builder-entrypoint.sh
     network_mode: none
     volumes:

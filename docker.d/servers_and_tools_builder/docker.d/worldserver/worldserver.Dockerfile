@@ -1,7 +1,7 @@
 ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
+ARG FQDN
 
-# TODO: make a common image, usable by this and authserver
-FROM debian:12.2-slim-upgraded as install_dependencies
+FROM $FQDN/serverbase as install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -10,9 +10,6 @@ RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get install -y --no-install-recommends \
-  libmariadb3 libboost-filesystem1.74.0 libboost-program-options1.74.0 \
-  libboost-iostreams1.74.0 libboost-regex1.74.0 libboost-locale1.74.0 \
-  libboost-system1.74.0 libboost-chrono1.74.0 libboost-atomic1.74.0 \
   libncurses6 libreadline8
 
 FROM install_dependencies as create_trinitycore_user

@@ -3,10 +3,9 @@
 set -e
 
 create_auth_server_image() {
-  echo Building authserver docker image...
-
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
+    --build-arg FQDN=${FQDN} \
     -f docker.d/authserver/authserver.Dockerfile \
     -t ${AUTHSERVER_IMAGE_TAG} \
     docker.d/authserver
@@ -178,11 +177,10 @@ generate_client_data() {
 }
 
 build_worldserver_image() {
-  echo Building worldserver docker image...
-
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
     --build-arg CLIENT_PATH=${CLIENT_PATH} \
+    --build-arg FQDN=${FQDN} \
     -f docker.d/worldserver/worldserver.Dockerfile \
     -t ${WORLDSERVER_IMAGE_TAG} \
     docker.d/worldserver
@@ -193,7 +191,15 @@ create_world_server_image() {
   build_worldserver_image
 }
 
+build_server_base_image() {
+  docker build \
+    -f docker.d/serverbase/serverbase.Dockerfile \
+    -t ${FQDN}/serverbase \
+    docker.d/serverbase
+}
+
 main() {
+  build_server_base_image
   create_auth_server_image
   create_world_server_image
 }
