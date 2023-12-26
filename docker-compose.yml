@@ -1,6 +1,7 @@
 version: "3"
 services:
   databases:
+    init: true
     build:
       context: ./docker.d/databases
       dockerfile: databases.Dockerfile
@@ -11,6 +12,7 @@ services:
         source: databases_data
         target: /var/lib/mysql/data
   servers_and_tools_builder:
+    init: true
     build:
       context: ./docker.d/servers_and_tools_builder
       dockerfile: servers_and_tools_builder.Dockerfile
@@ -19,5 +21,10 @@ services:
         - DOCKER_UID
       tags:
         - ${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
+    entrypoint: ./docker.d/servers_and_tools_builder/scripts/servers_and_tools_builder-entrypoint.sh
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
 volumes:
   databases_data:

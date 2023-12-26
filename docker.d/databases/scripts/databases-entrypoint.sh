@@ -44,4 +44,3 @@ shutdown() {
 
   exit 0
 }
-
