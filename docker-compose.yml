@@ -13,7 +13,7 @@ services:
       test: ['CMD-SHELL', '/root/scripts/healthcheck.sh']
       interval: 1s
       timeout: 10s
-      retries: 3
+      retries: 10
       start_period: 2s
       start_interval: 1s
     init: true

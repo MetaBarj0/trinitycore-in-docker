@@ -1,7 +1,5 @@
 #! /bin/sh
 
-set -x
-
 check_admin_credentials() {
   if [ -z "${ADMIN_ACCOUNT_NAME}" ] || [ -z "${ADMIN_ACCOUNT_PASSWORD}" ]; then
     echo 'FATAL: administrator account creadentials must be set' >&2
