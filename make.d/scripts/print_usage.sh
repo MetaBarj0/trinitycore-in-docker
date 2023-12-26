@@ -3,6 +3,9 @@
 cat << EOF
 ********************************************************************************
 
+make targets:
+-------------
+
 Usage: make <target> where target is one of:
 
 - help:                            display this message
@@ -62,9 +65,32 @@ EOF
 
 cat << EOF
 
+********************************************************************************
+
+Environment:
+------------
+
 Make sure to have your own copy of the 'Makefile.env' file.
 You can create your own from the 'Makefile.env.dist' file and set all variables
 according your need and your environment.
 Each variables are documented.
+
+********************************************************************************
+
+********************************************************************************
+
+TrinityCore servers configuration:
+----------------------------------
+
+you also have to provide configuration files for TrinityCore servers to run
+correctly.
+There are 2 servers to configure:
+- the world server, configured with the 'worldserver.conf' configuration file
+- the authentication server, configured with the 'authserver' configuration
+  file.
+You are responsible to provide those configuration files. If you don't provide
+them, servers won't start at all.
+
+********************************************************************************
 EOF
 

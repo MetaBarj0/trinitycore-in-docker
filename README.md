@@ -11,7 +11,8 @@ trinitycore server.
 
 Both for trinitycore developers and trinitycore users, but with a minimum
 knowledge about how docker works and minimum skills in understanding how to
-build stuff from source code.
+build stuff from source code. You need of course the knowledge about how
+trinitycore servers works.
 
 # Why
 
@@ -79,3 +80,10 @@ Ensure a version tag is correctly set in the `SERVERS_AND_TOOLS_VERSION` or
 `DATABASES_VERSION` variables.
 Any value that is correct regarding docker image tag requirement will do.
 For instance `0.1.0` is ok.
+
+### My TrinityCore servers don't start
+
+Ensure you have provided required configuration files:
+
+- `worldserver.conf` for the world server.
+- `authserver.conf` for the authentication server.

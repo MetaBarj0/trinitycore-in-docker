@@ -24,20 +24,8 @@ uncompress_tdb_full_to_worldserver() {
   cd -
 }
 
-configure_worldserver() {
-  cd trinitycore/etc
-
-  cp -f worldserver.conf.dist worldserver.conf
-
-  cd -
-
-  cd diffs/configuration
-
-  patch \
-    /home/trinitycore/trinitycore/etc/worldserver.conf \
-    worldserver.conf.diff
-
-  cd -
+run_worldserver() {
+  trinitycore/bin/worldserver &
 }
 
 run_live_loop() {
@@ -49,8 +37,22 @@ run_live_loop() {
 main() {
   fetch_tdb_full
   uncompress_tdb_full_to_worldserver
-  configure_worldserver
+  run_worldserver
   run_live_loop
 }
 
 main
+
+trap shutdown SIGTERM
+
+kill_worldserver_daemon() {
+  echo Terminating gracefully worldserver service...
+
+  kill %1
+}
+
+shutdown() {
+  kill_worldserver_daemon
+
+  exit 0
+}

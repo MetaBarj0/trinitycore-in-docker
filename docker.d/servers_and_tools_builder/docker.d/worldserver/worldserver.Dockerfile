@@ -39,9 +39,6 @@ COPY \
   --chown=trinitycore:trinitycore \
   --chmod=755 \
   scripts/ ./scripts/
-COPY \
-  --chown=trinitycore:trinitycore \
-  diffs/ ./diffs/
 RUN mkdir downloads
 VOLUME /home/trinitycore/downloads
 RUN mkdir trinitycore/data
