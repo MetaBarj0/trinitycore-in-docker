@@ -32,19 +32,25 @@ RUN \
   -DWITHOUT_METRICS=ON \
   ..
 
-FROM configure_build as build
+FROM configure_build as cmake_build
 USER trinitycore
 WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
   --mount=type=cache,target=/home/trinitycore/TrinityCore/build,uid=2000,gid=2000 \
   cmake --build .
 
-FROM build as install
+FROM cmake_build as cmake_install
 USER trinitycore
 WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
   --mount=type=cache,target=/home/trinitycore/TrinityCore/build,uid=2000,gid=2000 \
   cmake --build . --target install
+
+FROM clone_repository as install
+USER trinitycore
+WORKDIR /home/trinitycore
+COPY --from=clone_repository /home/trinitycore/TrinityCore/ TrinityCore/
+COPY --from=cmake_install /home/trinitycore/trinitycore/ trinitycore/
 
 FROM install as install_docker
 USER root
@@ -75,6 +81,8 @@ FROM create_docker_user as builder
 USER docker
 WORKDIR /home/docker
 COPY --chown=docker:docker docker.d docker.d
-RUN mkdir -p /home/docker/data
+RUN mkdir -p data
 VOLUME /home/docker/data
+RUN mkdir -p TrinityCore
+VOLUME /home/docker/TrinityCore
 COPY --chmod=755 scripts/servers_and_tools_builder-entrypoint.sh .

@@ -176,6 +176,14 @@ generate_client_data() {
   generate_mmaps
 }
 
+store_trinitycore_sources() {
+  cd /home/trinitycore/TrinityCore
+
+  cp -r * /home/docker/TrinityCore
+
+  cd -
+}
+
 build_worldserver_image() {
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
@@ -188,6 +196,7 @@ build_worldserver_image() {
 
 create_world_server_image() {
   generate_client_data
+  store_trinitycore_sources
   build_worldserver_image
 }
 

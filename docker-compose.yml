@@ -11,8 +11,7 @@ services:
     entrypoint: /root/scripts/databases-entrypoint.sh
     init: true
     networks:
-      inside:
-        ipv4_address: 123.45.67.1
+      - inside
     volumes:
       - type: volume
         source: databases_data
@@ -24,8 +23,7 @@ services:
     image: ${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
     init: true
     networks:
-      inside:
-        ipv4_address: 123.45.67.2
+      - inside
     volumes:
       - type: volume
         source: worldserver_downloads
@@ -34,6 +32,9 @@ services:
         source: client_data
         target: /home/trinitycore/trinitycore/data
         read_only: true
+      - type: volume
+        source: trinitycore_sources
+        target: /home/trinitycore/TrinityCore
   # authserver:
   #   depends_on:
   #   - worldserver
@@ -45,9 +46,3 @@ volumes:
   worldserver_downloads:
 networks:
   inside:
-    ipam:
-      driver: default
-      config:
-        - subnet: 123.45.67.0/24
-          ip_range: 123.45.67.0/24
-          gateway: 123.45.67.254

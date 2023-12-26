@@ -47,3 +47,5 @@ RUN mkdir downloads
 VOLUME /home/trinitycore/downloads
 RUN mkdir trinitycore/data
 VOLUME /home/trinitycore/trinitycore/data
+RUN mkdir trinitycore/TrinityCore
+VOLUME /home/trinitycore/TrinityCore

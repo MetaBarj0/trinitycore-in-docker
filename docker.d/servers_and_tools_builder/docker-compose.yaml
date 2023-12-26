@@ -30,6 +30,10 @@ services:
       - type: volume
         source: client_data
         target: /home/docker/data
+      - type: volume
+        source: trinitycore_sources
+        target: /home/docker/TrinityCore
 volumes:
   client_data:
+  trinitycore_sources:
 
