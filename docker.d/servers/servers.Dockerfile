@@ -19,39 +19,110 @@ RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-16 100
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-16 100
 RUN update-alternatives --install /usr/bin/ld ld /usr/bin/lld-16 100
 
-FROM install_prerequisites as create_builder_user
-RUN groupadd -g 1000 builder
-RUN useradd -g 1000 -u 1000 -m -s /bin/bash builder
+FROM install_prerequisites as create_trinitycore_user
+RUN groupadd -g 1000 trinitycore
+RUN useradd -g 1000 -u 1000 -m -s /bin/bash trinitycore
 
-FROM create_builder_user as clone_repository
-USER builder
-WORKDIR /home/builder
+FROM create_trinitycore_user as clone_repository
+USER trinitycore
+WORKDIR /home/trinitycore
 RUN git clone --branch 3.3.5 --depth=1 \
   https://github.com/TrinityCore/TrinityCore.git
 
 FROM clone_repository as configure_build
-USER builder
-WORKDIR /home/builder/TrinityCore/build
+USER trinitycore
+WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
-  --mount=type=cache,target=/home/builder/TrinityCore/build,uid=1000,gid=1000 \
+  --mount=type=cache,target=/home/trinitycore/TrinityCore/build,uid=1000,gid=1000 \
   cmake \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX=/home/builder/trinitycore \
-  -DCONF_DIR=/home/builder/trinitycore/etc \
+  -DCMAKE_INSTALL_PREFIX=/home/trinitycore/trinitycore \
+  -DCONF_DIR=/home/trinitycore/trinitycore/etc \
   -DWITHOUT_METRICS=ON \
   ..
 
 FROM configure_build as build
-USER builder
-WORKDIR /home/builder/TrinityCore/build
+USER trinitycore
+WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
-  --mount=type=cache,target=/home/builder/TrinityCore/build,uid=1000,gid=1000 \
+  --mount=type=cache,target=/home/trinitycore/TrinityCore/build,uid=1000,gid=1000 \
   cmake --build .
 
 FROM build as install
-USER builder
-WORKDIR /home/builder/TrinityCore/build
+USER trinitycore
+WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
-  --mount=type=cache,target=/home/builder/TrinityCore/build,uid=1000,gid=1000 \
+  --mount=type=cache,target=/home/trinitycore/TrinityCore/build,uid=1000,gid=1000 \
   cmake --build . --target install
+
+FROM base_upgraded as trimmed_install
+# authserver
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libmariadb3
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-filesystem1.74.0
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-program-options1.74.0
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-iostreams1.74.0
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-regex1.74.0
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-locale1.74.0
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-system1.74.0
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-chrono1.74.0
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libboost-atomic1.74.0
+# worldserver specifics
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libncurses6
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libreadline8
+RUN groupadd -g 1000 trinitycore
+RUN useradd -g 1000 -u 1000 -m -s /bin/bash trinitycore
+WORKDIR /home/trinitycore
+COPY \
+  --chown=trinitycore:trinitycore \
+  --from=install \
+  /home/trinitycore/trinitycore/ ./trinitycore
+USER trinitycore
+
+FROM scratch
+COPY --from=trimmed_install / /
+RUN exit 1
