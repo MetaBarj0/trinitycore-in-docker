@@ -71,12 +71,20 @@ services:
     networks:
       inside:
         ipv4_address: 11.12.13.3
-  # authserver:
-  #   depends_on:
-  #   - worldserver
-  #   entrypoint: /home/docker/authserver-entrypoint.sh
-  #   image: ${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
-  #   init: true
+  authserver:
+    depends_on:
+      databases:
+        condition: service_healthy
+    entrypoint: /home/trinitycore/scripts/authserver-entrypoint.sh
+    image: ${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
+    init: true
+    networks:
+      inside:
+        ipv4_address: 11.12.13.4
+    volumes:
+      - type: volume
+        source: trinitycore_sources
+        target: /home/trinitycore/TrinityCore
 volumes:
   databases_data:
   worldserver_downloads:

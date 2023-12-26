@@ -10,8 +10,9 @@ RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get install -y --no-install-recommends \
-  libncurses6 libreadline8 ca-certificates wget p7zip mariadb-client patch
+  libncurses6 libreadline8 ca-certificates wget p7zip
 
+# TODO: refacto user created in 2 images
 FROM install_dependencies as create_trinitycore_user
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore

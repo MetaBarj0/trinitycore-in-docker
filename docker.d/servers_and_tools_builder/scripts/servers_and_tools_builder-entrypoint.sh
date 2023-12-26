@@ -2,13 +2,39 @@
 
 set -e
 
-create_auth_server_image() {
+patch_authserver_configuration() {
+  cd docker.d/authserver/patches/configuration
+
+  patch \
+    /home/docker/trinitycore_configurations/authserver.conf \
+    authserver.conf.diff
+
+  cd -
+}
+
+copy_authserver_configuration_in_authserver_build_context() {
+  cp \
+    trinitycore_configurations/authserver.conf \
+    docker.d/authserver/
+}
+
+prepare_authserver_configuration() {
+  patch_authserver_configuration
+  copy_authserver_configuration_in_authserver_build_context
+}
+
+build_authserver_image() {
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
     --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/authserver/authserver.Dockerfile \
     -t ${AUTHSERVER_IMAGE_TAG} \
     docker.d/authserver
+}
+
+create_auth_server_image() {
+  prepare_authserver_configuration
+  build_authserver_image
 }
 
 generate_Cameras_dbc_and_maps_in_client_dir() {

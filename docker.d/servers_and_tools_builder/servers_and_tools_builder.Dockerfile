@@ -89,4 +89,7 @@ VOLUME /home/docker/TrinityCore
 RUN mkdir -p trinitycore_configurations
 COPY \
   --chown=docker:docker \
-  worldserver.conf trinitycore_configurations/worldserver.conf
+  worldserver.conf trinitycore_configurations/
+COPY \
+  --chown=docker:docker \
+  authserver.conf trinitycore_configurations/

@@ -3,6 +3,7 @@
 fetch_tdb_full() {
   cd downloads
 
+  # TODO: put URL in some kind of environment in maintainer mode
   wget -c \
     https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.23061/TDB_full_world_335.23061_2023_06_14.7z \
     -O TDB_full_world_335.23061_2023_06_14.7z

@@ -12,6 +12,7 @@ _build_debian_upgraded:
 
 build_servers_and_tools_builder: _build_debian_upgraded
 	@cp "${WORLDSERVER_CONF_PATH}" docker.d/servers_and_tools_builder/
+	@cp "${AUTHSERVER_CONF_PATH}" docker.d/servers_and_tools_builder/
 	@docker compose build servers_and_tools_builder \
 		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
 		--build-arg DOCKER_UID=$$(id -u)
