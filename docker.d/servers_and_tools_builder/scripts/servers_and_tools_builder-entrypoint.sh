@@ -7,13 +7,19 @@ create_auth_server() {
 
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
-    -f docker.d/authserver.Dockerfile \
+    -f docker.d/authserver/authserver.Dockerfile \
     -t ${AUTHSERVER_IMAGE_TAG} \
-    docker.d
+    docker.d/authserver
 }
 
 create_world_server() {
-  :
+  echo Building worldserver docker image...
+
+  docker build \
+    --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
+    -f docker.d/worldserver/worldserver.Dockerfile \
+    -t ${WORLDSERVER_IMAGE_TAG} \
+    docker.d/worldserver
 }
 
 main() {

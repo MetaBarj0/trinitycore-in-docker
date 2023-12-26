@@ -24,6 +24,7 @@ services:
     environment:
       - SERVERS_AND_TOOLS_BUILDER_IMAGE=${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
       - AUTHSERVER_IMAGE_TAG=${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
+      - WORLDSERVER_IMAGE_TAG=${FQDN}/trinitycore/worldserver:${WORLDSERVER_VERSION}
     entrypoint: /home/docker/servers_and_tools_builder-entrypoint.sh
     network_mode: none
     volumes:
