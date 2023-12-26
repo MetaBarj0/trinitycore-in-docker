@@ -1,0 +1,24 @@
+76c76
+< DataDir = "."
+---
+> DataDir = "/home/trinitycore/trinitycore/data"
+110,112c110,112
+< LoginDatabaseInfo     = "127.0.0.1;3306;trinity;trinity;auth"
+< WorldDatabaseInfo     = "127.0.0.1;3306;trinity;trinity;world"
+< CharacterDatabaseInfo = "127.0.0.1;3306;trinity;trinity;characters"
+---
+> LoginDatabaseInfo     = "databases;3306;trinity;trinity;auth"
+> WorldDatabaseInfo     = "databases;3306;trinity;trinity;world"
+> CharacterDatabaseInfo = "databases;3306;trinity;trinity;characters"
+3012c3012
+< Console.Enable = 1
+---
+> Console.Enable = 0
+3049c3049
+< SOAP.Enabled = 0
+---
+> SOAP.Enabled = 1
+3056c3056
+< SOAP.IP = "127.0.0.1"
+---
+> SOAP.IP = "0.0.0.0"

@@ -177,6 +177,7 @@ generate_client_data() {
 }
 
 store_trinitycore_sources() {
+  # TODO: cd mess, WORKDIR as base
   cd /home/trinitycore/TrinityCore
 
   cp -r * /home/docker/TrinityCore
@@ -184,10 +185,19 @@ store_trinitycore_sources() {
   cd -
 }
 
+patch_worldserver_configuration() {
+  cd docker.d/worldserver/patches/configuration
+
+  patch \
+    /home/docker/trinitycore_configurations/worldserver.conf \
+    worldserver.conf.diff
+
+  cd -
+}
+
 build_worldserver_image() {
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
-    --build-arg CLIENT_PATH=${CLIENT_PATH} \
     --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/worldserver/worldserver.Dockerfile \
     -t ${WORLDSERVER_IMAGE_TAG} \
@@ -197,6 +207,7 @@ build_worldserver_image() {
 create_world_server_image() {
   generate_client_data
   store_trinitycore_sources
+  patch_worldserver_configuration
   build_worldserver_image
 }
 

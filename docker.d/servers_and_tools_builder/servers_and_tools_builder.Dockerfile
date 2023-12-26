@@ -4,7 +4,7 @@ RUN \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get install -y --no-install-recommends \
   libboost-all-dev libmariadb-dev-compat libssl-dev cmake clang-16 zlib1g-dev \
-  libreadline-dev git lld-16 ca-certificates ninja-build libbz2-dev
+  libreadline-dev git lld-16 ca-certificates ninja-build libbz2-dev patch
 RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-16 100
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-16 100
 RUN update-alternatives --install /usr/bin/ld ld /usr/bin/lld-16 100
@@ -81,8 +81,11 @@ FROM create_docker_user as builder
 USER docker
 WORKDIR /home/docker
 COPY --chown=docker:docker docker.d docker.d
+COPY --chmod=755 scripts/servers_and_tools_builder-entrypoint.sh .
 RUN mkdir -p data
 VOLUME /home/docker/data
 RUN mkdir -p TrinityCore
 VOLUME /home/docker/TrinityCore
-COPY --chmod=755 scripts/servers_and_tools_builder-entrypoint.sh .
+RUN mkdir -p trinitycore_configurations
+VOLUME /home/docker/trinitycore_configurations
+COPY worldserver.conf trinitycore_configurations/worldserver.conf
