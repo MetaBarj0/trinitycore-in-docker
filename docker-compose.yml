@@ -55,6 +55,13 @@ services:
     depends_on:
       - worldserver
     entrypoint: /home/worldserver_console/scripts/worldserver_console-entrypoint.sh
+    healthcheck:
+      test: ['CMD-SHELL', '/home/worldserver_console/scripts/healthcheck.sh']
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 10s
+      start_interval: 5s
     init: true
     networks:
       - inside
