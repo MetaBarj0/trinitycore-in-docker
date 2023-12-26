@@ -2,14 +2,12 @@ SHELL := env bash
 
 MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
 
+include $(MAKEFILE_DIR)/make.d/macros.Makefile
+
 include $(MAKEFILE_DIR)/make.d/env_file/Makefile.env
 export
 
 maintainer_mode := 0
-
-define print_usage
-  @. $(MAKEFILE_DIR)/make.d/scripts/print_usage.sh $(maintainer_mode)
-endef
 
 help:
 	$(call print_usage,$(maintainer_mode))
@@ -31,5 +29,14 @@ up:
 
 down:
 	@docker compose down
+
+cmd :=
+
+COMPOSE_PROJECT_NAME := trinitycore-in-docker
+
+exec:
+	$(call check_cmd,$(cmd))
+	@docker exec $(COMPOSE_PROJECT_NAME)-worldserver_console-1 \
+		sh -c "execute_console_command.sh '$(cmd)'"
 
 include $(MAKEFILE_DIR)/make.d/maintainer.Makefile

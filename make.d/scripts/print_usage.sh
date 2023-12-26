@@ -8,7 +8,7 @@ make targets:
 
 Usage: make <target> where target is one of:
 
-- help:                      display this message
+- help:                      display this message.
 - build:                     build docker images for databases and
                              build_servers_and_tools_builder in a first time.
                              Then, build the authserver and worldserver images.
@@ -24,6 +24,11 @@ Usage: make <target> where target is one of:
                              in a separate container.
 - up:                        Make TrinityCore servers up and running.
 - down:                      shutdown TrinityCore servers, destroys containers.
+- exec:                      Execute a worldserver command using the
+                             'worldserver_console' service. You must use the
+                             'cmd' variable to specify the worldserver command
+                             to execute.
+                             Example: make exec cmd='server info'
 EOF
 
 if ! [ $1 -eq 0 ]; then
@@ -75,6 +80,27 @@ Make sure to have your own copy of the 'Makefile.env' file.
 You can create your own from the 'Makefile.env.dist' file and set all variables
 according your need and your environment.
 Each variables are documented.
+
+********************************************************************************
+
+********************************************************************************
+
+Variables:
+----------
+
+There are some variables you can use to customize the bahvior of some targets:
+
+- maintainer_mode: setting this variable to '1' will turn of the maintainer
+                   mode and alter the bahvior of the 'help' target. It will
+                   display supplementary documentation about target considered
+                   interesting in the point of view of a maintainer of
+                   'trinitycore-in-docker'. Note that even you do not activate
+                   explicitely the maintainer mode using this variable, you
+                   have nonetheless access to all targets.
+                   Example: make help maintainer_mode=1
+- cmd:             This variable is useful only for the 'exec' target and specify the
+                   command to execute with the 'worldserver_console' service.
+                   Example: make exec cmd='server info'
 
 ********************************************************************************
 

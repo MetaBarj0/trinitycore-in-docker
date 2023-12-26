@@ -1,11 +1,9 @@
-**TODO: describe worldserver_console service**
-
 # Intro
 
 **TrinityCore in docker.**
 
 The purpose is to build docker images for databases, world, auth server and
-tools.
+a remote worldserver console.
 Then, it is able to run these docker images to get a fully functional
 trinitycore server.
 
@@ -33,6 +31,7 @@ To initially build docker images for auth and world servers.
 As soon as you want to update docker images holding the auth and world server.
 To develop within trinitycore source code.
 To easily run a trinitycore server.
+To test and play with a TrinityCore server, hey it's a fun project after all.
 
 # How
 
@@ -89,3 +88,12 @@ Ensure you have provided required configuration files:
 
 - `worldserver.conf` for the world server.
 - `authserver.conf` for the authentication server.
+
+### It does not work with Docker Desktop for Windows or MacOS
+
+Unfortunately, this way is nit yet supported. It's planned though to make it
+work using this fantastic tool. be patient. The first platform I'll support
+will be MacOS, then windows.
+In the mean time, `trinitycore-in-docker` is fully functional in a linux
+environment. Actually, I'm developping in using my very own ProxMox node (kind
+of of Debian)
