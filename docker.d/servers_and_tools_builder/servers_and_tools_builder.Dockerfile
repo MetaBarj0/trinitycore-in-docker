@@ -75,6 +75,6 @@ FROM create_docker_user as builder
 USER docker
 WORKDIR /home/docker
 COPY --chown=docker:docker docker.d docker.d
-RUN mkdir -p /home/docker/docker.d/worldserver/data
-VOLUME /home/docker/docker.d/worldserver/data
+RUN mkdir -p /home/docker/data
+VOLUME /home/docker/data
 COPY --chmod=755 scripts/servers_and_tools_builder-entrypoint.sh .

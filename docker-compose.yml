@@ -3,26 +3,51 @@ include:
 version: '3'
 services:
   databases:
-    init: true
     build:
       context: ./docker.d/databases
       dockerfile: databases.Dockerfile
       tags:
-        - ${FQDN}/trinitycore/databases:${DATABASES_VERSION}
+        - ${NAMESPACE}.trinitycore.databases:${DATABASES_VERSION}
     entrypoint: /root/scripts/databases-entrypoint.sh
+    init: true
+    networks:
+      inside:
+        ipv4_address: 123.45.67.1
     volumes:
       - type: volume
         source: databases_data
         target: /var/lib/mysql/data
-  # worldserver:
-  #   init: true
-  #   depends_on: database
-  #   image: ${FQDN}/trinitycore/worldserver
-  #   entrypoint: /home/docker/worldserver-entrypoint.sh
+  worldserver:
+    depends_on:
+      - databases
+    entrypoint: /home/trinitycore/scripts/worldserver-entrypoint.sh
+    image: ${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
+    init: true
+    networks:
+      inside:
+        ipv4_address: 123.45.67.2
+    volumes:
+      - type: volume
+        source: worldserver_downloads
+        target: /home/trinitycore/downloads
+      - type: volume
+        source: client_data
+        target: /home/trinitycore/trinitycore/data
+        read_only: true
   # authserver:
-  #   init: true
-  #   depends_on: worldserver
-  #   image: ${FQDN}/trinitycore/authserver
+  #   depends_on:
+  #   - worldserver
   #   entrypoint: /home/docker/authserver-entrypoint.sh
+  #   image: ${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
+  #   init: true
 volumes:
   databases_data:
+  worldserver_downloads:
+networks:
+  inside:
+    ipam:
+      driver: default
+      config:
+        - subnet: 123.45.67.0/24
+          ip_range: 123.45.67.0/24
+          gateway: 123.45.67.254

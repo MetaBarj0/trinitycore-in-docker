@@ -1,3 +1,4 @@
+# TODO: don't run with root
 FROM alpine:edge
 RUN \
   --mount=type=cache,target=/var/cache/apk,sharing=locked \

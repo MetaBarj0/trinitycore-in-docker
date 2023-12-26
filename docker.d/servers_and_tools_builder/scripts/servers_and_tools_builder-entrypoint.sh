@@ -5,13 +5,13 @@ set -e
 create_auth_server_image() {
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
-    --build-arg FQDN=${FQDN} \
+    --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/authserver/authserver.Dockerfile \
     -t ${AUTHSERVER_IMAGE_TAG} \
     docker.d/authserver
 }
 
-generate_Cameras_dbc_and_maps_client_data() {
+generate_Cameras_dbc_and_maps_in_client_dir() {
   cd /home/docker/WoW-3.3.5a-12340/
 
   rm -rf Cameras dbc maps
@@ -22,50 +22,50 @@ generate_Cameras_dbc_and_maps_client_data() {
   cd -
 }
 
-cache_Cameras_dbc_and_maps_client_data() {
+store_Cameras_dbc_and_maps_from_client_dir() {
   cd /home/docker/WoW-3.3.5a-12340/
 
-  local client_data_cache_dir=/home/docker/docker.d/worldserver/data
+  local client_data_store_dir=/home/docker/data
 
-  rm -rf $client_data_cache_dir/Cameras
-  rm -rf $client_data_cache_dir/dbc
-  rm -rf $client_data_cache_dir/maps
-  cp -r Cameras dbc maps $client_data_cache_dir
+  rm -rf $client_data_store_dir/Cameras
+  rm -rf $client_data_store_dir/dbc
+  rm -rf $client_data_store_dir/maps
+  cp -r Cameras dbc maps $client_data_store_dir
 
   cd -
 }
 
-is_Cameras_dbc_maps_cache_set() {
-  local build_context_dir=/home/docker/docker.d/worldserver
-  local Cameras_dir=$build_context_dir/data/Cameras
-  local dbc_dir=$build_context_dir/data/dbc
-  local maps_dir=$build_context_dir/data/maps
+is_Cameras_dbc_maps_store_set() {
+  local store_dir=/home/docker/data
+  local Cameras_dir=$store_dir/Cameras
+  local dbc_dir=$store_dir/dbc
+  local maps_dir=$store_dir/maps
 
   if ! [ -d "$Cameras_dir" ] || ! [ -d "$dbc_dir" ] || ! [ -d "$maps_dir" ]; then
     return 1
   fi
 }
 
-generate_and_cache_Cameras_dbc_and_maps_client_data() {
-  generate_Cameras_dbc_and_maps_client_data
-  cache_Cameras_dbc_and_maps_client_data
+regenerate_Cameras_dbc_and_maps() {
+  generate_Cameras_dbc_and_maps_in_client_dir
+  store_Cameras_dbc_and_maps_from_client_dir
 }
 
-put_Cameras_dbc_and_maps_in_build_context_from_cache() {
-  if ! is_Cameras_dbc_maps_cache_set; then
-    generate_and_cache_Cameras_dbc_and_maps_client_data
+store_Cameras_dbc_and_maps() {
+  if ! is_Cameras_dbc_maps_store_set; then
+    regenerate_Cameras_dbc_and_maps
   fi
 }
 
-put_Cameras_dbc_and_maps_in_build_context() {
+generate_Cameras_dbc_and_maps() {
   if ! [ $USE_CACHED_CLIENT_DATA -eq 1 ]; then
-    generate_and_cache_Cameras_dbc_and_maps_client_data
+    regenerate_Cameras_dbc_and_maps
   fi
 
-  put_Cameras_dbc_and_maps_in_build_context_from_cache
+  store_Cameras_dbc_and_maps
 }
 
-generate_vmaps_client_data() {
+generate_vmaps_in_client_dir() {
   cd /home/docker/WoW-3.3.5a-12340/
 
   rm -rf Buildings
@@ -82,45 +82,45 @@ generate_vmaps_client_data() {
   cd -
 }
 
-cache_vmaps_client_data() {
+store_vmaps_from_client_dir() {
   cd /home/docker/WoW-3.3.5a-12340/
 
-  local client_data_cache_dir=/home/docker/docker.d/worldserver/data
-  rm -rf $client_data_cache_dir/vmaps
-  cp -r vmaps $client_data_cache_dir
+  local client_data_store_dir=/home/docker/data
+  rm -rf $client_data_store_dir/vmaps
+  cp -r vmaps $client_data_store_dir
 
   cd -
 }
 
-generate_and_cache_vmaps_client_data() {
-  generate_vmaps_client_data
-  cache_vmaps_client_data
+regenerate_vmaps() {
+  generate_vmaps_in_client_dir
+  store_vmaps_from_client_dir
 }
 
-is_vmaps_cache_set() {
-  local build_context_dir=/home/docker/docker.d/worldserver
-  local vmaps_dir=$build_context_dir/data/vmaps
+is_vmaps_store_set() {
+  local store_dir=/home/docker/data
+  local vmaps_dir=$store_dir/vmaps
 
   if ! [ -d "$vmaps_dir" ]; then
     return 1
   fi
 }
 
-put_vmaps_in_build_context_from_cache() {
-  if ! is_vmaps_cache_set; then
-    generate_and_cache_vmaps_client_data
+store_vmaps() {
+  if ! is_vmaps_store_set; then
+    regenerate_vmaps
   fi
 }
 
-put_vmaps_in_build_context() {
+generate_vmaps() {
   if ! [ $USE_CACHED_CLIENT_DATA ]; then
-    generate_and_cache_vmaps_client_data
+    regenerate_vmaps
   fi
 
-  put_vmaps_in_build_context_from_cache
+  store_vmaps
 }
 
-generate_mmaps_client_data() {
+generate_mmaps_in_client_dir() {
   cd /home/docker/WoW-3.3.5a-12340/
 
   rm -rf mmaps
@@ -132,55 +132,55 @@ generate_mmaps_client_data() {
   cd -
 }
 
-cache_mmaps_client_data() {
+store_mmaps_from_client_dir() {
   cd /home/docker/WoW-3.3.5a-12340/
 
-  local client_data_cache_dir=/home/docker/docker.d/worldserver/data
-  rm -rf $client_data_cache_dir/mmaps
-  cp -r mmaps $client_data_cache_dir
+  local client_data_store_dir=/home/docker/data
+  rm -rf $client_data_store_dir/mmaps
+  cp -r mmaps $client_data_store_dir
 
   cd -
 }
 
-is_mmaps_cache_set() {
-  local build_context_dir=/home/docker/docker.d/worldserver
-  local mmaps_dir=$build_context_dir/data/mmaps
+is_mmaps_store_set() {
+  local store_dir=/home/docker/data
+  local mmaps_dir=$store_dir/mmaps
 
   if ! [ -d "$mmaps_dir" ]; then
     return 1
   fi
 }
 
-generate_and_cache_mmaps_client_data() {
-  generate_mmaps_client_data
-  cache_mmaps_client_data
+regenerate_mmaps() {
+  generate_mmaps_in_client_dir
+  store_mmaps_from_client_dir
 }
 
-put_mmaps_in_build_context_from_cache() {
-  if ! is_mmaps_cache_set; then
-    generate_and_cache_mmaps_client_data
+store_mmaps() {
+  if ! is_mmaps_store_set; then
+    regenerate_mmaps
   fi
 }
 
-put_mmaps_in_build_context() {
+generate_mmaps() {
   if ! [ $USE_CACHED_CLIENT_DATA ]; then
-    generate_and_cache_mmaps_client_data
+    regenerate_mmaps
   fi
 
-  put_mmaps_in_build_context_from_cache
+  store_mmaps
 }
 
 generate_client_data() {
-  put_Cameras_dbc_and_maps_in_build_context
-  put_vmaps_in_build_context
-  put_mmaps_in_build_context
+  generate_Cameras_dbc_and_maps
+  generate_vmaps
+  generate_mmaps
 }
 
 build_worldserver_image() {
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
     --build-arg CLIENT_PATH=${CLIENT_PATH} \
-    --build-arg FQDN=${FQDN} \
+    --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/worldserver/worldserver.Dockerfile \
     -t ${WORLDSERVER_IMAGE_TAG} \
     docker.d/worldserver
@@ -194,7 +194,7 @@ create_world_server_image() {
 build_server_base_image() {
   docker build \
     -f docker.d/serverbase/serverbase.Dockerfile \
-    -t ${FQDN}/serverbase \
+    -t ${NAMESPACE}.serverbase \
     docker.d/serverbase
 }
 

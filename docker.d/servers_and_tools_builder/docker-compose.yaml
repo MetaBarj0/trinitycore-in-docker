@@ -1,25 +1,25 @@
 version: '3'
 services:
   servers_and_tools_builder:
-    profiles:
-      - build
-    init: true
     build:
-      context: .
-      dockerfile: servers_and_tools_builder.Dockerfile
       args:
         - DOCKER_GID
         - DOCKER_UID
+      context: .
+      dockerfile: servers_and_tools_builder.Dockerfile
       tags:
-        - ${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
-    environment:
-      - SERVERS_AND_TOOLS_BUILDER_IMAGE=${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
-      - AUTHSERVER_IMAGE_TAG=${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
-      - WORLDSERVER_IMAGE_TAG=${FQDN}/trinitycore/worldserver:${WORLDSERVER_VERSION}
-      - USE_CACHED_CLIENT_DATA=${USE_CACHED_CLIENT_DATA}
-      - FQDN=${FQDN}
+        - ${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
     entrypoint: /home/docker/servers_and_tools_builder-entrypoint.sh
+    environment:
+      - SERVERS_AND_TOOLS_BUILDER_IMAGE=${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
+      - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
+      - WORLDSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
+      - USE_CACHED_CLIENT_DATA=${USE_CACHED_CLIENT_DATA}
+      - NAMESPACE=${NAMESPACE}
+    init: true
     network_mode: none
+    profiles:
+      - build
     volumes:
       - type: bind
         source: /var/run/docker.sock
@@ -28,8 +28,8 @@ services:
         source: ${CLIENT_PATH}
         target: /home/docker/WoW-3.3.5a-12340
       - type: volume
-        source: client_data_cache
-        target: /home/docker/docker.d/worldserver/data
+        source: client_data
+        target: /home/docker/data
 volumes:
-  client_data_cache:
+  client_data:
 

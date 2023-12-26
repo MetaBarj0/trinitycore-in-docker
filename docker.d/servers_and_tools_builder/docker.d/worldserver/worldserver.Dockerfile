@@ -1,7 +1,7 @@
 ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
-ARG FQDN
+ARG NAMESPACE
 
-FROM $FQDN/serverbase as install_dependencies
+FROM $NAMESPACE.serverbase as install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -10,20 +10,15 @@ RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get install -y --no-install-recommends \
-  libncurses6 libreadline8
+  libncurses6 libreadline8 ca-certificates wget p7zip mariadb-client patch
 
 FROM install_dependencies as create_trinitycore_user
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
 
-FROM create_trinitycore_user as install_client_data
-COPY \
-  --chown=trinitycore:trinitycore \
-  data/ /home/trinitycore/trinitycore/data/
-
 FROM $SERVERS_AND_TOOLS_BUILDER_IMAGE as builder
 
-FROM install_client_data as install_worldserver
+FROM create_trinitycore_user as install_worldserver
 USER trinitycore
 WORKDIR /home/trinitycore
 RUN mkdir -p trinitycore/bin trinitycore/etc
@@ -37,3 +32,18 @@ COPY \
   /home/trinitycore/trinitycore/etc/worldserver.conf.dist \
   etc/worldserver.conf.dist
 WORKDIR /home/trinitycore
+
+FROM install_worldserver
+USER trinitycore
+WORKDIR /home/trinitycore
+COPY \
+  --chown=trinitycore:trinitycore \
+  --chmod=755 \
+  scripts/ ./scripts/
+COPY \
+  --chown=trinitycore:trinitycore \
+  diffs/ ./diffs/
+RUN mkdir downloads
+VOLUME /home/trinitycore/downloads
+RUN mkdir trinitycore/data
+VOLUME /home/trinitycore/trinitycore/data

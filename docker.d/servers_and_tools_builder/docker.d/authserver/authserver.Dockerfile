@@ -1,7 +1,7 @@
 ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
-ARG FQDN
+ARG NAMESPACE
 
-FROM $FQDN/serverbase as create_trinitycore_user
+FROM $NAMESPACE.serverbase as create_trinitycore_user
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
 
