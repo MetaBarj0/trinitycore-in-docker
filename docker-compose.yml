@@ -6,18 +6,21 @@ services:
       dockerfile: databases.Dockerfile
       tags:
         - ${FQDN}/trinitycore/databases:${DATABASES_VERSION}
-      ssh: ["default"]
+    volumes:
+      - type: volume
+        source: databases_data
+        target: /var/lib/mysql/data
   authserver:
     build:
       context: ./docker.d/authserver
       dockerfile: authserver.Dockerfile
       tags:
         - ${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
-      ssh: ["default"]
   worldserver:
     build:
       context: ./docker.d/worldserver
       dockerfile: worldserver.Dockerfile
       tags:
         - ${FQDN}/trinitycore/worldserver:${WORLDSERVER_VERSION}
-      ssh: ["default"]
+volumes:
+  databases_data:
