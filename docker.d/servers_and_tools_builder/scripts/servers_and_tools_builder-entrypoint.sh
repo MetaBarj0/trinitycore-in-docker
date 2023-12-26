@@ -120,7 +120,7 @@ generate_vmaps_client_data() {
   cd /home/docker/WoW-3.3.5a-12340/
 
   rm -rf vmaps
-  rm -f vvmap4assembler
+  rm -f vmap4assembler
   cp /home/trinitycore/trinitycore/bin/vmap4assembler .
   mkdir vmaps
   ./vmap4assembler Buildings vmaps
@@ -132,7 +132,7 @@ cache_vmaps_client_data() {
   cd /home/docker/WoW-3.3.5a-12340/
 
   local client_data_cache_dir=/home/docker/docker.d/worldserver/data
-  rm -rd $client_data_cache_dir/vmaps
+  rm -rf $client_data_cache_dir/vmaps
   cp -r vmaps $client_data_cache_dir
 
   cd -
@@ -166,14 +166,54 @@ put_vmaps_in_build_context() {
   put_vmaps_in_build_context_from_cache
 }
 
+generate_mmaps_client_data() {
+  cd /home/docker/WoW-3.3.5a-12340/
+
+  rm -rf mmaps
+  rm -f mmaps_generator
+  cp /home/trinitycore/trinitycore/bin/mmaps_generator .
+  mkdir mmaps
+  ./mmaps_generator
+
+  cd -
+}
+
+cache_mmaps_client_data() {
+  cd /home/docker/WoW-3.3.5a-12340/
+
+  local client_data_cache_dir=/home/docker/docker.d/worldserver/data
+  rm -rf $client_data_cache_dir/mmaps
+  cp -r mmaps $client_data_cache_dir
+
+  cd -
+}
+
+is_mmaps_cache_set() {
+  local build_context_dir=/home/docker/docker.d/worldserver
+  local mmaps_dir=$build_context_dir/data/mmaps
+
+  if ! [ -d "$mmaps_dir" ]; then
+    return 1
+  fi
+}
+
+generate_and_cache_mmaps_client_data() {
+  generate_mmaps_client_data
+  cache_mmaps_client_data
+}
+
+put_mmaps_in_build_context_from_cache() {
+  if ! is_mmaps_cache_set; then
+    generate_and_cache_mmaps_client_data
+  fi
+}
+
 put_mmaps_in_build_context() {
   if ! [ $USE_CACHED_CLIENT_DATA ]; then
-    cd /home/docker/WoW-3.3.5a-12340/
-    rm -rf vmaps mmaps
-    rm -f mmaps_generator
-    cp /home/trinitycore/trinitycore/bin/mmaps_generator .
-    cd -
+    generate_and_cache_mmaps_client_data
   fi
+
+  put_mmaps_in_build_context_from_cache
 }
 
 generate_client_data() {
