@@ -55,6 +55,9 @@ services:
     depends_on:
       - worldserver
     entrypoint: /home/worldserver_console/scripts/worldserver_console-entrypoint.sh
+    environment:
+      - ADMIN_ACCOUNT_NAME=${ADMIN_ACCOUNT_NAME}
+      - ADMIN_ACCOUNT_PASSWORD=${ADMIN_ACCOUNT_PASSWORD}
     healthcheck:
       test: ['CMD-SHELL', '/home/worldserver_console/scripts/healthcheck.sh']
       interval: 5s

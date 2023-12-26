@@ -15,11 +15,14 @@ function extractCommand($args)
 
 function executeCommand($command)
 {
+    $adminAccountName = getenv('ADMIN_ACCOUNT_NAME');
+    $adminAccountPassword = getenv('ADMIN_ACCOUNT_PASSWORD');
+
     $client = new SoapClient(null, [
         'location' => 'http://worldserver:7878',
         'uri' => 'urn:TC',
-        'login' => 'TC_ADMIN',
-        'password' => 'TC_ADMIN',
+        'login' => $adminAccountName,
+        'password' => $adminAccountPassword
     ]);
 
     try {
