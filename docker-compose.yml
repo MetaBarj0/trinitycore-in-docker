@@ -10,11 +10,14 @@ services:
       - type: volume
         source: databases_data
         target: /var/lib/mysql/data
-  servers:
+  servers_and_tools_builder:
     build:
-      context: ./docker.d/servers
-      dockerfile: servers.Dockerfile
+      context: ./docker.d/servers_and_tools_builder
+      dockerfile: servers_and_tools_builder.Dockerfile
+      args:
+        - DOCKER_GID
+        - DOCKER_UID
       tags:
-        - ${FQDN}/trinitycore/servers:${SERVERS_VERSION}
+        - ${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
 volumes:
   databases_data:

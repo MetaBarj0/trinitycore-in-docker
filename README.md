@@ -13,7 +13,7 @@ build stuff from source code.
 # Why
 
 Because it's cool, integrated, it is not documented in official documentation,
-reproducible.
+reproducible, totally automated and configurable.
 
 # What
 
@@ -27,6 +27,7 @@ To initially build docker images for auth, world servers and tools.
 As soon as you want to update docker images holding the auth and world server
 or the tools.
 To develop within trinitycore source code.
+To easly run a trinitycore server.
 
 # How
 

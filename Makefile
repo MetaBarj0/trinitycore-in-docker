@@ -17,10 +17,14 @@ help:
 build_databases:
 	@docker compose build databases
 
-build_servers:
-	@docker compose build servers
+build_servers_and_tools_builder:
+	@docker compose build servers_and_tools_builder \
+		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
+		--build-arg DOCKER_UID=$$(id -u)
 
 build:
-	@docker compose build
+	@docker compose build \
+		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
+		--build-arg DOCKER_UID=$$(id -u)
 
 include $(MAKEFILE_DIR)/make.d/debug.Makefile
