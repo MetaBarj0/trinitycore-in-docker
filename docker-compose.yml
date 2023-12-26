@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   databases:
     init: true
@@ -12,6 +12,8 @@ services:
         source: databases_data
         target: /var/lib/mysql/data
   servers_and_tools_builder:
+    profiles:
+      - build
     init: true
     build:
       context: ./docker.d/servers_and_tools_builder

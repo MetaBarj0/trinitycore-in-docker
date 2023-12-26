@@ -32,7 +32,6 @@ build_servers: build_servers_and_tools_builder
 	@docker compose up servers_and_tools_builder
 	@docker compose down servers_and_tools_builder
 
-build:
-	@echo Not Implemented Yet
+build: build_databases build_servers
 
 include $(MAKEFILE_DIR)/make.d/debug.Makefile
