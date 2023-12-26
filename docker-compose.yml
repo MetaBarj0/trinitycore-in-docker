@@ -1,16 +1,6 @@
 version: '3'
 services:
-  databases:
-    init: true
-    build:
-      context: ./docker.d/databases
-      dockerfile: databases.Dockerfile
-      tags:
-        - ${FQDN}/trinitycore/databases:${DATABASES_VERSION}
-    volumes:
-      - type: volume
-        source: databases_data
-        target: /var/lib/mysql/data
+  # TODO: include this service in separate yaml file?
   servers_and_tools_builder:
     profiles:
       - build
@@ -41,6 +31,30 @@ services:
       - type: volume
         source: client_data_cache
         target: /home/docker/docker.d/worldserver/data
+  databases:
+    init: true
+    build:
+      context: ./docker.d/databases
+      dockerfile: databases.Dockerfile
+      tags:
+        - ${FQDN}/trinitycore/databases:${DATABASES_VERSION}
+    entrypoint: /root/scripts/databases-entrypoint.sh
+    volumes:
+      - type: volume
+        source: databases_data
+        target: /var/lib/mysql/data
+  # worldserver:
+  #   init: true
+  #   depends_on: database
+  #   image: ${FQDN}/trinitycore/worldserver
+  #   entrypoint: /home/docker/worldserver-entrypoint.sh
+  # authserver:
+  #   init: true
+  #   depends_on: worldserver
+  #   image: ${FQDN}/trinitycore/authserver
+  #   entrypoint: /home/docker/authserver-entrypoint.sh
 volumes:
   databases_data:
+  # TODO: include in separate yaml file if servers_and_tools_builder service is
+  # refactored.
   client_data_cache:

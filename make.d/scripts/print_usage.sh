@@ -7,7 +7,9 @@ Usage: make <target> where target is one of:
 
 - help:                            display this message
 - build:                           build docker images for databases and
-                                   build_servers_and_tools_builder
+                                   build_servers_and_tools_builder in a first
+                                   time. Then, build the authserver and
+                                   worldserver images.
 - build_databases:                 build the databases service docker image.
 - build_servers_and_tools_builder: build the build_servers_and_tools_builder
                                    meta builder service image.
@@ -17,6 +19,9 @@ Usage: make <target> where target is one of:
                                    target. This step can be very long as it may
                                    generate client data such as vmaps and
                                    mmaps if they are not already generated.
+- up:                              Make TrinityCore servers up and running.
+- down:                            shutdown TrinityCore servers, destroys
+                                   containers.
 EOF
 
 if ! [ $1 -eq 0 ]; then

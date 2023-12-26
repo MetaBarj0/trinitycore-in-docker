@@ -34,4 +34,10 @@ build_servers: build_servers_and_tools_builder
 
 build: build_databases build_servers
 
+up:
+	@docker compose up --detach
+
+down:
+	@docker compose down
+
 include $(MAKEFILE_DIR)/make.d/debug.Makefile
