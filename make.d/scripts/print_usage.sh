@@ -11,6 +11,12 @@ Usage: make <target> where target is one of:
 - build_databases:                 build the databases service docker image.
 - build_servers_and_tools_builder: build the build_servers_and_tools_builder
                                    meta builder service image.
+- build_servers:                   Build the actual server docker images. It
+                                   relies on the
+                                   `build_servers_and_tools_builder` make
+                                   target. This step can be very long as it may
+                                   generate client data such as vmaps and
+                                   mmaps.
 EOF
 
 if [ $1 -eq 0 ]; then
