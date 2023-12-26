@@ -30,8 +30,15 @@ To develop within trinitycore source code.
 
 # How
 
+## User mode
+
 Using make, straightforward.
 Issue `make help` and follow the guide.
+
+## Maintainer mode
+
+Issue `make help maintainer_mode=1` to see usage with supplementary debugging
+and inspection targets.
 
 ## Troubleshooting
 
