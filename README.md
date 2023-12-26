@@ -2,7 +2,8 @@
 
 A docker compose trinitycore server builder.
 The purpose is to build an alpine based docker images for both the world and
-the auth server.
+the auth server. Besides it provides also a fully functional docker image for
+databases too.
 
 # Who
 
@@ -31,3 +32,27 @@ To develop within trinitycore source code.
 
 Using make, straightforward.
 Issue `make help` and follow the guide.
+
+## Troubleshooting
+
+You may encounter several annoyances when running make targets. Below is a list
+of possible errors you may have.
+
+### make.d/env_file/Makefile.env: No such file or directory
+
+You have to copy the template `Makefile.env.dist` file in the `make.d/env_file`
+directory to `make.d/env_file/Makefile.env`. Once it's done, `make help` should
+work like a charm.
+
+### invalid tag "...": invalid reference format
+
+Ensure you have set the `FQDN` variable value in your
+`make.d/env_file/Makefile.env` file.
+
+If a value is set, ensure it has a valid
+format for a full qualified domain name. A valid example is `test.local`.
+
+Ensure a version tag is correctly set in the `WORLDSERVER_VERSION` or
+`AUTHSERVER_VERSION` or `DATABASES_VERSION` variables.
+Any value that is correct regarding docker image tag requirement will do.
+For instance `0.1.0` is ok.

@@ -1,0 +1,23 @@
+version: "3"
+services:
+  databases:
+    build:
+      context: ./docker.d/databases
+      dockerfile: databases.Dockerfile
+      tags:
+        - ${FQDN}/trinitycore/databases:${DATABASES_VERSION}
+      ssh: ["default"]
+  authserver:
+    build:
+      context: ./docker.d/authserver
+      dockerfile: authserver.Dockerfile
+      tags:
+        - ${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
+      ssh: ["default"]
+  worldserver:
+    build:
+      context: ./docker.d/worldserver
+      dockerfile: worldserver.Dockerfile
+      tags:
+        - ${FQDN}/trinitycore/worldserver:${WORLDSERVER_VERSION}
+      ssh: ["default"]
