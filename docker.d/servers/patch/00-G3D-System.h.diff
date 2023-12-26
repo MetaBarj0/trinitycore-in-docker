@@ -1,0 +1,28 @@
+diff --git a/dep/g3dlite/include/G3D/System.h b/dep/g3dlite/include/G3D/System.h
+index 81c8352..ba2d04a 100644
+--- a/dep/g3dlite/include/G3D/System.h
++++ b/dep/g3dlite/include/G3D/System.h
+@@ -22,16 +22,14 @@
+ #include <string>
+
+ #ifdef G3D_WINDOWS
+-#include <Windows.h>
+-#endif
+-
+-#if defined(__aarch64__)
+-#include <sys/time.h>
+-#endif
+-
+-#ifdef G3D_OSX
+-#define Zone OSX_Zone
++#   include <Windows.h>
++#elif defined(__aarch64__)
++#   include <sys/time.h>
++#elif defined (G3D_OSX)
++#   define Zone OSX_Zone
+ #   include <CoreServices/CoreServices.h>
++#else
++#   include <sys/time.h>
+ #endif
+
+ namespace G3D {

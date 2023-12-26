@@ -17,11 +17,8 @@ help:
 build_databases:
 	@docker compose build databases
 
-build_authserver:
-	@docker compose build authserver
-
-build_worldserver:
-	@docker compose build worldserver
+build_servers:
+	@docker compose build servers
 
 build:
 	@docker compose build

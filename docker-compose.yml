@@ -10,17 +10,11 @@ services:
       - type: volume
         source: databases_data
         target: /var/lib/mysql/data
-  authserver:
+  servers:
     build:
-      context: ./docker.d/authserver
-      dockerfile: authserver.Dockerfile
+      context: ./docker.d/servers
+      dockerfile: servers.Dockerfile
       tags:
-        - ${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
-  worldserver:
-    build:
-      context: ./docker.d/worldserver
-      dockerfile: worldserver.Dockerfile
-      tags:
-        - ${FQDN}/trinitycore/worldserver:${WORLDSERVER_VERSION}
+        - ${FQDN}/trinitycore/servers:${SERVERS_VERSION}
 volumes:
   databases_data:

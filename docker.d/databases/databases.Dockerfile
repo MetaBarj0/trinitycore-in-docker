@@ -1,6 +1,6 @@
-FROM alpine:edge as install_mariadb
+FROM alpine:edge
 RUN \
-  --mount=type=cache,target=/var/cache/apk \
+  --mount=type=cache,target=/var/cache/apk,sharing=locked \
   apk update
 RUN apk add mariadb mariadb-client
 COPY configuration/mariadb-server.cnf /etc/my.cnf.d/
