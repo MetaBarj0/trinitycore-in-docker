@@ -1,5 +1,6 @@
 ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
 
+# TODO: make a common image, usable by this and authserver
 FROM debian:12.2-slim-upgraded as install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -14,13 +15,21 @@ RUN \
   libboost-system1.74.0 libboost-chrono1.74.0 libboost-atomic1.74.0 \
   libncurses6 libreadline8
 
+FROM $SERVERS_AND_TOOLS_BUILDER_IMAGE as builder
+
+FROM install_dependencies as generate_client_data
+VOLUME /home/docker/WoW-3.3.5a-12340
+WORKDIR /home/docker/WoW-3.3.5a-12340
+RUN ls -liAh .
+RUN exit 1
+
 FROM install_dependencies as create_trinitycore_user
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
 
-FROM $SERVERS_AND_TOOLS_BUILDER_IMAGE as builder
+FROM create_trinitycore_user as install_client_data
 
-FROM create_trinitycore_user as install_worldserver
+FROM install_client_data as install_worldserver
 USER trinitycore
 WORKDIR /home/trinitycore
 RUN mkdir -p trinitycore/bin trinitycore/etc

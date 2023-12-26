@@ -31,5 +31,8 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
+      - type: bind
+        source: ${CLIENT_PATH}
+        target: /home/docker/WoW-3.3.5a-12340
 volumes:
   databases_data:
