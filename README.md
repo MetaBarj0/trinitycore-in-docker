@@ -1,8 +1,8 @@
 # Intro
 
 A docker compose trinitycore server builder.
-The purpose is to build an alpine based docker images for databases, world and
-auth server.
+The purpose is to build docker images for databases, world, auth server and
+tools.
 
 # Who
 
@@ -23,8 +23,9 @@ wrapper is provided to help in using the project.
 
 # When
 
-To initially build docker images for auth and world server.
-As soon as you want to update docker images holding the auth and world server.
+To initially build docker images for auth, world servers and tools.
+As soon as you want to update docker images holding the auth and world server
+or the tools.
 To develop within trinitycore source code.
 
 # How
@@ -58,7 +59,7 @@ Ensure you have set the `FQDN` variable value in your
 If a value is set, ensure it has a valid
 format for a full qualified domain name. A valid example is `test.local`.
 
-Ensure a version tag is correctly set in the `SERVERS_VERSION` or
+Ensure a version tag is correctly set in the `SERVERS_AND_TOOLS_VERSION` or
 `DATABASES_VERSION` variables.
 Any value that is correct regarding docker image tag requirement will do.
 For instance `0.1.0` is ok.
