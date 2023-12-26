@@ -18,7 +18,8 @@ services:
       start_interval: 1s
     init: true
     networks:
-      - inside
+      inside:
+        ipv4_address: 11.12.13.1
     volumes:
       - type: volume
         source: databases_data
@@ -34,7 +35,8 @@ services:
     image: ${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
     init: true
     networks:
-      - inside
+      inside:
+        ipv4_address: 11.12.13.2
     volumes:
       - type: volume
         source: worldserver_downloads
@@ -67,7 +69,8 @@ services:
       start_interval: 10s
     init: true
     networks:
-      - inside
+      inside:
+        ipv4_address: 11.12.13.3
   # authserver:
   #   depends_on:
   #   - worldserver
@@ -77,6 +80,11 @@ services:
 volumes:
   databases_data:
   worldserver_downloads:
-# TODO: IPAM to restrict SOAP access and maybe SQL rights
 networks:
   inside:
+    ipam:
+      driver: default
+      config:
+        - subnet: 11.12.13.0/29
+          ip_range: 11.12.13.0/29
+          gateway: 11.12.13.6
