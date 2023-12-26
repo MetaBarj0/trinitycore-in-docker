@@ -25,6 +25,7 @@ services:
       - SERVERS_AND_TOOLS_BUILDER_IMAGE=${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
       - AUTHSERVER_IMAGE_TAG=${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
       - WORLDSERVER_IMAGE_TAG=${FQDN}/trinitycore/worldserver:${WORLDSERVER_VERSION}
+      - USE_CACHED_CLIENT_DATA=${USE_CACHED_CLIENT_DATA}
     entrypoint: /home/docker/servers_and_tools_builder-entrypoint.sh
     network_mode: none
     volumes:
@@ -34,5 +35,9 @@ services:
       - type: bind
         source: ${CLIENT_PATH}
         target: /home/docker/WoW-3.3.5a-12340
+      - type: volume
+        source: client_data
+        target: /home/docker/docker.d/worldserver/data
 volumes:
   databases_data:
+  client_data:
