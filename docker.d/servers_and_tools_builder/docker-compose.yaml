@@ -34,10 +34,6 @@ services:
       - type: volume
         source: trinitycore_sources
         target: /home/docker/TrinityCore
-      - type: volume
-        source: trinitycore_configurations
-        target: /home/docker/trinitycore_configurations
 volumes:
   client_data:
   trinitycore_sources:
-  trinitycore_configurations:

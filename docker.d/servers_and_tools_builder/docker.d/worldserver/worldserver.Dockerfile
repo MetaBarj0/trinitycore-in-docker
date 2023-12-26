@@ -31,6 +31,7 @@ COPY \
   --from=builder \
   /home/trinitycore/trinitycore/etc/worldserver.conf.dist \
   etc/worldserver.conf.dist
+COPY worldserver.conf etc/
 
 FROM install_worldserver
 USER trinitycore

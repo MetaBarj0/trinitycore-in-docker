@@ -87,5 +87,6 @@ VOLUME /home/docker/data
 RUN mkdir -p TrinityCore
 VOLUME /home/docker/TrinityCore
 RUN mkdir -p trinitycore_configurations
-VOLUME /home/docker/trinitycore_configurations
-COPY worldserver.conf trinitycore_configurations/worldserver.conf
+COPY \
+  --chown=docker:docker \
+  worldserver.conf trinitycore_configurations/worldserver.conf

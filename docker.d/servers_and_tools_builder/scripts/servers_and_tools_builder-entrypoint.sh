@@ -12,7 +12,7 @@ create_auth_server_image() {
 }
 
 generate_Cameras_dbc_and_maps_in_client_dir() {
-  cd /home/docker/WoW-3.3.5a-12340/
+  cd WoW-3.3.5a-12340/
 
   rm -rf Cameras dbc maps
   rm -f mapextractor
@@ -23,7 +23,7 @@ generate_Cameras_dbc_and_maps_in_client_dir() {
 }
 
 store_Cameras_dbc_and_maps_from_client_dir() {
-  cd /home/docker/WoW-3.3.5a-12340/
+  cd WoW-3.3.5a-12340/
 
   local client_data_store_dir=/home/docker/data
 
@@ -66,7 +66,7 @@ generate_Cameras_dbc_and_maps() {
 }
 
 generate_vmaps_in_client_dir() {
-  cd /home/docker/WoW-3.3.5a-12340/
+  cd WoW-3.3.5a-12340/
 
   rm -rf Buildings
   rm -f vmap4extractor
@@ -83,7 +83,7 @@ generate_vmaps_in_client_dir() {
 }
 
 store_vmaps_from_client_dir() {
-  cd /home/docker/WoW-3.3.5a-12340/
+  cd WoW-3.3.5a-12340/
 
   local client_data_store_dir=/home/docker/data
   rm -rf $client_data_store_dir/vmaps
@@ -121,7 +121,7 @@ generate_vmaps() {
 }
 
 generate_mmaps_in_client_dir() {
-  cd /home/docker/WoW-3.3.5a-12340/
+  cd WoW-3.3.5a-12340/
 
   rm -rf mmaps
   rm -f mmaps_generator
@@ -133,7 +133,7 @@ generate_mmaps_in_client_dir() {
 }
 
 store_mmaps_from_client_dir() {
-  cd /home/docker/WoW-3.3.5a-12340/
+  cd WoW-3.3.5a-12340/
 
   local client_data_store_dir=/home/docker/data
   rm -rf $client_data_store_dir/mmaps
@@ -177,7 +177,6 @@ generate_client_data() {
 }
 
 store_trinitycore_sources() {
-  # TODO: cd mess, WORKDIR as base
   cd /home/trinitycore/TrinityCore
 
   cp -r * /home/docker/TrinityCore
@@ -195,6 +194,17 @@ patch_worldserver_configuration() {
   cd -
 }
 
+copy_worldserver_configuration_in_worldserver_build_context() {
+  cp \
+    trinitycore_configurations/worldserver.conf \
+    docker.d/worldserver/
+}
+
+prepare_worldserver_configuration() {
+  patch_worldserver_configuration
+  copy_worldserver_configuration_in_worldserver_build_context
+}
+
 build_worldserver_image() {
   docker build \
     --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
@@ -207,7 +217,7 @@ build_worldserver_image() {
 create_world_server_image() {
   generate_client_data
   store_trinitycore_sources
-  patch_worldserver_configuration
+  prepare_worldserver_configuration
   build_worldserver_image
 }
 
