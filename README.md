@@ -1,8 +1,11 @@
 # Intro
 
-A docker compose trinitycore server builder.
+**TrinityCore in docker.**
+
 The purpose is to build docker images for databases, world, auth server and
 tools.
+Then, it is able to run these docker images to get a fully functional
+trinitycore server.
 
 # Who
 
@@ -45,6 +48,17 @@ and inspection targets.
 
 You may encounter several annoyances when running make targets. Below is a list
 of possible errors you may have.
+
+### Something is wrong when I `make ...`
+
+Using trinitycore in docker requires few things:
+
+- a recent linux distro
+- a recent docker install
+- docker compose and docker buildx plugins
+
+Otherwise, it's also possible to use Docker Desktop on your platform but it's
+not (yet) tested.
 
 ### make.d/env_file/Makefile.env: No such file or directory
 
