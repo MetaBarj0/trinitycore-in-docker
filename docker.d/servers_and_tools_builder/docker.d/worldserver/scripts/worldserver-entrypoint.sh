@@ -31,7 +31,7 @@ create_bootstrap_admin_account() {
 
   until eval $cmd; do
     echo 'Creating bootstrap admin account...'
-    sleep 5
+    sleep 1
   done
 
   cd -

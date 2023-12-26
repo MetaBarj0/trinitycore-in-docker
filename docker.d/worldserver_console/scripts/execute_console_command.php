@@ -15,19 +15,9 @@ function extractCommand($args)
 
 function getAdminAccountCredentials()
 {
-    $adminAccountName = strtoupper(getenv('ADMIN_ACCOUNT_NAME'));
-    $adminAccountPassword = strtoupper(getenv('ADMIN_ACCOUNT_PASSWORD'));
-
-    if ($adminAccountName == 'TC_ADMIN' || $adminAccountPassword == 'TC_ADMIN') {
-        echo 'FATAL: security issue with admin account credentials!' . PHP_EOL;
-        echo 'Do not use neither the bootstrap account name nor password.' . PHP_EOL;
-
-        exit(1);
-    }
-
     return [
-        'name' => $adminAccountName,
-        'password' => $adminAccountPassword
+        'name' => getenv('ADMIN_ACCOUNT_NAME'),
+        'password' => getenv('ADMIN_ACCOUNT_PASSWORD')
     ];
 }
 
