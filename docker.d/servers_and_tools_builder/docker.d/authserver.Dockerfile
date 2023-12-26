@@ -1,18 +1,6 @@
 ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
 
-# TODO: refacto, it is duplicated in servers_and_tools_builder.Dockerfile
-FROM debian:12.2-slim as base_upgraded
-RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get update -y
-RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get upgrade -y --no-install-recommends
-
-# TODO: check if it can be refactored regarding world server image creation
-FROM base_upgraded as install_dependencies
+FROM debian:12.2-slim-upgraded as install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \

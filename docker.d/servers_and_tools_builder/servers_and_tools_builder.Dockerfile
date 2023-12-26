@@ -1,14 +1,4 @@
-FROM debian:12.2-slim as base_upgraded
-RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get update -y
-RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get upgrade -y --no-install-recommends
-
-FROM base_upgraded as install_prerequisites
+FROM debian:12.2-slim-upgraded as install_prerequisites
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \

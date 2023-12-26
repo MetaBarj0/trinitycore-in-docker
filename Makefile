@@ -17,7 +17,13 @@ help:
 build_databases:
 	@docker compose build databases
 
-build_servers_and_tools_builder:
+_build_base_image:
+	@docker build \
+		-f docker.d/_common/debian:12.2-slim-upgraded.Dockerfile \
+		-t debian:12.2-slim-upgraded \
+		docker.d/_common
+
+build_servers_and_tools_builder: _build_base_image
 	@docker compose build servers_and_tools_builder \
 		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
 		--build-arg DOCKER_UID=$$(id -u)
