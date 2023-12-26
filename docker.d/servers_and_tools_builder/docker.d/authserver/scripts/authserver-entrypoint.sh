@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 start_auth_server() {
   cd trinitycore/bin
 

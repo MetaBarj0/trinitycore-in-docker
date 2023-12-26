@@ -32,10 +32,26 @@ create_bootstrap_admin_account() {
 
   until eval $cmd; do
     echo 'Creating bootstrap admin account...'
+
     sleep 1
   done
 
   cd -
+}
+
+set_realmlist_address() {
+  local cmd="$(cat << EOF
+mysql -h databases -u trinity -ptrinity -b auth -e
+ 'UPDATE realmlist set address = "${REALMLIST_ADDRESS}"
+  WHERE id = 1;'
+EOF
+)"
+
+  until eval $cmd; do
+    echo 'Updating realmlist address...'
+
+    sleep 1
+  done
 }
 
 run_worldserver() {
@@ -57,6 +73,7 @@ main() {
   uncompress_tdb_full_to_worldserver
   run_worldserver
   create_bootstrap_admin_account
+  set_realmlist_address
   run_live_loop
 }
 

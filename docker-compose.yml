@@ -32,11 +32,19 @@ services:
       databases:
         condition: service_healthy
     entrypoint: /home/trinitycore/scripts/worldserver-entrypoint.sh
+    environment:
+      - REALMLIST_ADDRESS=${REALMLIST_ADDRESS}
     image: ${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
     init: true
     networks:
       inside:
         ipv4_address: 11.12.13.2
+    ports:
+      - target: 8085
+        host_ip: 0.0.0.0
+        published: '8085'
+        protocol: tcp
+        mode: host
     volumes:
       - type: volume
         source: worldserver_downloads
@@ -81,6 +89,12 @@ services:
     networks:
       inside:
         ipv4_address: 11.12.13.4
+    ports:
+      - target: 3724
+        host_ip: 0.0.0.0
+        published: '3724'
+        protocol: tcp
+        mode: host
     volumes:
       - type: volume
         source: trinitycore_sources
