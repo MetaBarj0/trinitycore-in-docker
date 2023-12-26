@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# TODO: refacto cd commands everywhere regarding WORKDIR directives in
-# dockerfiles
 fetch_tdb_full() {
-  cd /home/trinitycore/downloads
+  cd downloads
 
   wget -c \
     https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.23061/TDB_full_world_335.23061_2023_06_14.7z \
@@ -13,7 +11,7 @@ fetch_tdb_full() {
 }
 
 uncompress_tdb_full_to_worldserver() {
-  cd /home/trinitycore/downloads
+  cd downloads
 
   if ! [ -f TDB_full_world_335.23061_2023_06_14.sql ]; then
     p7zip -d -k TDB_full_world_335.23061_2023_06_14.7z
@@ -27,13 +25,13 @@ uncompress_tdb_full_to_worldserver() {
 }
 
 configure_worldserver() {
-  cd /home/trinitycore/trinitycore/etc
+  cd trinitycore/etc
 
   cp -f worldserver.conf.dist worldserver.conf
 
   cd -
 
-  cd /home/trinitycore/diffs/configuration
+  cd diffs/configuration
 
   patch \
     /home/trinitycore/trinitycore/etc/worldserver.conf \
