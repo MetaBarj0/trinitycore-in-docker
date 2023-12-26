@@ -40,6 +40,9 @@ COPY \
   --chown=trinitycore:trinitycore \
   --chmod=755 \
   scripts/ ./scripts/
+COPY \
+  --chown=trinitycore:trinitycore \
+  sql/ ./sql/
 RUN mkdir downloads
 VOLUME /home/trinitycore/downloads
 RUN mkdir trinitycore/data

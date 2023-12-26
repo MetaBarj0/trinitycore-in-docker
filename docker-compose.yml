@@ -9,6 +9,13 @@ services:
       tags:
         - ${NAMESPACE}.trinitycore.databases:${DATABASES_VERSION}
     entrypoint: /root/scripts/databases-entrypoint.sh
+    healthcheck:
+      test: ['CMD-SHELL', '/root/scripts/healthcheck.sh']
+      interval: 1s
+      timeout: 10s
+      retries: 3
+      start_period: 2s
+      start_interval: 1s
     init: true
     networks:
       - inside
@@ -21,7 +28,8 @@ services:
         target: /root/TrinityCore
   worldserver:
     depends_on:
-      - databases
+      databases:
+        condition: service_healthy
     entrypoint: /home/trinitycore/scripts/worldserver-entrypoint.sh
     image: ${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
     init: true

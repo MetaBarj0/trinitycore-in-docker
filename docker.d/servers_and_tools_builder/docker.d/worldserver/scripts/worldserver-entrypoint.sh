@@ -24,6 +24,19 @@ uncompress_tdb_full_to_worldserver() {
   cd -
 }
 
+create_bootstrap_admin_account() {
+  cd sql
+
+  local cmd='mysql -h databases -u trinity -ptrinity -b auth < create_bootstrap_admin_account.sql'
+
+  until eval $cmd; do
+    echo 'Creating bootstrap admin account...'
+    sleep 5
+  done
+
+  cd -
+}
+
 run_worldserver() {
   trinitycore/bin/worldserver &
 }
@@ -38,6 +51,7 @@ main() {
   fetch_tdb_full
   uncompress_tdb_full_to_worldserver
   run_worldserver
+  create_bootstrap_admin_account
   run_live_loop
 }
 

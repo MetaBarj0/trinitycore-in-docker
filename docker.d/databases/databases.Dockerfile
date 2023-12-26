@@ -7,6 +7,6 @@ COPY configuration/mariadb-server.cnf /etc/my.cnf.d/
 WORKDIR /root
 COPY sql/root-privileges.sql ./sql/
 COPY diffs ./diffs/
-COPY --chmod=755 scripts/databases-entrypoint.sh ./scripts/databases-entrypoint.sh
+COPY --chmod=755 scripts/ ./scripts/
 VOLUME /var/lib/mysql
 VOLUME /root/TrinityCore
