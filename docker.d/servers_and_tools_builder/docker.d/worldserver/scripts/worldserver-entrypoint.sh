@@ -38,7 +38,11 @@ create_bootstrap_admin_account() {
 }
 
 run_worldserver() {
-  trinitycore/bin/worldserver &
+  cd trinitycore/bin
+
+  ./worldserver &
+
+  cd -
 }
 
 run_live_loop() {
