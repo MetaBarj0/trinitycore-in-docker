@@ -8,21 +8,22 @@ make targets:
 
 Usage: make <target> where target is one of:
 
-- help:                            display this message
-- build:                           build docker images for databases and
-                                   build_servers_and_tools_builder in a first
-                                   time. Then, build the authserver and
-                                   worldserver images.
-- build_databases:                 build the databases service docker image.
-- build_servers:                   Build the actual server docker images. It
-                                   relies on the
-                                   'build_servers_and_tools_builder' make
-                                   target. This step can be very long as it may
-                                   generate client data such as vmaps and
-                                   mmaps if they are not already generated.
-- up:                              Make TrinityCore servers up and running.
-- down:                            shutdown TrinityCore servers, destroys
-                                   containers.
+- help:                      display this message
+- build:                     build docker images for databases and
+                             build_servers_and_tools_builder in a first time.
+                             Then, build the authserver and worldserver images.
+- build_databases:           build the databases service docker image.
+- build_servers:             Build the actual server docker images. It
+                             relies on the 'build_servers_and_tools_builder'
+                             make target. This step can be very long as it may
+                             generate client data such as vmaps and mmaps if
+                             they are not already generated.
+- build_worldserver_console: build the worldserver remote access console
+                             service. This service allow a user to issue
+                             command to be executed by the worldserver remotely
+                             in a separate container.
+- up:                        Make TrinityCore servers up and running.
+- down:                      shutdown TrinityCore servers, destroys containers.
 EOF
 
 if ! [ $1 -eq 0 ]; then

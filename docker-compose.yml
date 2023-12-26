@@ -46,6 +46,18 @@ services:
       - type: volume
         source: trinitycore_sources
         target: /home/trinitycore/TrinityCore
+  worldserver_console:
+    build:
+      context: ./docker.d/worldserver_console
+      dockerfile: worldserver_console.Dockerfile
+      tags:
+        - ${NAMESPACE}.trinitycore.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}
+    depends_on:
+      - worldserver
+    entrypoint: /home/worldserver_console/scripts/worldserver_console-entrypoint.sh
+    init: true
+    networks:
+      - inside
   # authserver:
   #   depends_on:
   #   - worldserver
@@ -55,5 +67,6 @@ services:
 volumes:
   databases_data:
   worldserver_downloads:
+# TODO: IPAM to restrict SOAP access and maybe SQL rights
 networks:
   inside:

@@ -1,3 +1,5 @@
+**TODO: describe worldserver_console service**
+
 # Intro
 
 **TrinityCore in docker.**
