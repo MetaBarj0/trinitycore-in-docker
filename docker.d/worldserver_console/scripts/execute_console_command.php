@@ -13,22 +13,44 @@ function extractCommand($args)
     return $args[1];
 }
 
-function executeCommand($command)
+function getAdminAccountCredentials()
 {
-    $adminAccountName = getenv('ADMIN_ACCOUNT_NAME');
-    $adminAccountPassword = getenv('ADMIN_ACCOUNT_PASSWORD');
+    $adminAccountName = strtoupper(getenv('ADMIN_ACCOUNT_NAME'));
+    $adminAccountPassword = strtoupper(getenv('ADMIN_ACCOUNT_PASSWORD'));
 
-    $client = new SoapClient(null, [
+    if ($adminAccountName == 'TC_ADMIN' || $adminAccountPassword == 'TC_ADMIN') {
+        echo 'FATAL: security issue with admin account credentials!' . PHP_EOL;
+        echo 'Do not use neither the bootstrap account name nor password.' . PHP_EOL;
+
+        exit(1);
+    }
+
+    return [
+        'name' => $adminAccountName,
+        'password' => $adminAccountPassword
+    ];
+}
+
+function createSOAPClient()
+{
+    $credentials = getAdminAccountCredentials();
+
+    return new SoapClient(null, [
         'location' => 'http://worldserver:7878',
         'uri' => 'urn:TC',
-        'login' => $adminAccountName,
-        'password' => $adminAccountPassword
+        'login' => $credentials['name'],
+        'password' => $credentials['password']
     ]);
+}
+
+function executeCommand($command)
+{
+    $client = createSOAPClient();
 
     try {
         $result = $client->executeCommand(new SoapParam($command, 'command'));
     } catch (Exception $e) {
-        die($e->getMessage());
+        echo "Error while executing worldserver command: " . $e->getMessage();
 
         exit(1);
     }
