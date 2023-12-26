@@ -36,8 +36,8 @@ services:
         source: ${CLIENT_PATH}
         target: /home/docker/WoW-3.3.5a-12340
       - type: volume
-        source: client_data
+        source: client_data_cache
         target: /home/docker/docker.d/worldserver/data
 volumes:
   databases_data:
-  client_data:
+  client_data_cache:

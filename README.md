@@ -26,11 +26,10 @@ wrapper is provided to help in using the project.
 
 # When
 
-To initially build docker images for auth, world servers and tools.
-As soon as you want to update docker images holding the auth and world server
-or the tools.
+To initially build docker images for auth and world servers.
+As soon as you want to update docker images holding the auth and world server.
 To develop within trinitycore source code.
-To easly run a trinitycore server.
+To easily run a trinitycore server.
 
 # How
 
@@ -65,6 +64,8 @@ not (yet) tested.
 You have to copy the template `Makefile.env.dist` file in the `make.d/env_file`
 directory to `make.d/env_file/Makefile.env`. Once it's done, `make help` should
 work like a charm.
+Each variable in the file `Makefile.env.dist` is documented to clarify its
+purpose.
 
 ### invalid tag "...": invalid reference format
 

@@ -13,21 +13,14 @@ Usage: make <target> where target is one of:
                                    meta builder service image.
 - build_servers:                   Build the actual server docker images. It
                                    relies on the
-                                   `build_servers_and_tools_builder` make
+                                   'build_servers_and_tools_builder' make
                                    target. This step can be very long as it may
                                    generate client data such as vmaps and
                                    mmaps if they are not already generated.
 EOF
 
-if [ $1 -eq 0 ]; then
+if ! [ $1 -eq 0 ]; then
   cat << EOF
-
-********************************************************************************
-EOF
-  exit 0
-fi
-
-cat << EOF
 - config:                                Use this target to check the
                                          'docker-compose.yml' configuration. It
                                          is the same thing as running 'docker
@@ -49,6 +42,19 @@ cat << EOF
 - debug_build_servers_and_tools_builder: debug the build of the
                                          servers_and_tools_builder service
                                          image.
+EOF
+fi
+
+cat << EOF
 
 ********************************************************************************
 EOF
+
+cat << EOF
+
+Make sure to have your own copy of the 'Makefile.env' file.
+You can create your own from the 'Makefile.env.dist' file and set all variables
+according your need and your environment.
+Each variables are documented.
+EOF
+
