@@ -21,7 +21,10 @@ services:
         - DOCKER_UID
       tags:
         - ${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
-    entrypoint: ./docker.d/servers_and_tools_builder/scripts/servers_and_tools_builder-entrypoint.sh
+    environment:
+      - SERVERS_AND_TOOLS_BUILDER_IMAGE=${FQDN}/trinitycore/servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
+      - AUTHSERVER_IMAGE_TAG=${FQDN}/trinitycore/authserver:${AUTHSERVER_VERSION}
+    entrypoint: /home/docker/servers_and_tools_builder-entrypoint.sh
     volumes:
       - type: bind
         source: /var/run/docker.sock

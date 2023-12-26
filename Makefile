@@ -22,9 +22,11 @@ build_servers_and_tools_builder:
 		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
 		--build-arg DOCKER_UID=$$(id -u)
 
+build_servers: build_servers_and_tools_builder
+	@docker compose up servers_and_tools_builder
+	@docker compose down servers_and_tools_builder
+
 build:
-	@docker compose build \
-		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
-		--build-arg DOCKER_UID=$$(id -u)
+	@echo Not Implemented Yet
 
 include $(MAKEFILE_DIR)/make.d/debug.Makefile

@@ -16,7 +16,7 @@ Usage: make <target> where target is one of:
                                    `build_servers_and_tools_builder` make
                                    target. This step can be very long as it may
                                    generate client data such as vmaps and
-                                   mmaps.
+                                   mmaps if they are not already generated.
 EOF
 
 if [ $1 -eq 0 ]; then

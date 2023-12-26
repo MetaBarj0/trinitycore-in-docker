@@ -81,6 +81,12 @@ RUN [ ! -z $DOCKER_GID ] && groupmod -g $DOCKER_GID docker
 RUN useradd -d /home/docker -m -s /bin/bash -g docker docker
 RUN [ ! -z $DOCKER_UID ] && usermod -u $DOCKER_UID docker
 
+FROM create_docker_user as builder
+USER docker
+WORKDIR /home/docker
+COPY docker.d docker.d
+COPY --chmod=755 scripts/servers_and_tools_builder-entrypoint.sh .
+
 # FROM create_docker_user as trimmed_install
 # # authserver
 # RUN \
