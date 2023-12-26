@@ -1,5 +1,19 @@
+ps:
+	@docker compose ps
+
 config:
 	@docker compose config
+
+_build_debian_upgraded:
+	@docker build \
+		-f docker.d/_common/debian:12.2-slim-upgraded.Dockerfile \
+		-t debian:12.2-slim-upgraded \
+		docker.d/_common
+
+build_servers_and_tools_builder: _build_debian_upgraded
+	@docker compose build servers_and_tools_builder \
+		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
+		--build-arg DOCKER_UID=$$(id -u)
 
 debug_build_databases:
 	@BUILDX_EXPERIMENTAL=1 \

@@ -11,8 +11,6 @@ Usage: make <target> where target is one of:
                                    time. Then, build the authserver and
                                    worldserver images.
 - build_databases:                 build the databases service docker image.
-- build_servers_and_tools_builder: build the build_servers_and_tools_builder
-                                   meta builder service image.
 - build_servers:                   Build the actual server docker images. It
                                    relies on the
                                    'build_servers_and_tools_builder' make
@@ -26,6 +24,9 @@ EOF
 
 if ! [ $1 -eq 0 ]; then
   cat << EOF
+- ps:                                    this target show docker container that
+                                         are currently running in this compose
+                                         project.
 - config:                                Use this target to check the
                                          'docker-compose.yml' configuration. It
                                          is the same thing as running 'docker
@@ -38,6 +39,10 @@ if ! [ $1 -eq 0 ]; then
                                          correct, the entire
                                          'docker-compose.yml' file will be
                                          evaluated.
+- build_servers_and_tools_builder:       build the
+                                         build_servers_and_tools_builder meta
+                                         builder service image. See this one
+                                         like a kind of bootstrap service.
 - debug_build_databases:                 debug the build of the databases service
                                          docker image. If something goes wrong
                                          while the databases service image is
