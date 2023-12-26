@@ -1,13 +1,11 @@
 ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
 ARG NAMESPACE
 
-FROM $NAMESPACE.serverbase as create_trinitycore_user
-RUN groupadd -g 2000 trinitycore
-RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
+FROM $NAMESPACE.serverbase as server_base
 
 FROM $SERVERS_AND_TOOLS_BUILDER_IMAGE as builder
 
-FROM create_trinitycore_user as install_authserver
+FROM server_base as install_authserver
 USER trinitycore
 WORKDIR /home/trinitycore
 RUN mkdir -p trinitycore/bin trinitycore/etc

@@ -12,14 +12,9 @@ RUN \
   apt-get install -y --no-install-recommends \
   libncurses6 libreadline8 ca-certificates wget p7zip
 
-# TODO: refacto user created in 2 images
-FROM install_dependencies as create_trinitycore_user
-RUN groupadd -g 2000 trinitycore
-RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
-
 FROM $SERVERS_AND_TOOLS_BUILDER_IMAGE as builder
 
-FROM create_trinitycore_user as install_worldserver
+FROM install_dependencies as install_worldserver
 USER trinitycore
 WORKDIR /home/trinitycore
 RUN mkdir -p trinitycore/bin trinitycore/etc

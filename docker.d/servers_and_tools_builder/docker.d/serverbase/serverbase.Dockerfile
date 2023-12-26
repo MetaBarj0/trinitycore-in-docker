@@ -1,4 +1,4 @@
-FROM debian:12.2-slim-upgraded
+FROM debian:12.2-slim-upgraded as debian_upgraded
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -12,3 +12,6 @@ RUN \
   libboost-system1.74.0 libboost-chrono1.74.0 libboost-atomic1.74.0 \
   mariadb-client
 
+FROM debian_upgraded as create_trinitycore_user
+RUN groupadd -g 2000 trinitycore
+RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
