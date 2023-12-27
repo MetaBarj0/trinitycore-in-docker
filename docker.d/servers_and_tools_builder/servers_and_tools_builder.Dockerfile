@@ -70,26 +70,29 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-FROM install_docker as create_docker_user
+FROM install_docker as create_docker_user_if_not_docker_desktop
 ARG DOCKER_GID
 ARG DOCKER_UID
-RUN [ ! -z $DOCKER_GID ] && groupmod -g $DOCKER_GID docker
-RUN useradd -d /home/docker -m -s /bin/bash -g docker docker
-RUN [ ! -z $DOCKER_UID ] && usermod -u $DOCKER_UID docker
+ARG USE_DOCKER_DESKTOP
+RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_GID ] && groupmod -g $DOCKER_GID docker
+RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || useradd -d /home/docker -m -s /bin/bash -g docker docker
+RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_UID ] && usermod -u $DOCKER_UID docker
 
-FROM create_docker_user as builder
-USER docker
-WORKDIR /home/docker
-COPY --chown=docker:docker docker.d docker.d
-COPY --chmod=755 scripts/servers_and_tools_builder-entrypoint.sh .
+FROM create_docker_user_if_not_docker_desktop as builder
+ARG USER
+ARG USER_HOME_DIR
+USER $USER
+WORKDIR $USER_HOME_DIR
+COPY --chown=$USER:$USER docker.d docker.d
+COPY --chmod=755 scripts/ ./scripts
 RUN mkdir -p data
-VOLUME /home/docker/data
+VOLUME $USER_HOME_DIR/data
 RUN mkdir -p TrinityCore
-VOLUME /home/docker/TrinityCore
+VOLUME $USER_HOME_DIR/TrinityCore
 RUN mkdir -p trinitycore_configurations
 COPY \
-  --chown=docker:docker \
+  --chown=$USER:$USER \
   worldserver.conf trinitycore_configurations/
 COPY \
-  --chown=docker:docker \
+  --chown=$USER:$USER \
   authserver.conf trinitycore_configurations/

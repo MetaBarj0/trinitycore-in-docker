@@ -14,9 +14,9 @@ Usage: make <target> where target is one of:
                              build_servers_and_tools_builder in a first time.
                              Then, build the authserver and worldserver images.
 - build_databases:           build the databases service docker image.
-- build_servers:             Build the actual server docker images. It
-                             relies on the 'build_servers_and_tools_builder'
-                             make target. This step can be very long as it may
+- build_servers_and_tools:   Build the actual server docker images. It relies
+                             on the 'build_servers_and_tools_builder' make
+                             target. This step can be very long as it may
                              generate client data such as vmaps and mmaps if
                              they are not already generated.
 - build_worldserver_console: build the worldserver remote access console
@@ -81,6 +81,11 @@ Make sure to have your own copy of the 'Makefile.env' file.
 You can create your own from the 'Makefile.env.dist' file and set all variables
 according your need and your environment.
 Each variables are documented.
+
+The same instructions apply for the 'Makefile.maintainer.env' file. However, as
+this file is designed to be modified by maintainers of the
+'trinitycore-in-docker' project, you may not need to modify the default values
+of the resulting 'Makefile.maintainer.env' file.
 
 ********************************************************************************
 

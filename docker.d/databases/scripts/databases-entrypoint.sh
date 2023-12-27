@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 install_databases() {
   mysql_install_db --user=mysql --datadir=/var/lib/mysql/data
 }

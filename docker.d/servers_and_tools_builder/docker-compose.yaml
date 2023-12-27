@@ -9,7 +9,7 @@ services:
       dockerfile: servers_and_tools_builder.Dockerfile
       tags:
         - ${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
-    entrypoint: /home/docker/servers_and_tools_builder-entrypoint.sh
+    entrypoint: scripts/servers_and_tools_builder-entrypoint.sh
     environment:
       - SERVERS_AND_TOOLS_BUILDER_IMAGE=${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
       - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
@@ -17,6 +17,8 @@ services:
       - USE_CACHED_CLIENT_DATA=${USE_CACHED_CLIENT_DATA}
       - NAMESPACE=${NAMESPACE}
       - WORLDSERVER_CONF_PATH=${WORLDSERVER_CONF_PATH}
+      - CLIENT_PATH=${CLIENT_PATH}
+      - USER_HOME_DIR=${USER_HOME_DIR}
     init: true
     network_mode: none
     profiles:
@@ -27,13 +29,13 @@ services:
         target: /var/run/docker.sock
       - type: bind
         source: ${CLIENT_PATH}
-        target: /home/docker/WoW-3.3.5a-12340
+        target: ${USER_HOME_DIR}/WoW-3.3.5a-12340
       - type: volume
         source: client_data
-        target: /home/docker/data
+        target: ${USER_HOME_DIR}/data
       - type: volume
         source: trinitycore_sources
-        target: /home/docker/TrinityCore
+        target: ${USER_HOME_DIR}/TrinityCore
 volumes:
   client_data:
   trinitycore_sources:

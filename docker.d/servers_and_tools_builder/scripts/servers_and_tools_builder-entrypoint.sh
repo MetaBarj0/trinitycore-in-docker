@@ -6,7 +6,7 @@ patch_authserver_configuration() {
   cd docker.d/authserver/patches/configuration
 
   patch \
-    /home/docker/trinitycore_configurations/authserver.conf \
+    ~/trinitycore_configurations/authserver.conf \
     authserver.conf.diff
 
   cd -
@@ -51,7 +51,7 @@ generate_Cameras_dbc_and_maps_in_client_dir() {
 store_Cameras_dbc_and_maps_from_client_dir() {
   cd WoW-3.3.5a-12340/
 
-  local client_data_store_dir=/home/docker/data
+  local client_data_store_dir=${USER_HOME_DIR}/data
 
   rm -rf $client_data_store_dir/Cameras
   rm -rf $client_data_store_dir/dbc
@@ -62,7 +62,7 @@ store_Cameras_dbc_and_maps_from_client_dir() {
 }
 
 is_Cameras_dbc_maps_store_set() {
-  local store_dir=/home/docker/data
+  local store_dir=${USER_HOME_DIR}/data
   local Cameras_dir=$store_dir/Cameras
   local dbc_dir=$store_dir/dbc
   local maps_dir=$store_dir/maps
@@ -111,7 +111,7 @@ generate_vmaps_in_client_dir() {
 store_vmaps_from_client_dir() {
   cd WoW-3.3.5a-12340/
 
-  local client_data_store_dir=/home/docker/data
+  local client_data_store_dir=${USER_HOME_DIR}/data
   rm -rf $client_data_store_dir/vmaps
   cp -r vmaps $client_data_store_dir
 
@@ -124,7 +124,7 @@ regenerate_vmaps() {
 }
 
 is_vmaps_store_set() {
-  local store_dir=/home/docker/data
+  local store_dir=${USER_HOME_DIR}/data
   local vmaps_dir=$store_dir/vmaps
 
   if ! [ -d "$vmaps_dir" ]; then
@@ -161,7 +161,7 @@ generate_mmaps_in_client_dir() {
 store_mmaps_from_client_dir() {
   cd WoW-3.3.5a-12340/
 
-  local client_data_store_dir=/home/docker/data
+  local client_data_store_dir=${USER_HOME_DIR}/data
   rm -rf $client_data_store_dir/mmaps
   cp -r mmaps $client_data_store_dir
 
@@ -169,7 +169,7 @@ store_mmaps_from_client_dir() {
 }
 
 is_mmaps_store_set() {
-  local store_dir=/home/docker/data
+  local store_dir=${USER_HOME_DIR}/data
   local mmaps_dir=$store_dir/mmaps
 
   if ! [ -d "$mmaps_dir" ]; then
@@ -205,7 +205,7 @@ generate_client_data() {
 store_trinitycore_sources() {
   cd /home/trinitycore/TrinityCore
 
-  cp -r * /home/docker/TrinityCore
+  cp -r * ${USER_HOME_DIR}/TrinityCore
 
   cd -
 }
@@ -214,7 +214,7 @@ patch_worldserver_configuration() {
   cd docker.d/worldserver/patches/configuration
 
   patch \
-    /home/docker/trinitycore_configurations/worldserver.conf \
+    ${USER_HOME_DIR}/trinitycore_configurations/worldserver.conf \
     worldserver.conf.diff
 
   cd -
