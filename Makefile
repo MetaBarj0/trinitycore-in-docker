@@ -1,4 +1,4 @@
-SHELL := env bash
+SHELL := env sh
 
 MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
 

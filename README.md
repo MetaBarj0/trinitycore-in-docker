@@ -99,11 +99,14 @@ Ensure you have provided required configuration files:
 Don't forget to set both `WORLDSERVER_CONF_PATH` and `AUTHSERVER_CONF_PATH`
 variables in the `Makefile.env` file you own.
 
-### It does not work with Docker Desktop for Windows or MacOS
+### It does not work with Docker Desktop for Windows
 
+Actually, it may work, but it's untested (yet).
 Unfortunately, this way is not yet supported. It's planned though to make it
-work using this fantastic tool. be patient. The first platform I'll support
-will be MacOS, then windows.
-In the mean time, `trinitycore-in-docker` is fully functional in a linux
-environment. Actually, I'm developping in using my very own ProxMox node (kind
-of of Debian)
+work using this fantastic tool.
+Be patient.
+However, Docker Desktop for MacOS and OrbStack is also fully supported. In the
+mean time, `trinitycore-in-docker` is fully functional in a linux environment.
+Actually, I'm developping in using my very own ProxMox node (kind of Debian
+with hypervisor manager capabilities) and an OrbStack Linux machine based on
+alpine edge.

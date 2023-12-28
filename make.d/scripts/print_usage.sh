@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/env sh
 
 cat << EOF
 ********************************************************************************
@@ -77,10 +77,10 @@ cat << EOF
 Environment:
 ------------
 
-Make sure to have your own copy of the 'Makefile.env' file.
-You can create your own from the 'Makefile.env.dist' file and set all variables
-according your need and your environment.
-Each variables are documented.
+Make sure to have your own copy of the 'Makefile.env' file. You can create your
+own from the 'Makefile.env.dist' file located in the 'make.d/env_file'
+directory and set all variables according your need and your environment. Each
+variables are documented.
 
 The same instructions apply for the 'Makefile.maintainer.env' file. However, as
 this file is designed to be modified by maintainers of the
@@ -96,7 +96,7 @@ Variables:
 
 There are some variables you can use to customize the bahvior of some targets:
 
-- maintainer_mode: setting this variable to '1' will turn of the maintainer
+- maintainer_mode: setting this variable to '1' will turn on the maintainer
                    mode and alter the bahvior of the 'help' target. It will
                    display supplementary documentation about target considered
                    interesting in the point of view of a maintainer of
@@ -115,7 +115,7 @@ There are some variables you can use to customize the bahvior of some targets:
 TrinityCore servers configuration:
 ----------------------------------
 
-you also have to provide configuration files for TrinityCore servers to run
+You also have to provide configuration files for TrinityCore servers to run
 correctly.
 There are 2 servers to configure:
 - the world server, configured with the 'worldserver.conf' configuration file
@@ -123,6 +123,15 @@ There are 2 servers to configure:
   file.
 You are responsible to provide those configuration files. If you don't provide
 them, servers won't start at all.
+In the 'Makefile.env' file, set the:
+- WORLDSERVER_CONF_PATH
+- AUTHSERVER_CONF_PATH
+These variable have to contain either an absolute path or a relative path to
+the 'Makefile' file.
+They configure the 'worldserver' and the 'authserver' accordingly.
+Note that some part of the configuration are susceptible to be changed when
+containers start, as specified in variable descriptions in the
+'Makefile.env.dist' file.
 
 ********************************************************************************
 EOF

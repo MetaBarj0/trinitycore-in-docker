@@ -16,8 +16,7 @@ _build_debian_upgraded:
 		docker.d/_common
 
 build_servers_and_tools_builder: _build_debian_upgraded
-	@cp "${WORLDSERVER_CONF_PATH}" docker.d/servers_and_tools_builder/
-	@cp "${AUTHSERVER_CONF_PATH}" docker.d/servers_and_tools_builder/
+	$(call copy_servers_conf_in_build_context)
 	$(call build_servers_and_tools_builder)
 
 debug_build_databases:
@@ -27,10 +26,6 @@ debug_build_databases:
 		docker.d/databases
 
 debug_build_servers_and_tools_builder:
-	@BUILDX_EXPERIMENTAL=1 \
-		docker buildx debug build \
-		--build-arg DOCKER_GID=$$(getent group docker | cut -d : -f 3) \
-		--build-arg DOCKER_UID=$$(id -u) \
-		-f docker.d/servers_and_tools_builder/servers_and_tools_builder.Dockerfile \
-		docker.d/servers_and_tools_builder
+	$(call copy_servers_conf_in_build_context)
+	$(call debug_build_servers_and_tools_builder)
 
