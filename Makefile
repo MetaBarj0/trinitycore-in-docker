@@ -4,7 +4,7 @@ MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
 
 include $(MAKEFILE_DIR)/make.d/macros.Makefile
 
-include $(MAKEFILE_DIR)/make.d/env_file/Makefile.env
+include $(MAKEFILE_DIR)/Makefile.env
 export
 
 maintainer_mode := 0

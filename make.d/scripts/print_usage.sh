@@ -87,6 +87,9 @@ this file is designed to be modified by maintainers of the
 'trinitycore-in-docker' project, you may not need to modify the default values
 of the resulting 'Makefile.maintainer.env' file.
 
+Both 'Makefile.env' and 'Makefile.maintainer.env' are expected at the root
+directory of this repository. They are git-ignored.
+
 ********************************************************************************
 
 ********************************************************************************

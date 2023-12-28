@@ -76,7 +76,7 @@ from tracked templates**
 ### invalid tag "...": invalid reference format
 
 Ensure you have set the `NAMESPACE` variable value in your
-`make.d/env_file/Makefile.env` file.
+`Makefile.env` file.
 
 If a value is set, ensure it has a valid
 format for a full qualified domain name. A valid example is `test.local`.
