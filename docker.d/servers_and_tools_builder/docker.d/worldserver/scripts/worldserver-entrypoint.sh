@@ -3,10 +3,7 @@
 fetch_tdb_full() {
   cd downloads
 
-  # TODO: put URL in some kind of environment in maintainer mode
-  wget -c \
-    https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.23061/TDB_full_world_335.23061_2023_06_14.7z \
-    -O TDB_full_world_335.23061_2023_06_14.7z
+  wget -c "${TDB_FULL_URI}" -o "${TDB_FULL_ARCHIVE_FILE_NAME}"
 
   cd -
 }
@@ -14,12 +11,12 @@ fetch_tdb_full() {
 uncompress_tdb_full_to_worldserver() {
   cd downloads
 
-  if ! [ -f TDB_full_world_335.23061_2023_06_14.sql ]; then
-    p7zip -d -k TDB_full_world_335.23061_2023_06_14.7z
+  if ! [ -f "${TDB_FULL_SQL_FILE_NAME}" ]; then
+    p7zip -d -k "${TDB_FULL_ARCHIVE_FILE_NAME}"
   fi
 
-  if ! [ -L ../trinitycore/bin/TDB_full_world_335.23061_2023_06_14.sql ]; then
-    ln -s $(pwd)/TDB_full_world_335.23061_2023_06_14.sql ../trinitycore/bin/
+  if ! [ -L "../trinitycore/bin/${TDB_FULL_SQL_FILE_NAME}" ]; then
+    ln -s "$(pwd)/${TDB_FULL_SQL_FILE_NAME}" ../trinitycore/bin/
   fi
 
   cd -
