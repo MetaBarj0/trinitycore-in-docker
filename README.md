@@ -71,7 +71,8 @@ Each variable in the file `Makefile.env.dist` is documented to clarify its
 purpose.
 
 **TODO: create a new make rule such as `prepare` to create environment file
-from tracked templates**
+from tracked templates. It could also fetch template config file directly in
+the root directory of the repository if not already present**
 
 ### invalid tag "...": invalid reference format
 
@@ -101,12 +102,8 @@ variables in the `Makefile.env` file you own.
 
 ### It does not work with Docker Desktop for Windows
 
-Actually, it may work, but it's untested (yet).
-Unfortunately, this way is not yet supported. It's planned though to make it
-work using this fantastic tool.
-Be patient.
-However, Docker Desktop for MacOS and OrbStack is also fully supported. In the
-mean time, `trinitycore-in-docker` is fully functional in a linux environment.
-Actually, I'm developping in using my very own ProxMox node (kind of Debian
-with hypervisor manager capabilities) and an OrbStack Linux machine based on
-alpine edge.
+Nope indeed. Due to lack of compliancy with POSIX environment, it's a pain in
+the a\*\* to make it work with Docker Desktop for Windows. However, don't loose
+hope as it's possible to make it works with `WSL2`. I need to fine tune the
+thing and provide scripts to help you setup and `WSL2` environment though. It's
+on its way, be patient.

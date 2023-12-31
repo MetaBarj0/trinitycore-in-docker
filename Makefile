@@ -1,4 +1,6 @@
 # TODO: hide implementation details
+
+# Weird trick to 'force' make to use the shell it has been invoked with.
 SHELL := $(shell echo $$SHELL)
 
 MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
