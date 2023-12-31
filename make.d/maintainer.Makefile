@@ -11,7 +11,7 @@ config:
 
 _build_debian_upgraded:
 	@docker build \
-		-f docker.d/_common/debian:12.2-slim-upgraded.Dockerfile \
+		-f docker.d/_common/debian-12.2-slim-upgraded.Dockerfile \
 		-t debian:12.2-slim-upgraded \
 		docker.d/_common
 
