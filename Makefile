@@ -1,17 +1,14 @@
-# TODO: hide implementation details
-
 # Weird trick to 'force' make to use the shell it has been invoked with.
 SHELL := $(shell echo $$SHELL)
 
 MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
 
-include $(MAKEFILE_DIR)/make.d/macros.Makefile
+include make.d/macros.Makefile
 
-include $(MAKEFILE_DIR)/Makefile.env
+include Makefile.env
 export
 
-maintainer_mode := 0
-
+help: maintainer_mode = 0
 help:
 	$(call print_usage,$(maintainer_mode))
 
@@ -32,13 +29,10 @@ up:
 down:
 	@docker compose down
 
-cmd :=
-
-COMPOSE_PROJECT_NAME := trinitycore-in-docker
-
+exec: cmd = 'server info'
 exec:
 	$(call check_cmd,$(cmd))
 	@docker exec $(COMPOSE_PROJECT_NAME)-worldserver_console-1 \
 		sh -c "execute_console_command.sh '$(cmd)'"
 
-include $(MAKEFILE_DIR)/make.d/maintainer.Makefile
+include make.d/maintainer.Makefile
