@@ -1,4 +1,5 @@
-SHELL := env sh
+# TODO: hide implementation details
+SHELL := $(shell echo $$SHELL)
 
 MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
 
