@@ -3,7 +3,7 @@
 fetch_tdb_full() {
   cd downloads
 
-  wget -c "${TDB_FULL_URI}" -o "${TDB_FULL_ARCHIVE_FILE_NAME}"
+  wget -c "${TDB_FULL_URI}" -O "${TDB_FULL_ARCHIVE_FILE_NAME}"
 
   cd -
 }
