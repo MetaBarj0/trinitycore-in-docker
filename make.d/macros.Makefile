@@ -21,3 +21,7 @@ endef
 define copy_servers_conf_in_build_context
   @. make.d/scripts/copy_servers_conf_in_build_context.sh
 endef
+
+define build_debian_upgraded
+  @. make.d/scripts/build_debian_upgraded.sh
+endef

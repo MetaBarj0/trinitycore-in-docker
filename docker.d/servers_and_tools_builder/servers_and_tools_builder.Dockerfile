@@ -1,4 +1,3 @@
-# TODO: split concern: trinitycore build and docker-in-docker
 FROM debian:12-slim-upgraded as install_prerequisites
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -14,6 +13,7 @@ FROM install_prerequisites as create_trinitycore_user
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
 
+# TODO: variabilize the repository, the branch, sha, ...
 FROM create_trinitycore_user as clone_repository
 USER trinitycore
 WORKDIR /home/trinitycore
@@ -75,9 +75,9 @@ FROM install_docker as create_docker_user_if_not_docker_desktop
 ARG DOCKER_GID
 ARG DOCKER_UID
 ARG USE_DOCKER_DESKTOP
+ARG USER_HOME_DIR
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_GID ] && groupmod -g $DOCKER_GID docker
-# TODO: use USER_HOME_DIR build arg instead of /home/docker
-RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || useradd -d /home/docker -m -s /bin/bash -g docker docker
+RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || useradd -d $USER_HOME_DIR -m -s /bin/bash -g docker docker
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_UID ] && usermod -u $DOCKER_UID docker
 
 FROM create_docker_user_if_not_docker_desktop as builder
@@ -86,8 +86,7 @@ ARG USER_HOME_DIR
 USER $USER
 WORKDIR $USER_HOME_DIR
 COPY --chown=$USER:$USER docker.d docker.d
-# TODO: try without relative path components
-COPY --chmod=755 scripts/ ./scripts
+COPY --chmod=755 scripts scripts
 RUN mkdir -p data
 VOLUME $USER_HOME_DIR/data
 RUN mkdir -p TrinityCore

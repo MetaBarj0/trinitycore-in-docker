@@ -9,14 +9,10 @@ ps:
 config:
 	@docker compose config
 
-# TODO: weird target name, xform this to macro then scripts...
-_build_debian_upgraded:
-	@docker build \
-		-f docker.d/_common/debian-12-slim-upgraded.Dockerfile \
-		-t debian:12-slim-upgraded \
-		docker.d/_common
+build_debian_upgraded:
+	$(call build_debian_upgraded)
 
-build_servers_and_tools_builder: _build_debian_upgraded
+build_servers_and_tools_builder: build_debian_upgraded
 	$(call copy_servers_conf_in_build_context)
 	$(call build_servers_and_tools_builder)
 
