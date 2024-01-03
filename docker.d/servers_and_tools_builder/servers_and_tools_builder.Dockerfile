@@ -1,3 +1,4 @@
+# TODO: split concern: trinitycore build and docker-in-docker
 FROM debian:12.2-slim-upgraded as install_prerequisites
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \

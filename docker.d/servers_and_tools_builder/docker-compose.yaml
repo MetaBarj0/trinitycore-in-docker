@@ -18,7 +18,7 @@ services:
       - NAMESPACE=${NAMESPACE}
       - WORLDSERVER_CONF_PATH=${WORLDSERVER_CONF_PATH}
       - CLIENT_PATH=${CLIENT_PATH}
-      - USER_HOME_DIR=${USER_HOME_DIR}
+      - USER_HOME_DIR
     init: true
     network_mode: none
     profiles:
@@ -29,13 +29,13 @@ services:
         target: /var/run/docker.sock
       - type: bind
         source: ${CLIENT_PATH}
-        target: ${USER_HOME_DIR}/WoW-3.3.5a-12340
+        target: ${USER_HOME_DIR:-implementation defined}/WoW-3.3.5a-12340
       - type: volume
         source: client_data
-        target: ${USER_HOME_DIR}/data
+        target: ${USER_HOME_DIR:-implementation defined}/data
       - type: volume
         source: trinitycore_sources
-        target: ${USER_HOME_DIR}/TrinityCore
+        target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
 volumes:
   client_data:
   trinitycore_sources:
