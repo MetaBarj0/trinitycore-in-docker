@@ -12,8 +12,8 @@ config:
 # TODO: weird target name, xform this to macro then scripts...
 _build_debian_upgraded:
 	@docker build \
-		-f docker.d/_common/debian-12.2-slim-upgraded.Dockerfile \
-		-t debian:12.2-slim-upgraded \
+		-f docker.d/_common/debian-12-slim-upgraded.Dockerfile \
+		-t debian:12-slim-upgraded \
 		docker.d/_common
 
 build_servers_and_tools_builder: _build_debian_upgraded
