@@ -75,6 +75,7 @@ ARG DOCKER_GID
 ARG DOCKER_UID
 ARG USE_DOCKER_DESKTOP
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_GID ] && groupmod -g $DOCKER_GID docker
+# TODO: use USER_HOME_DIR build arg instead of /home/docker
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || useradd -d /home/docker -m -s /bin/bash -g docker docker
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_UID ] && usermod -u $DOCKER_UID docker
 
@@ -84,6 +85,7 @@ ARG USER_HOME_DIR
 USER $USER
 WORKDIR $USER_HOME_DIR
 COPY --chown=$USER:$USER docker.d docker.d
+# TODO: try without relative path components
 COPY --chmod=755 scripts/ ./scripts
 RUN mkdir -p data
 VOLUME $USER_HOME_DIR/data

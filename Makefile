@@ -1,11 +1,11 @@
 # Weird trick to 'force' make to use the shell it has been invoked with.
 SHELL := $(shell echo $$SHELL)
-
 MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
 
 include make.d/macros.Makefile
-
+include make.d/maintainer.Makefile
 include Makefile.env
+
 export
 
 help: maintainer_mode = 0
@@ -34,5 +34,3 @@ exec:
 	$(call check_cmd,$(cmd))
 	@docker exec $(COMPOSE_PROJECT_NAME)-worldserver_console-1 \
 		sh -c "execute_console_command.sh '$(cmd)'"
-
-include make.d/maintainer.Makefile
