@@ -45,8 +45,6 @@ To test and play with a TrinityCore server, hey it's a fun project after all.
 Using make, straightforward.
 Issue `make help` and follow the guide.
 
-**TODO: create a `guide` make target set to document use cases**
-
 ## Maintainer mode
 
 Issue `make help maintainer_mode=1` to see usage with supplementary debugging
