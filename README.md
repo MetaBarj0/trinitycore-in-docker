@@ -6,6 +6,8 @@ The purpose is to build docker images for databases, world server, auth server
 and a remote worldserver console.
 Then, it is able to run these docker images to get a fully functional
 trinitycore server.
+Good stuff to test a server you're working on, make your first step in
+TrinityCore development, play alone in your grotto just like me.
 
 # Who
 
@@ -18,6 +20,7 @@ trinitycore servers works and how to configure them.
 
 Because it's cool, integrated, it is not documented in official documentation,
 reproducible, totally automated and configurable.
+And, I could make it. I find this very fun to make this thing.
 
 # What
 
@@ -64,32 +67,24 @@ Using trinitycore in docker requires few things:
 
 ### make.d/env_file/Makefile.env: No such file or directory
 
-**TODO: update this, prepare target may remove this warning/error at least,
-after having created the requested file**
-
-You have to copy the template `Makefile.env.dist` file in the `make.d/env_file`
-directory to `make.d/env_file/Makefile.env`. Once it's done, `make help` should
-work like a charm.
-Each variable in the file `Makefile.env.dist` is documented to clarify its
-purpose.
-The same applies for the `Makefile.maintainer.env.dist` template file that need
-to be copied into a `Makefile.maintainer.env` file.
+Before attempting a build, you can just issue the `make prepare` command. Once
+this target job is done, follow the guide!
 
 ### invalid tag "...": invalid reference format
 
-Ensure you have set the `NAMESPACE` variable value in your
-`Makefile.maintainer.env` file.
 
-If a value is set, ensure it has a valid
-format for a full qualified domain name. A valid example is `test.local`.
+Be sure environment variables are set in your `Makefile.maintainer.env` file.
+Default values should do the job if you begin to work with this repo.
+If you think you screwed up (like me sometimes) with variables, just delete the
+`Makefile.maintainer.env` file and issue the `make prepare` command to
+re-create it.
+Of course, you may have to setup some value if default are not suitable for
+you.
 
-Ensure a version tag is correctly set in the `*_VERSION` variables.
-Any value that is correct regarding docker image tag requirement will do.
-For instance `0.1.0` is ok.
+### Strange Warning message regarding unset variables and BLANK values...
 
-More generally, all variables in the `Makefile.maintainer.env.dist` file must
-be set in the `Makefile.maintainer.env` file you own. Normally, default value
-should be set and those warning should not appear.
+Same as above.
+Moreover, take also a look in the `Makefile.env` file.
 
 ### My TrinityCore servers don't start
 
@@ -100,6 +95,7 @@ Ensure you have provided required configuration files:
 
 Don't forget to set both `WORLDSERVER_CONF_PATH` and `AUTHSERVER_CONF_PATH`
 variables in the `Makefile.env` file you own.
+`make prepare` is your friend here.
 
 ### It does not work with Docker Desktop for Windows
 
