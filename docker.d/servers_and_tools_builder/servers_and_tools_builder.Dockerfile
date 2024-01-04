@@ -13,12 +13,16 @@ FROM install_prerequisites as create_trinitycore_user
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
 
-# TODO: variabilize the repository, the branch, sha, ...
 FROM create_trinitycore_user as clone_repository
+ARG REPOSITORY_URI
+ARG REPOSITORY_REV
+ARG REPOSITORY_SHA
 USER trinitycore
 WORKDIR /home/trinitycore
-RUN git clone --branch 3.3.5 --depth=1 \
-  https://github.com/TrinityCore/TrinityCore.git
+RUN git clone \
+  --branch $REPOSITORY_REV --depth=1 \
+  $REPOSITORY_URI TrinityCore
+RUN cd TrinityCore && [ ! -z $REPOSITORY_SHA ] && git checkout $REPOSITORY_SHA && cd - || cd -
 
 FROM clone_repository as configure_build
 USER trinitycore

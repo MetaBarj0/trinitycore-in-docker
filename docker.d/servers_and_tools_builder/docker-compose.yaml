@@ -5,6 +5,10 @@ services:
       args:
         - DOCKER_GID
         - DOCKER_UID
+        - REPOSITORY_URI
+        - REPOSITORY_REV
+        - REPOSITORY_SHA
+        - USE_DOCKER_DESKTOP
       context: .
       dockerfile: servers_and_tools_builder.Dockerfile
       tags:
