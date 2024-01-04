@@ -1,4 +1,3 @@
-#TODO: move USER_HOME_DIR setup at build_servers_and_tools_builder step
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   export USER_HOME_DIR=/home/docker
 else
