@@ -9,6 +9,20 @@ make targets:
 Usage: make <target> where target is one of:
 
 - help:                      display this message.
+- prepare:                   This target prepares the environment before the
+                             build. Its purpose is to facilitate the user's
+                             life. It will setup then environment by creating
+                             'Makefile.env' and 'Makefile.maintainer.env' files
+                             from templates. It'll also, if needed,
+                             automatically fetch authentication and world
+                             server configuration files from the specified git
+                             repository URI setup in the environment and places
+                             them accordingly to setup environment variables in
+                             the 'Makefile.env' file. Note that even if it does
+                             a lot, you still have to provide some environment
+                             setup such as where to locate the WoW client. Read
+                             carefully each variable description to correctly
+                             setup your environment.
 - build:                     build docker images for databases,
                              worldserver_console and
                              build_servers_and_tools_builder in a first time.

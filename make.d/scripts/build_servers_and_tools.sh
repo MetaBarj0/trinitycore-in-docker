@@ -1,3 +1,5 @@
+#!/bin/env sh
+
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   export USER_HOME_DIR=/home/docker
 else

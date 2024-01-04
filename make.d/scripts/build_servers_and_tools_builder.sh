@@ -1,3 +1,5 @@
+#!/bin/env sh
+
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   docker compose build servers_and_tools_builder \
     --build-arg DOCKER_GID=$(getent group docker | cut -d : -f 3) \

@@ -64,31 +64,32 @@ Using trinitycore in docker requires few things:
 
 ### make.d/env_file/Makefile.env: No such file or directory
 
+**TODO: update this, prepare target may remove this warning/error at least,
+after having created the requested file**
+
 You have to copy the template `Makefile.env.dist` file in the `make.d/env_file`
 directory to `make.d/env_file/Makefile.env`. Once it's done, `make help` should
 work like a charm.
 Each variable in the file `Makefile.env.dist` is documented to clarify its
 purpose.
-
-**TODO: create a new make rule such as `prepare` to create environment file
-from tracked templates. It could also fetch template config file directly in
-the root directory of the repository if not already present**
+The same applies for the `Makefile.maintainer.env.dist` template file that need
+to be copied into a `Makefile.maintainer.env` file.
 
 ### invalid tag "...": invalid reference format
 
 Ensure you have set the `NAMESPACE` variable value in your
-`Makefile.env` file.
+`Makefile.maintainer.env` file.
 
 If a value is set, ensure it has a valid
 format for a full qualified domain name. A valid example is `test.local`.
 
-Ensure a version tag is correctly set in the `SERVERS_AND_TOOLS_VERSION` or
-`DATABASES_VERSION` variables.
+Ensure a version tag is correctly set in the `*_VERSION` variables.
 Any value that is correct regarding docker image tag requirement will do.
 For instance `0.1.0` is ok.
 
-More generally, all variables in the `Makefile.env.dist` file must be set in
-the `Makefile.env` file you own.
+More generally, all variables in the `Makefile.maintainer.env.dist` file must
+be set in the `Makefile.maintainer.env` file you own. Normally, default value
+should be set and those warning should not appear.
 
 ### My TrinityCore servers don't start
 
@@ -102,8 +103,8 @@ variables in the `Makefile.env` file you own.
 
 ### It does not work with Docker Desktop for Windows
 
-Nope indeed. Due to lack of compliancy with POSIX environment, it's a pain in
+Nope indeed. Due to lack of compliancy with POSIX environments, it's a pain in
 the a\*\* to make it work with Docker Desktop for Windows. However, don't loose
 hope as it's possible to make it works with `WSL2`. I need to fine tune the
-thing and provide scripts to help you setup and `WSL2` environment though. It's
-on its way, be patient.
+thing and provide guidance to help you setup and `WSL2` environment though.
+It's on its way, be patient.

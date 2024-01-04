@@ -25,3 +25,15 @@ endef
 define build_debian_upgraded
   @. make.d/scripts/build_debian_upgraded.sh
 endef
+
+define create_file_from_template
+  @. make.d/scripts/create_file_from_template.sh $(1) $(2)
+endef
+
+define fetch_server_configuration_files
+  @. make.d/scripts/fetch_server_configuration_files.sh
+endef
+
+define print_post_prepare_message
+  @. make.d/scripts/print_post_prepare_message.sh
+endef

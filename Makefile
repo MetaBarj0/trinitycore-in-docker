@@ -11,7 +11,11 @@ export
 
 help: maintainer_mode = 0
 help:
-	$(call print_usage,$(maintainer_mode))
+	$(call print_usage)
+
+prepare: Makefile.env Makefile.maintainer.env
+	$(call fetch_server_configuration_files)
+	$(call print_post_prepare_message)
 
 build_databases:
 	@docker compose build databases
