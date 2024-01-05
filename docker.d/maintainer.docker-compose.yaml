@@ -38,7 +38,7 @@ services:
         source: client_data
         target: ${USER_HOME_DIR:-implementation defined}/data
       - type: volume
-        source: trinitycore_sources
+        source: trinitycore_shallow_clone
         target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
   ide:
     build:
@@ -48,13 +48,16 @@ services:
       dockerfile: ide.Dockerfile
       tags:
         - ${NAMESPACE}.trinitycore.ide:${IDE_VERSION}
+    container_name: ${COMPOSE_PROJECT_NAME}-ide-container
     entrypoint: scripts/ide-entrypoint.sh
     environment:
       - REPOSITORY_URI
       - REPOSITORY_REV
       - REPOSITORY_SHA
+    hostname: ide
     init: true
-    network_mode: none
+    networks:
+      - dev
     profiles:
       - build
       - dev
@@ -68,10 +71,12 @@ services:
         read_only: true
       - type: volume
         source: client_data
-        target: ${USER_HOME_DIR:-implementation defined}/data
+        target: /home/trinitycore/data
       - type: volume
-        source: trinitycore_sources
-        target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
+        source: trinitycore_full_clone
+        target: /home/trinitycore/TrinityCore
+networks:
+  dev:
 secrets:
   ssh_public_key:
     file: ${SSH_PUBLIC_KEY_FILE_PATH}
@@ -79,4 +84,5 @@ secrets:
     file: ${SSH_SECRET_KEY_FILE_PATH}
 volumes:
   client_data:
-  trinitycore_sources:
+  trinitycore_shallow_clone:
+  trinitycore_full_clone:

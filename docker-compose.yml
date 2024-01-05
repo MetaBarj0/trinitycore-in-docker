@@ -25,7 +25,7 @@ services:
         source: databases_data
         target: /var/lib/mysql/data
       - type: volume
-        source: trinitycore_sources
+        source: trinitycore_shallow_clone
         target: /root/TrinityCore
   worldserver:
     depends_on:
@@ -57,7 +57,7 @@ services:
         target: /home/trinitycore/trinitycore/data
         read_only: true
       - type: volume
-        source: trinitycore_sources
+        source: trinitycore_shallow_clone
         target: /home/trinitycore/TrinityCore
   worldserver_console:
     build:
@@ -100,7 +100,7 @@ services:
         mode: host
     volumes:
       - type: volume
-        source: trinitycore_sources
+        source: trinitycore_shallow_clone
         target: /home/trinitycore/TrinityCore
 volumes:
   databases_data:

@@ -40,3 +40,12 @@ Makefile.maintainer.env:
 
 build_ide:
 	$(call build_ide)
+
+up_ide:
+	$(call up_ide)
+
+down_ide:
+	$(call down_ide)
+
+shell_ide:
+	$(call shell_ide)

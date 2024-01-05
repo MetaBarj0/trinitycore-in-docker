@@ -59,6 +59,8 @@ if ! [ $1 -eq 0 ]; then
                          deployments.
 - up_ide:                Spin up the 'ide service' in background. Requires the
                          'ide' service docker image is built beforehand (see
+- down_ide:              Shutdown the 'ide' service and remove the stopped
+                         container.
                          the 'build_ide' target)
 - shell_ide:             Attach to a running 'ide' service that is running in
                          background. Requires the service to run beforhand (see
