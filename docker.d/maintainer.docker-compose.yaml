@@ -45,6 +45,7 @@ services:
   ide:
     build:
       args:
+        - IDE_NEOVIM_REV
         - NAMESPACE
         - USER
         - USER_HOME_DIR
