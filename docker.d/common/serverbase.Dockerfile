@@ -12,6 +12,6 @@ RUN \
   libboost-system1.74.0 libboost-chrono1.74.0 libboost-atomic1.74.0 \
   mariadb-client
 
-FROM debian_upgraded as create_trinitycore_user
+FROM debian_upgraded
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore

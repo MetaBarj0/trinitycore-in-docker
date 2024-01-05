@@ -6,5 +6,5 @@ else
   export USER_HOME_DIR=/root
 fi
 
-docker compose up servers_and_tools_builder
-docker compose down servers_and_tools_builder
+docker compose up builder
+docker compose down builder

@@ -26,6 +26,10 @@ define build_debian_upgraded
   @. make.d/scripts/build_debian_upgraded.sh
 endef
 
+define build_server_base
+  @. make.d/scripts/build_server_base.sh
+endef
+
 define create_file_from_template
   @. make.d/scripts/create_file_from_template.sh $(1) $(2)
 endef

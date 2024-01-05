@@ -1,4 +1,4 @@
-ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
+ARG BUILDER_IMAGE
 ARG NAMESPACE
 
 FROM $NAMESPACE.serverbase as install_dependencies
@@ -12,7 +12,7 @@ RUN \
   apt-get install -y --no-install-recommends \
   libncurses6 libreadline8 ca-certificates wget p7zip
 
-FROM $SERVERS_AND_TOOLS_BUILDER_IMAGE as builder
+FROM $BUILDER_IMAGE as builder
 
 FROM install_dependencies as install_worldserver
 USER trinitycore

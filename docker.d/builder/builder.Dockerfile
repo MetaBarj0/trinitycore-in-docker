@@ -1,4 +1,5 @@
-FROM debian:12-slim-upgraded as install_prerequisites
+ARG NAMESPACE
+FROM $NAMESPACE.serverbase as install_prerequisites
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -9,11 +10,7 @@ RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-16 100
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-16 100
 RUN update-alternatives --install /usr/bin/ld ld /usr/bin/lld-16 100
 
-FROM install_prerequisites as create_trinitycore_user
-RUN groupadd -g 2000 trinitycore
-RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
-
-FROM create_trinitycore_user as clone_repository
+FROM install_prerequisites as clone_repository
 ARG REPOSITORY_URI
 ARG REPOSITORY_REV
 ARG REPOSITORY_SHA

@@ -1,10 +1,11 @@
 version: '3'
 services:
-  servers_and_tools_builder:
+  builder:
     build:
       args:
         - DOCKER_GID
         - DOCKER_UID
+        - NAMESPACE
         - REPOSITORY_URI
         - REPOSITORY_REV
         - REPOSITORY_SHA
@@ -12,10 +13,11 @@ services:
       context: .
       dockerfile: builder.Dockerfile
       tags:
-        - ${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
+        # TODO: rename env variables to BUILDER
+        - ${NAMESPACE}.trinitycore.builder:${BUILDER_VERSION}
     entrypoint: scripts/builder-entrypoint.sh
     environment:
-      - SERVERS_AND_TOOLS_BUILDER_IMAGE=${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
+      - BUILDER_IMAGE=${NAMESPACE}.trinitycore.builder:${BUILDER_VERSION}
       - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
       - WORLDSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
       - USE_CACHED_CLIENT_DATA

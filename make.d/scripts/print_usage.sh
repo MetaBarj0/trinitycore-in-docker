@@ -24,8 +24,7 @@ Usage: make <target> where target is one of:
                              carefully each variable description to correctly
                              setup your environment.
 - build:                     build docker images for databases,
-                             worldserver_console and
-                             build_servers_and_tools_builder in a first time.
+                             worldserver_console and builder in a first time.
                              Then, build the authserver and worldserver images.
 - build_databases:           build the databases service docker image.
 - build_servers_and_tools:   Build the actual server docker images. It relies
@@ -79,8 +78,7 @@ if ! [ $1 -eq 0 ]; then
                          If something goes wrong while the databases service
                          image is building, a debug container will be spawned
                          to help you troubleshoot the issue.
-- debug_build_builder:   debug the build of the servers_and_tools_builder
-                         service image.
+- debug_build_builder:   debug the build of the builder service image.
 EOF
 fi
 

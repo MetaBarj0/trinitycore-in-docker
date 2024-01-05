@@ -1,9 +1,9 @@
-ARG SERVERS_AND_TOOLS_BUILDER_IMAGE
+ARG BUILDER_IMAGE
 ARG NAMESPACE
 
 FROM $NAMESPACE.serverbase as server_base
 
-FROM $SERVERS_AND_TOOLS_BUILDER_IMAGE as builder
+FROM $BUILDER_IMAGE as builder
 
 FROM server_base as install_authserver
 USER trinitycore

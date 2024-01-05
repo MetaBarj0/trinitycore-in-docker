@@ -25,7 +25,7 @@ prepare_authserver_configuration() {
 
 build_authserver_image() {
   docker build \
-    --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
+    --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} \
     --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/authserver/authserver.Dockerfile \
     -t ${AUTHSERVER_IMAGE_TAG} \
@@ -233,7 +233,7 @@ prepare_worldserver_configuration() {
 
 build_worldserver_image() {
   docker build \
-    --build-arg SERVERS_AND_TOOLS_BUILDER_IMAGE=${SERVERS_AND_TOOLS_BUILDER_IMAGE} \
+    --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} \
     --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/worldserver/worldserver.Dockerfile \
     -t ${WORLDSERVER_IMAGE_TAG} \
@@ -247,15 +247,7 @@ create_world_server_image() {
   build_worldserver_image
 }
 
-build_server_base_image() {
-  docker build \
-    -f docker.d/serverbase/serverbase.Dockerfile \
-    -t ${NAMESPACE}.serverbase \
-    docker.d/serverbase
-}
-
 main() {
-  build_server_base_image
   create_auth_server_image
   create_world_server_image
 }
