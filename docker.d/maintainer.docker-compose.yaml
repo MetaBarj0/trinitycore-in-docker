@@ -7,6 +7,8 @@ services:
         - REPOSITORY_URI
         - REPOSITORY_REV
         - REPOSITORY_SHA
+        - USER
+        - USER_HOME_DIR
       context: builder
       dockerfile: builder.Dockerfile
       tags:
@@ -44,6 +46,8 @@ services:
     build:
       args:
         - NAMESPACE
+        - USER
+        - USER_HOME_DIR
       context: ide
       dockerfile: ide.Dockerfile
       tags:
@@ -57,7 +61,9 @@ services:
     hostname: ide
     init: true
     networks:
-      - dev
+      dev:
+      inside:
+        ipv4_address: 11.12.13.5
     profiles:
       - build
       - dev
@@ -71,10 +77,10 @@ services:
         read_only: true
       - type: volume
         source: client_data
-        target: /home/trinitycore/data
+        target: ${USER_HOME_DIR:-implementation defined}/data
       - type: volume
         source: trinitycore_full_clone
-        target: /home/trinitycore/TrinityCore
+        target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
 networks:
   dev:
 secrets:

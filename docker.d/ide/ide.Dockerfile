@@ -1,9 +1,17 @@
 ARG NAMESPACE
 
 FROM $NAMESPACE.builderbase
-USER trinitycore
-WORKDIR /home/trinitycore
+ARG USER
+ARG USER_HOME_DIR
+WORKDIR $USER_HOME_DIR
 COPY \
-  --chown=trinitycore:trinitycore \
+  --chown=$USER:$USER \
   --chmod=755 \
   scripts scripts
+RUN mkdir $USER_HOME_DIR/TrinityCore
+RUN chown -R $USER:$USER $USER_HOME_DIR/TrinityCore
+VOLUME $USER_HOME_DIR/TrinityCore
+RUN mkdir $USER_HOME_DIR/data
+RUN chown -R $USER:$USER $USER_HOME_DIR/data
+VOLUME $USER_HOME_DIR/data
+USER $USER
