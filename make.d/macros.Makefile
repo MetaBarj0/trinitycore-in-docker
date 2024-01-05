@@ -30,6 +30,10 @@ define build_server_base
   @. make.d/scripts/build_server_base.sh
 endef
 
+define build_builder_base
+  @. make.d/scripts/build_builder_base.sh
+endef
+
 define create_file_from_template
   @. make.d/scripts/create_file_from_template.sh $(1) $(2)
 endef

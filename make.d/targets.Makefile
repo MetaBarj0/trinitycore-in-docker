@@ -15,7 +15,10 @@ build_debian_upgraded:
 build_server_base:
 	$(call build_server_base)
 
-build_builder: build_debian_upgraded build_server_base
+build_builder_base:
+	$(call build_builder_base)
+
+build_builder: build_debian_upgraded build_server_base build_builder_base
 	$(call copy_servers_conf_in_build_context)
 	$(call build_builder)
 
