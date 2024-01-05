@@ -50,6 +50,9 @@ Issue `make help` and follow the guide.
 Issue `make help maintainer_mode=1` to see usage with supplementary debugging
 and inspection targets.
 
+The maintainer mode is designed for... maintainers of both the
+`trinitycore-in-docker` project and `TrinityCore` project.
+
 ## Troubleshooting
 
 You may encounter several annoyances when running make targets. Below is a list
@@ -69,7 +72,6 @@ Before attempting a build, you can just issue the `make prepare` command. Once
 this target job is done, follow the guide!
 
 ### invalid tag "...": invalid reference format
-
 
 Be sure environment variables are set in your `Makefile.maintainer.env` file.
 Default values should do the job if you begin to work with this repo.

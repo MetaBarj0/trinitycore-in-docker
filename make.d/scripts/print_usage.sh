@@ -51,6 +51,25 @@ if ! [ $1 -eq 0 ]; then
 - ps:                                    this target show docker container that
                                          are currently running in this compose
                                          project.
+- build_ide:                             Build the 'ide' service. It is a
+                                         docker image that contains everything
+                                         that is needed to contribute to
+                                         TrinityCore project. Development tools
+                                         of all sort, utilities, everything you
+                                         need will be in this image for you to
+                                         work in a completely integrated
+                                         environment within a docker container.
+                                         The image will also expose
+                                         docker-in-docker capabilities to ease
+                                         test deployments.
+- up_ide:                                Spin up the 'ide service' in
+                                         background. Requires the 'ide' service
+                                         docker image is built beforehand (see
+                                         the 'build_ide' target)
+- shell_ide:                             Attach to a running 'ide' service that
+                                         is running in background. Requires the
+                                         service to run beforhand (see the
+                                         'up_ide' target)
 - config:                                Use this target to check the
                                          'docker-compose.yml' configuration. It
                                          is the same thing as running 'docker
