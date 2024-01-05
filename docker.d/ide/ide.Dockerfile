@@ -8,10 +8,10 @@ COPY \
   --chown=$USER:$USER \
   --chmod=755 \
   scripts scripts
-RUN mkdir $USER_HOME_DIR/TrinityCore
-RUN chown -R $USER:$USER $USER_HOME_DIR/TrinityCore
-VOLUME $USER_HOME_DIR/TrinityCore
-RUN mkdir $USER_HOME_DIR/data
-RUN chown -R $USER:$USER $USER_HOME_DIR/data
-VOLUME $USER_HOME_DIR/data
+RUN mkdir $USER_HOME_DIR/client_data
+RUN chown -R $USER:$USER $USER_HOME_DIR/client_data
+VOLUME $USER_HOME_DIR/client_data
+RUN mkdir $USER_HOME_DIR/ide_storage
+RUN chown -R $USER:$USER $USER_HOME_DIR/ide_storage
+VOLUME $USER_HOME_DIR/ide_storage
 USER $USER

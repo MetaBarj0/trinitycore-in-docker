@@ -77,10 +77,10 @@ services:
         read_only: true
       - type: volume
         source: client_data
-        target: ${USER_HOME_DIR:-implementation defined}/data
+        target: ${USER_HOME_DIR:-implementation defined}/client_data
       - type: volume
-        source: trinitycore_full_clone
-        target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
+        source: ide_storage
+        target: ${USER_HOME_DIR:-implementation defined}/ide_storage
 networks:
   dev:
 secrets:
@@ -90,5 +90,5 @@ secrets:
     file: ${SSH_SECRET_KEY_FILE_PATH}
 volumes:
   client_data:
+  ide_storage:
   trinitycore_shallow_clone:
-  trinitycore_full_clone:
