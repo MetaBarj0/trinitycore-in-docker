@@ -20,7 +20,7 @@ prepare: Makefile.env Makefile.maintainer.env
 build_databases:
 	@docker compose build databases
 
-build_servers_and_tools: build_servers_and_tools_builder
+build_servers_and_tools: build_builder
 	$(call build_servers_and_tools)
 
 build_worldserver_console:

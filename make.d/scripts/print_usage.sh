@@ -29,10 +29,10 @@ Usage: make <target> where target is one of:
                              Then, build the authserver and worldserver images.
 - build_databases:           build the databases service docker image.
 - build_servers_and_tools:   Build the actual server docker images. It relies
-                             on the 'build_servers_and_tools_builder' make
-                             target. This step can be very long as it may
-                             generate client data such as vmaps and mmaps if
-                             they are not already generated.
+                             on the 'build_builder' make target. This step can
+                             be very long as it may generate client data such
+                             as vmaps and mmaps if they are not already
+                             generated.
 - build_worldserver_console: build the worldserver remote access console
                              service. This service allow a user to issue
                              command to be executed by the worldserver remotely
@@ -48,53 +48,39 @@ EOF
 
 if ! [ $1 -eq 0 ]; then
   cat << EOF
-- ps:                                    this target show docker container that
-                                         are currently running in this compose
-                                         project.
-- build_ide:                             Build the 'ide' service. It is a
-                                         docker image that contains everything
-                                         that is needed to contribute to
-                                         TrinityCore project. Development tools
-                                         of all sort, utilities, everything you
-                                         need will be in this image for you to
-                                         work in a completely integrated
-                                         environment within a docker container.
-                                         The image will also expose
-                                         docker-in-docker capabilities to ease
-                                         test deployments.
-- up_ide:                                Spin up the 'ide service' in
-                                         background. Requires the 'ide' service
-                                         docker image is built beforehand (see
-                                         the 'build_ide' target)
-- shell_ide:                             Attach to a running 'ide' service that
-                                         is running in background. Requires the
-                                         service to run beforhand (see the
-                                         'up_ide' target)
-- config:                                Use this target to check the
-                                         'docker-compose.yml' configuration. It
-                                         is the same thing as running 'docker
-                                         compose config' except that it will
-                                         evaluate all variables defined in the
-                                         'Makefile'. If the configuration is
-                                         incorrect, a diagnastic will be
-                                         displayed to help you spot the
-                                         culprit. If the configuration is
-                                         correct, the entire
-                                         'docker-compose.yml' file will be
-                                         evaluated.
-- build_servers_and_tools_builder:       build the
-                                         build_servers_and_tools_builder meta
-                                         builder service image. See this one
-                                         like a kind of bootstrap service.
-- debug_build_databases:                 debug the build of the databases service
-                                         docker image. If something goes wrong
-                                         while the databases service image is
-                                         building, a debug container will be
-                                         spawned to help you troubleshoot the
-                                         issue.
-- debug_build_servers_and_tools_builder: debug the build of the
-                                         servers_and_tools_builder service
-                                         image.
+- ps:                    this target show docker container that
+                         are currently running in this compose project.
+- build_ide:             Build the 'ide' service. It is a docker image that
+                         contains everything that is needed to contribute to
+                         TrinityCore project. Development tools of all sort,
+                         utilities, everything you need will be in this image
+                         for you to work in a completely integrated environment
+                         within a docker container. The image will also expose
+                         docker-in-docker capabilities to ease test
+                         deployments.
+- up_ide:                Spin up the 'ide service' in background. Requires the
+                         'ide' service docker image is built beforehand (see
+                         the 'build_ide' target)
+- shell_ide:             Attach to a running 'ide' service that is running in
+                         background. Requires the service to run beforhand (see
+                         the 'up_ide' target)
+- config:                Use this target to check the 'docker-compose.yml'
+                         configuration. It is the same thing as running 'docker
+                         compose config' except that it will evaluate all
+                         variables defined in the 'Makefile'. If the
+                         configuration is incorrect, a diagnastic will be
+                         displayed to help you spot the culprit. If the
+                         configuration is correct, the entire
+                         'docker-compose.yml' file will be evaluated.
+- build_builder:         build the builder meta builder service image. See this
+                         one like a kind of bootstrap service that is
+                         responsible to build each TrinityCore servers.
+- debug_build_databases: debug the build of the databases service docker image.
+                         If something goes wrong while the databases service
+                         image is building, a debug container will be spawned
+                         to help you troubleshoot the issue.
+- debug_build_builder:   debug the build of the servers_and_tools_builder
+                         service image.
 EOF
 fi
 

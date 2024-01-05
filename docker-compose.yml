@@ -1,5 +1,5 @@
 include:
-  - docker.d/servers_and_tools_builder/docker-compose.yaml
+  - docker.d/builder/docker-compose.yaml
 version: '3'
 services:
   databases:

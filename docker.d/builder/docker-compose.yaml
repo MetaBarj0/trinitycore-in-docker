@@ -10,10 +10,10 @@ services:
         - REPOSITORY_SHA
         - USE_DOCKER_DESKTOP
       context: .
-      dockerfile: servers_and_tools_builder.Dockerfile
+      dockerfile: builder.Dockerfile
       tags:
         - ${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
-    entrypoint: scripts/servers_and_tools_builder-entrypoint.sh
+    entrypoint: scripts/builder-entrypoint.sh
     environment:
       - SERVERS_AND_TOOLS_BUILDER_IMAGE=${NAMESPACE}.trinitycore.servers_and_tools_builder:${SERVERS_AND_TOOLS_BUILDER_VERSION}
       - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
