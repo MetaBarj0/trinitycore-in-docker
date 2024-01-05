@@ -33,10 +33,10 @@ services:
         condition: service_healthy
     entrypoint: /home/trinitycore/scripts/worldserver-entrypoint.sh
     environment:
-      - REALMLIST_ADDRESS=${REALMLIST_ADDRESS}
-      - TDB_FULL_URI=${TDB_FULL_URI}
-      - TDB_FULL_ARCHIVE_FILE_NAME=${TDB_FULL_ARCHIVE_FILE_NAME}
-      - TDB_FULL_SQL_FILE_NAME=${TDB_FULL_SQL_FILE_NAME}
+      - REALMLIST_ADDRESS
+      - TDB_FULL_URI
+      - TDB_FULL_ARCHIVE_FILE_NAME
+      - TDB_FULL_SQL_FILE_NAME
     image: ${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
     init: true
     networks:
@@ -69,8 +69,8 @@ services:
       - worldserver
     entrypoint: /home/worldserver_console/scripts/worldserver_console-entrypoint.sh
     environment:
-      - ADMIN_ACCOUNT_NAME=${ADMIN_ACCOUNT_NAME}
-      - ADMIN_ACCOUNT_PASSWORD=${ADMIN_ACCOUNT_PASSWORD}
+      - ADMIN_ACCOUNT_NAME
+      - ADMIN_ACCOUNT_PASSWORD
     healthcheck:
       test: ['CMD-SHELL', '/home/worldserver_console/scripts/healthcheck.sh']
       interval: 5s
