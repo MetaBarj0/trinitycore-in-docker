@@ -7,8 +7,7 @@ services:
         - REPOSITORY_URI
         - REPOSITORY_REV
         - REPOSITORY_SHA
-        - USE_DOCKER_DESKTOP
-      context: .
+      context: builder
       dockerfile: builder.Dockerfile
       tags:
         - ${NAMESPACE}.trinitycore.builder:${BUILDER_VERSION}
@@ -26,10 +25,12 @@ services:
     network_mode: none
     profiles:
       - build
+      - release
     volumes:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
+        read_only: true
       - type: bind
         source: ${CLIENT_PATH}
         target: ${USER_HOME_DIR:-implementation defined}/WoW-3.3.5a-12340
@@ -39,6 +40,43 @@ services:
       - type: volume
         source: trinitycore_sources
         target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
+  ide:
+    build:
+      args:
+        - NAMESPACE
+      context: ide
+      dockerfile: ide.Dockerfile
+      tags:
+        - ${NAMESPACE}.trinitycore.ide:${IDE_VERSION}
+    entrypoint: scripts/ide-entrypoint.sh
+    environment:
+      - REPOSITORY_URI
+      - REPOSITORY_REV
+      - REPOSITORY_SHA
+    init: true
+    network_mode: none
+    profiles:
+      - build
+      - dev
+    secrets:
+      - ssh_public_key
+      - ssh_private_key
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+      - type: volume
+        source: client_data
+        target: ${USER_HOME_DIR:-implementation defined}/data
+      - type: volume
+        source: trinitycore_sources
+        target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
+secrets:
+  ssh_public_key:
+    file: ${SSH_PUBLIC_KEY_FILE_PATH}
+  ssh_private_key:
+    file: ${SSH_SECRET_KEY_FILE_PATH}
 volumes:
   client_data:
   trinitycore_sources:

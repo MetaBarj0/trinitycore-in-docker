@@ -45,3 +45,7 @@ endef
 define print_post_prepare_message
   @. make.d/scripts/print_post_prepare_message.sh
 endef
+
+define build_ide
+  @. make.d/scripts/build_ide.sh
+endef

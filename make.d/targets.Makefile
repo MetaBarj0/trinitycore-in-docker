@@ -39,3 +39,4 @@ Makefile.maintainer.env:
 	$(call create_file_from_template,Makefile.maintainer.env,Makefile.maintainer.env.dist)
 
 build_ide:
+	$(call build_ide)
