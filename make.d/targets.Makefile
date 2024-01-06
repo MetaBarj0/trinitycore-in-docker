@@ -38,7 +38,8 @@ Makefile.env:
 Makefile.maintainer.env:
 	$(call create_file_from_template,Makefile.maintainer.env,Makefile.maintainer.env.dist)
 
-build_ide:
+build_ide: TARGET_PLATFORM=linux/amd64
+build_ide: build_debian_upgraded build_server_base build_builder_base
 	$(call build_ide)
 
 up_ide:

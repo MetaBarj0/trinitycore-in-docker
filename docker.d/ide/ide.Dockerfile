@@ -1,6 +1,7 @@
 ARG NAMESPACE
+ARG PLATFORM_TAG
 
-FROM $NAMESPACE.builderbase as neovim_build
+FROM $NAMESPACE.builderbase$PLATFORM_TAG as neovim_build
 ARG IDE_NEOVIM_REV
 RUN \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -19,29 +20,28 @@ WORKDIR /opt/nvim-build/neovim
 RUN make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=/opt/nvim
 RUN make install
 
-FROM $NAMESPACE.builderbase as neovim_install
+FROM $NAMESPACE.builderbase$PLATFORM_TAG as neovim_install
 COPY --from=neovim_build /opt/nvim /opt/nvim/
 ENV NVIM_INSTALL_DIR /opt/nvim/
 ENV PATH=${PATH}:${NVIM_INSTALL_DIR}/bin
 
-# FROM neovim_install as deno_install
-# ARG USER_HOME_DIR
-# RUN \
-#   --mount=type=cache,target=/var/lib/apt,sharing=locked \
-#   --mount=type=cache,target=/var/cache/apt,sharing=locked \
-#   apt-get update
-# RUN \
-#   --mount=type=cache,target=/var/lib/apt,sharing=locked \
-#   --mount=type=cache,target=/var/cache/apt,sharing=locked \
-#   apt-get install -y --no-install-recommends \
-#   unzip
-# WORKDIR $USER_HOME_DIR
-# RUN curl -fsSL https://deno.land/x/install/install.sh | sh
-# ENV DENO_INSTALL_DIR $USER_HOME_DIR/.deno
-# ENV PATH ${PATH}:${DENO_INSTALL_DIR}/bin
-#
-# FROM deno_install
-FROM neovim_install
+ FROM neovim_install as deno_install
+ ARG USER_HOME_DIR
+ RUN \
+   --mount=type=cache,target=/var/lib/apt,sharing=locked \
+   --mount=type=cache,target=/var/cache/apt,sharing=locked \
+   apt-get update
+ RUN \
+   --mount=type=cache,target=/var/lib/apt,sharing=locked \
+   --mount=type=cache,target=/var/cache/apt,sharing=locked \
+   apt-get install -y --no-install-recommends \
+   unzip
+ WORKDIR $USER_HOME_DIR
+ RUN curl -fsSL https://deno.land/x/install/install.sh | sh
+ ENV DENO_INSTALL_DIR $USER_HOME_DIR/.deno
+ ENV PATH ${PATH}:${DENO_INSTALL_DIR}/bin
+
+FROM deno_install
 ARG USER
 ARG USER_HOME_DIR
 WORKDIR $USER_HOME_DIR

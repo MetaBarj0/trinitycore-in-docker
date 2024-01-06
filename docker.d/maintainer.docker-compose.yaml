@@ -65,6 +65,8 @@ services:
       dev:
       inside:
         ipv4_address: 11.12.13.5
+    # EXPLAIN: because of deno.js that does not support linux/arm64 architecture
+    platform: linux/amd64
     profiles:
       - build
       - dev
