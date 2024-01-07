@@ -37,7 +37,7 @@ RUN \
   apt-get install -y --no-install-recommends \
   unzip
 WORKDIR $USER_HOME_DIR
-RUN curl -fsSL https://deno.land/x/install/install.sh | sh
+RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=$USER_HOME_DIR/.deno sh
 ENV DENO_INSTALL_DIR $USER_HOME_DIR/.deno
 ENV PATH ${PATH}:${DENO_INSTALL_DIR}/bin
 
@@ -143,12 +143,52 @@ RUN make -j $(nproc)
 RUN make install
 
 FROM libevent_install as tmux_install
+ARG USER
 ARG USER_HOME_DIR
-COPY --from=tmux_build $USER_HOME_DIR/.tmux/ $USER_HOME_DIR/.tmux
+COPY --from=tmux_build --chown=$USER:$USER \
+  $USER_HOME_DIR/.tmux/ $USER_HOME_DIR/.tmux
 ENV TMUX_INSTALL_DIR $USER_HOME_DIR/.tmux
 ENV PATH ${PATH}:${TMUX_INSTALL_DIR}/bin
 
-FROM tmux_install
+FROM tmux_install as environments_clone
+ARG USER_HOME_DIR
+WORKDIR $USER_HOME_DIR
+RUN git clone --branch master --depth 1 \
+  https://github.com/MetaBarj0/environments.git
+
+FROM tmux_install as environments_configuration
+ARG USER
+ARG USER_HOME_DIR
+WORKDIR $USER_HOME_DIR
+RUN mkdir .bashd && chown $USER:$USER .bashd
+RUN mkdir -p ./.init/nvim
+RUN mkdir -p ./.init/tmux
+RUN chown -R $USER:$USER .init
+RUN mkdir -p ./.local/share/nvim/site/autoload
+RUN chown -R $USER:$USER .local
+COPY --from=environments_clone \
+  --chown=$USER:$USER \
+  $USER_HOME_DIR/environments/common/git/USER_HOME_DIR/.gitconfig .
+COPY --from=environments_clone \
+  --chown=$USER:$USER \
+  $USER_HOME_DIR/environments/common/bash/USER_HOME_DIR/.bashd/.* ./.bashd/
+COPY --from=environments_clone \
+  --chown=$USER:$USER \
+  $USER_HOME_DIR/environments/common/bash/USER_HOME_DIR/.bashrc .
+COPY --from=environments_clone \
+  --chown=$USER:$USER \
+  $USER_HOME_DIR/environments/common/nodejs/USER_HOME_DIR/.npmrc .
+COPY --from=environments_clone \
+  --chown=$USER:$USER \
+  $USER_HOME_DIR/environments/common/neovim/USER_HOME_DIR/.init/nvim/init.vim ./.init/nvim/
+COPY --from=environments_clone \
+  --chown=$USER:$USER \
+  $USER_HOME_DIR/environments/common/neovim/USER_HOME_DIR/.local/share/nvim/site/autoload/plug.vim ./.local/share/nvim/site/autoload/plug.vim
+COPY --from=environments_clone \
+  --chown=$USER:$USER \
+  $USER_HOME_DIR/environments/common/tmux/USER_HOME_DIR/.init/tmux/tmux.conf ./.init/tmux/
+
+FROM environments_configuration
 ARG USER
 ARG USER_HOME_DIR
 WORKDIR $USER_HOME_DIR
@@ -156,10 +196,19 @@ COPY \
   --chown=$USER:$USER \
   --chmod=755 \
   scripts scripts
-RUN mkdir $USER_HOME_DIR/client_data
+RUN mkdir -p $USER_HOME_DIR/client_data
 RUN chown -R $USER:$USER $USER_HOME_DIR/client_data
 VOLUME $USER_HOME_DIR/client_data
-RUN mkdir $USER_HOME_DIR/ide_storage
+RUN mkdir -p $USER_HOME_DIR/ide_storage
 RUN chown -R $USER:$USER $USER_HOME_DIR/ide_storage
 VOLUME $USER_HOME_DIR/ide_storage
+RUN mkdir -p $USER_HOME_DIR/.npm-prefix
+RUN chown -R $USER:$USER $USER_HOME_DIR/.npm-prefix
+VOLUME $USER_HOME_DIR/.npm-prefix
+RUN mkdir -p $USER_HOME_DIR/.npm-cache
+RUN chown -R $USER:$USER $USER_HOME_DIR/.npm-cache
+VOLUME $USER_HOME_DIR/.npm-cache
+RUN mkdir -p $USER_HOME_DIR/.local
+RUN chown -R $USER:$USER $USER_HOME_DIR/.local
+VOLUME $USER_HOME_DIR/.local
 USER $USER

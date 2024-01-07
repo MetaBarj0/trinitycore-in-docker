@@ -85,6 +85,21 @@ services:
       - type: volume
         source: ide_storage
         target: ${USER_HOME_DIR:-implementation defined}/ide_storage
+      - type: volume
+        source: ide_npm_prefix
+        target: ${USER_HOME_DIR:-implementation defined}/.npm-prefix
+        volume:
+          nocopy: false
+      - type: volume
+        source: ide_npm_cache
+        target: ${USER_HOME_DIR:-implementation defined}/.npm-cache
+        volume:
+          nocopy: false
+      - type: volume
+        source: ide_xdg_local
+        target: ${USER_HOME_DIR:-implementation defined}/.local
+        volume:
+          nocopy: false
 networks:
   dev:
 secrets:
@@ -96,3 +111,6 @@ volumes:
   client_data:
   ide_storage:
   trinitycore_shallow_clone:
+  ide_npm_prefix:
+  ide_npm_cache:
+  ide_xdg_local:
