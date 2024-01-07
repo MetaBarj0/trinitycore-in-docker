@@ -47,6 +47,7 @@ services:
       args:
         - IDE_NEOVIM_REV
         - NAMESPACE
+        - NODEJS_VER
         - USER
         - USER_HOME_DIR
       context: ide
