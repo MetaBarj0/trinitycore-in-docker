@@ -8,15 +8,21 @@ if ! [ -z "$TARGET_PLATFORM" ];then
 fi
 
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-  build_arg_arg="${build_arg_arg}"' \
-    --build-arg USER=docker \
-    --build-arg USER_HOME_DIR=/home/docker'
+  build_arg_arg="$(cat << EOF
+  ${build_arg_arg} \
+  --build-arg USER=docker \
+  --build-arg USER_HOME_DIR=/home/docker
+EOF
+)"
 fi
 
 if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
-  build_arg_arg="${build_arg_arg}"' \
-    --build-arg USER=root \
-    --build-arg USER_HOME_DIR=/root'
+  build_arg_arg="$(cat << EOF
+  ${build_arg_arg} \
+  --build-arg USER=root \
+  --build-arg USER_HOME_DIR=/root
+EOF
+)"
 fi
 
 build_command='docker compose build ide '${build_arg_arg}
