@@ -120,7 +120,35 @@ RUN make install
 FROM uctags_install as libevent_install
 COPY --from=libevent_build /home/dev/.libevent/ /usr/local/
 
-FROM libevent_install
+FROM libevent_install as tmux_build
+ARG USER_HOME_DIR
+RUN \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  apt-get update
+RUN \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libncurses-dev make pkg-config bison
+WORKDIR $USER_HOME_DIR
+RUN mkdir -p ./tmux-build
+WORKDIR $USER_HOME_DIR/tmux-build
+RUN git clone --branch master --depth=1 \
+  https://github.com/tmux/tmux.git
+WORKDIR $USER_HOME_DIR/tmux-build/tmux
+RUN ./autogen.sh
+RUN ./configure --prefix=$USER_HOME_DIR/.tmux
+RUN make -j $(nproc)
+RUN make install
+
+FROM libevent_install as tmux_install
+ARG USER_HOME_DIR
+COPY --from=tmux_build $USER_HOME_DIR/.tmux/ $USER_HOME_DIR/.tmux
+ENV TMUX_INSTALL_DIR $USER_HOME_DIR/.tmux
+ENV PATH ${PATH}:${TMUX_INSTALL_DIR}/bin
+
+FROM tmux_install
 ARG USER
 ARG USER_HOME_DIR
 WORKDIR $USER_HOME_DIR
