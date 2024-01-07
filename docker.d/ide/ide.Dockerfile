@@ -67,7 +67,35 @@ ENV NODEJS_INSTALL_DIR $USER_HOME_DIR/.nodejs
 ENV PATH ${PATH}:${NODEJS_INSTALL_DIR}/bin
 RUN npm install -g neovim npm-check-updates
 
-FROM nodejs_global_packages_install
+FROM nodejs_global_packages_install as uctags_build
+ARG USER_HOME_DIR
+WORKDIR $USER_HOME_DIR
+RUN \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  apt-get update
+RUN \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  pkg-config make
+RUN mkdir ./uctags-build
+WORKDIR $USER_HOME_DIR/uctags-build
+RUN git clone --branch master --depth=1 \
+  https://github.com/universal-ctags/ctags.git
+WORKDIR $USER_HOME_DIR/uctags-build/ctags
+RUN ./autogen.sh
+RUN ./configure --prefix=$USER_HOME_DIR/.ctags
+RUN make -j $(nproc)
+RUN make install
+
+FROM nodejs_global_packages_install as uctags_install
+ARG USER_HOME_DIR
+COPY --from=uctags_build $USER_HOME_DIR/.ctags/ $USER_HOME_DIR/.ctags/
+ENV CTAGS_INSTALL_DIR $USER_HOME_DIR/.ctags
+ENV PATH ${PATH}:${CTAGS_INSTALL_DIR}/bin
+
+FROM uctags_install
 ARG USER
 ARG USER_HOME_DIR
 WORKDIR $USER_HOME_DIR
