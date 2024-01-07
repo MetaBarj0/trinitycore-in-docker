@@ -95,7 +95,32 @@ COPY --from=uctags_build $USER_HOME_DIR/.ctags/ $USER_HOME_DIR/.ctags/
 ENV CTAGS_INSTALL_DIR $USER_HOME_DIR/.ctags
 ENV PATH ${PATH}:${CTAGS_INSTALL_DIR}/bin
 
-FROM uctags_install
+FROM uctags_install as libevent_build
+ARG USER_HOME_DIR
+RUN \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  apt-get update
+RUN \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  apt-get install -y --no-install-recommends \
+  libtool pkg-config make
+WORKDIR $USER_HOME_DIR
+RUN mkdir -p ./libevent-build
+WORKDIR $USER_HOME_DIR/libevent-build
+RUN git clone --branch master --depth=1 \
+  https://github.com/libevent/libevent.git
+WORKDIR $USER_HOME_DIR/libevent-build/libevent
+RUN ./autogen.sh
+RUN ./configure --prefix=/home/dev/.libevent
+RUN make -j $(nproc)
+RUN make install
+
+FROM uctags_install as libevent_install
+COPY --from=libevent_build /home/dev/.libevent/ /usr/local/
+
+FROM libevent_install
 ARG USER
 ARG USER_HOME_DIR
 WORKDIR $USER_HOME_DIR
