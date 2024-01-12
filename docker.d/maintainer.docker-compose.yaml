@@ -73,10 +73,8 @@ services:
       - build
       - dev
     secrets:
-      - source: ide_ssh_public_key
-        target: ${USER_HOME_DIR:-implementation defined}/.ssh/id_rsa.pub
-      - source: ide_ssh_private_key
-        target: ${USER_HOME_DIR:-implementation defined}/.ssh/id_rsa
+      - ide_ssh_public_key
+      - ide_ssh_secret_key
     volumes:
       - type: bind
         source: /var/run/docker.sock
@@ -108,7 +106,7 @@ networks:
 secrets:
   ide_ssh_public_key:
     file: ${SSH_PUBLIC_KEY_FILE_PATH}
-  ide_ssh_private_key:
+  ide_ssh_secret_key:
     file: ${SSH_SECRET_KEY_FILE_PATH}
 volumes:
   client_data:
