@@ -60,6 +60,7 @@ services:
       - REPOSITORY_URI
       - REPOSITORY_REV
       - REPOSITORY_SHA
+      - USER_HOME_DIR
     hostname: ide
     init: true
     networks:
@@ -72,8 +73,10 @@ services:
       - build
       - dev
     secrets:
-      - ssh_public_key
-      - ssh_private_key
+      - source: ide_ssh_public_key
+        target: ${USER_HOME_DIR:-implementation defined}/.ssh/id_rsa.pub
+      - source: ide_ssh_private_key
+        target: ${USER_HOME_DIR:-implementation defined}/.ssh/id_rsa
     volumes:
       - type: bind
         source: /var/run/docker.sock
@@ -103,9 +106,9 @@ services:
 networks:
   dev:
 secrets:
-  ssh_public_key:
+  ide_ssh_public_key:
     file: ${SSH_PUBLIC_KEY_FILE_PATH}
-  ssh_private_key:
+  ide_ssh_private_key:
     file: ${SSH_SECRET_KEY_FILE_PATH}
 volumes:
   client_data:

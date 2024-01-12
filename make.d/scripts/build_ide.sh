@@ -25,6 +25,9 @@ EOF
 )"
 fi
 
-build_command='docker compose build ide '${build_arg_arg}
+build_command="$(cat << EOF
+docker compose build ${build_arg_arg} ide 
+EOF
+)"
 
 eval ${build_command}
