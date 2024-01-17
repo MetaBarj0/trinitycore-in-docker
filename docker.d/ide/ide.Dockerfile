@@ -3,6 +3,7 @@ ARG PLATFORM_TAG
 
 FROM $NAMESPACE.builderbase$PLATFORM_TAG as neovim_build
 ARG IDE_NEOVIM_REV
+# TODO: use the real user instead of root
 RUN \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -12,6 +13,7 @@ RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   apt-get install -y --no-install-recommends \
   make gettext
+# TODO: fix path
 RUN mkdir /opt/nvim-build
 WORKDIR /opt/nvim-build
 RUN git clone --branch $IDE_NEOVIM_REV --depth=1 \
@@ -117,6 +119,7 @@ RUN ./configure --prefix=/home/dev/.libevent
 RUN make -j $(nproc)
 RUN make install
 
+# TODO: fix here regarding user home dir
 FROM uctags_install as libevent_install
 COPY --from=libevent_build /home/dev/.libevent/ /usr/local/
 

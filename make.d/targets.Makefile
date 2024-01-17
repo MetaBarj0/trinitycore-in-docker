@@ -19,7 +19,6 @@ build_builder_base:
 	$(call build_builder_base)
 
 build_builder: build_debian_upgraded build_server_base build_builder_base
-	$(call copy_servers_conf_in_build_context)
 	$(call build_builder)
 
 debug_build_databases:
@@ -37,6 +36,9 @@ Makefile.env:
 
 Makefile.maintainer.env:
 	$(call create_file_from_template,Makefile.maintainer.env,Makefile.maintainer.env.dist)
+
+ide: TARGET_PLATFORM=linux/amd64
+ide: build_ide up_ide shell_ide
 
 build_ide: TARGET_PLATFORM=linux/amd64
 build_ide: build_debian_upgraded build_server_base build_builder_base

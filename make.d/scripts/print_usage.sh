@@ -49,6 +49,8 @@ if ! [ $1 -eq 0 ]; then
   cat << EOF
 - ps:                    this target show docker container that
                          are currently running in this compose project.
+- ide:                   A shortcut target that runs build_ide, up_ide and
+                         shell_ide targets.
 - build_ide:             Build the 'ide' service. It is a docker image that
                          contains everything that is needed to contribute to
                          TrinityCore project. Development tools of all sort,
@@ -63,8 +65,8 @@ if ! [ $1 -eq 0 ]; then
                          container.
                          the 'build_ide' target)
 - shell_ide:             Attach to a running 'ide' service that is running in
-                         background. Requires the service to run beforhand (see
-                         the 'up_ide' target)
+                         background. Requires the service to run beforehand
+                         (see the 'up_ide' target)
 - config:                Use this target to check the 'docker-compose.yml'
                          configuration. It is the same thing as running 'docker
                          compose config' except that it will evaluate all
