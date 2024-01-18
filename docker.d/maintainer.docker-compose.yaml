@@ -61,6 +61,9 @@ services:
       - REPOSITORY_REV
       - REPOSITORY_SHA
       - USER_HOME_DIR
+      - LANG=en_US.UTF-8
+      - LANGUAGE=en_US:en
+      - LC_ALL=en_US.UTF-8
     hostname: ide
     init: true
     networks:
@@ -75,6 +78,10 @@ services:
     secrets:
       - ide_ssh_public_key
       - ide_ssh_secret_key
+    ulimits:
+      core:
+        soft: -1
+        hard: -1
     volumes:
       - type: bind
         source: /var/run/docker.sock
