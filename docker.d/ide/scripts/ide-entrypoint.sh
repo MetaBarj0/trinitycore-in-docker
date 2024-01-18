@@ -11,6 +11,37 @@ setup_ssh_keys() {
   cd -
 }
 
+copy_repository_from_builder() {
+  cd ~/ide_storage
+
+  if ! [ -d TrinityCore ]; then
+    docker run \
+      -u trinitycore --rm -it --entrypoint /bin/bash -d --name trinitycore.builder.container \
+      ${NAMESPACE}.trinitycore.builder:${BUILDER_VERSION}
+    docker cp trinitycore.builder.container:/home/trinitycore/TrinityCore .
+    docker kill trinitycore.builder.container
+  fi
+
+  cd -
+}
+
+unshallow_repository() {
+  cd ~/ide_storage/TrinityCore
+
+  rm .git/shallow.lock
+  git fetch --unshallow
+  git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  git fetch
+  git config url."git@github.com:".insteadOf "https://github.com/"
+
+  cd -
+}
+
+setup_repository() {
+  copy_repository_from_builder
+  unshallow_repository
+}
+
 run_live_loop() {
   while true; do
     sleep 1
@@ -19,6 +50,7 @@ run_live_loop() {
 
 main() {
   setup_ssh_keys
+  setup_repository  
   run_live_loop
 }
 
