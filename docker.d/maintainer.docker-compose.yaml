@@ -57,13 +57,13 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-ide-container
     entrypoint: scripts/ide-entrypoint.sh
     environment:
+      - LANG=en_US.UTF-8
+      - LANGUAGE=en_US:en
+      - LC_ALL=en_US.UTF-8
       - REPOSITORY_URI
       - REPOSITORY_REV
       - REPOSITORY_SHA
       - USER_HOME_DIR
-      - LANG=en_US.UTF-8
-      - LANGUAGE=en_US:en
-      - LC_ALL=en_US.UTF-8
     hostname: ide
     init: true
     networks:

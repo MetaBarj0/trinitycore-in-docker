@@ -155,14 +155,14 @@ FROM package_install as nodejs_global_packages_install
 RUN npm install -g neovim npm-check-updates
 
 FROM nodejs_global_packages_install as install_locales
-ARG USER
 USER root
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
   && locale-gen
-USER $USER
 
 FROM install_locales
+ARG USER
 ARG USER_HOME_DIR
+USER $USER
 WORKDIR $USER_HOME_DIR
 COPY --chmod=755 scripts scripts
 VOLUME $USER_HOME_DIR/client_data
