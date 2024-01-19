@@ -9,6 +9,15 @@ ps:
 config:
 	@docker compose config
 
+build_databases:
+	@docker compose build databases
+
+build_servers_and_tools: build_builder
+	$(call build_servers_and_tools)
+
+build_worldserver_console:
+	@docker compose build worldserver_console
+
 build_debian_upgraded:
 	$(call build_debian_upgraded)
 
@@ -52,3 +61,6 @@ down_ide:
 
 shell_ide:
 	$(call shell_ide)
+
+rmi:
+	$(call rmi)

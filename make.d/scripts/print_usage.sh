@@ -8,25 +8,47 @@ make targets:
 
 Usage: make <target> where target is one of:
 
-- help:                      display this message.
-- prepare:                   This target prepares the environment before the
-                             build. Its purpose is to facilitate the user's
-                             life. It will setup then environment by creating
-                             'Makefile.env' and 'Makefile.maintainer.env' files
-                             from templates. It'll also, if needed,
-                             automatically fetch authentication and world
-                             server configuration files from the specified git
-                             repository URI setup in the environment and places
-                             them accordingly to setup environment variables in
-                             the 'Makefile.env' file. Note that even if it does
-                             a lot, you still have to provide some environment
-                             setup such as where to locate the WoW client. Read
-                             carefully each variable description to correctly
-                             setup your environment.
-- build:                     build docker images for databases,
-                             worldserver_console and builder in a first time.
-                             Then, build the authserver and worldserver images.
+- help:    display this message.
+- prepare: This target prepares the environment before the build. Its purpose
+           is to facilitate the user's life. It will setup then environment by
+           creating 'Makefile.env' and 'Makefile.maintainer.env' files from
+           templates. It'll also, if needed, automatically fetch authentication
+           and world server configuration files from the specified git
+           repository URI setup in the environment and places them accordingly
+           to setup environment variables in the 'Makefile.env' file. Note that
+           even if it does a lot, you still have to provide some environment
+           setup such as where to locate the WoW client. Read carefully each
+           variable description to correctly setup your environment.
+- build:   build docker images for databases, worldserver_console and builder
+           in a first time. Then, build the authserver and worldserver images.
+- up:      Make TrinityCore servers up and running.
+- down:    shutdown TrinityCore servers, destroys containers.
+- exec:    Execute a worldserver command using the 'worldserver_console'
+           service. You must use the 'cmd' variable to specify the worldserver
+           command to execute. Example: make exec cmd='server info'
+EOF
+
+if ! [ $1 -eq 0 ]; then
+  cat << EOF
+- config:                    Use this target to check the 'docker-compose.yml'
+                             configuration. It is the same thing as running
+                             'docker compose config' except that it will
+                             evaluate all variables defined in the 'Makefile'.
+                             If the configuration is incorrect, a diagnastic
+                             will be displayed to help you spot the culprit. If
+                             the configuration is correct, the entire
+                             'docker-compose.yml' file will be evaluated.
+- ps:                        this target show docker container that are
+                             currently running in this compose project.
+- build_builder:             build the builder meta builder service image. See
+- debug_build_builder:       debug the build of the builder service image.
+                             this one like a kind of bootstrap service that is
+                             responsible to build each TrinityCore servers.
 - build_databases:           build the databases service docker image.
+- debug_build_databases:     debug the build of the databases service docker
+                             image. If something goes wrong while the databases
+                             service image is building, a debug container will
+                             be spawned to help you troubleshoot the issue.
 - build_servers_and_tools:   Build the actual server docker images. It relies
                              on the 'build_builder' make target. This step can
                              be very long as it may generate client data such
@@ -36,58 +58,30 @@ Usage: make <target> where target is one of:
                              service. This service allow a user to issue
                              command to be executed by the worldserver remotely
                              in a separate container.
-- up:                        Make TrinityCore servers up and running.
-- down:                      shutdown TrinityCore servers, destroys containers.
-- exec:                      Execute a worldserver command using the
-                             'worldserver_console' service. You must use the
-                             'cmd' variable to specify the worldserver command
-                             to execute.
-                             Example: make exec cmd='server info'
-EOF
-
-if ! [ $1 -eq 0 ]; then
-  cat << EOF
-- ps:                    this target show docker container that
-                         are currently running in this compose project.
-- ide:                   A shortcut target that runs build_ide, up_ide and
-                         shell_ide targets.
-- build_ide:             Build the 'ide' service. It is a docker image that
-                         contains everything that is needed to contribute to
-                         TrinityCore project. Development tools of all sort,
-                         utilities, everything you need will be in this image
-                         for you to work in a completely integrated environment
-                         within a docker container. The image will also expose
-                         docker-in-docker capabilities to ease test
-                         deployments.
-- up_ide:                Spin up the 'ide service' in background. Requires the
-                         'ide' service docker image is built beforehand (see
-- down_ide:              Shutdown the 'ide' service and remove the stopped
-                         container.
-                         the 'build_ide' target)
-- shell_ide:             Attach to a running 'ide' service that is running in
-                         background. Requires the service to run beforehand
-                         (see the 'up_ide' target)
-- config:                Use this target to check the 'docker-compose.yml'
-                         configuration. It is the same thing as running 'docker
-                         compose config' except that it will evaluate all
-                         variables defined in the 'Makefile'. If the
-                         configuration is incorrect, a diagnastic will be
-                         displayed to help you spot the culprit. If the
-                         configuration is correct, the entire
-                         'docker-compose.yml' file will be evaluated.
-- build_builder:         build the builder meta builder service image. See this
-                         one like a kind of bootstrap service that is
-                         responsible to build each TrinityCore servers.
-- debug_build_databases: debug the build of the databases service docker image.
-                         If something goes wrong while the databases service
-                         image is building, a debug container will be spawned
-                         to help you troubleshoot the issue.
-- debug_build_builder:   debug the build of the builder service image.
-- rmi:                   This target is designed to remove all images of this
-                         project. It will remove images that belong to both
-                         this compose project and the namespace you setup in
-                         environment (See the Makefile.maintainer.env,
-                         NAMESPACE and COMPOSE_PROJECT environment variables)
+- build_ide:                 Build the 'ide' service. It is a docker image that
+                             contains everything that is needed to contribute
+                             to TrinityCore project. Development tools of all
+                             sort, utilities, everything you need will be in
+                             this image for you to work in a completely
+                             integrated environment within a docker container.
+                             The image will also expose docker-in-docker
+                             capabilities to ease test deployments.
+- up_ide:                    Spin up the 'ide service' in background. Requires
+                             the 'ide' service docker image is built beforehand
+                             (see the 'build_ide' target)
+- shell_ide:                 Attach to a running 'ide' service that is running
+                             in background. Requires the service to run
+                             beforehand (see the 'up_ide' target)
+- ide:                       A shortcut target that runs build_ide, up_ide and
+- down_ide:                  Shutdown the 'ide' service and remove the stopped
+                             container. the 'build_ide' target)
+                             shell_ide targets.
+- rmi:                       This target is designed to remove all images of
+                             this project. It will remove images that belong to
+                             both this compose project and the namespace you
+                             setup in environment (See the
+                             Makefile.maintainer.env, NAMESPACE and
+                             COMPOSE_PROJECT environment variables)
 EOF
 fi
 
@@ -107,6 +101,7 @@ Make sure to have your own copy of the 'Makefile.env' file. You can create your
 own from the 'Makefile.env.dist' file located in the 'make.d/env_file'
 directory and set all variables according your need and your environment. Each
 variables are documented.
+To create a copy easily, issue the 'make prepare' command.
 
 The same instructions apply for the 'Makefile.maintainer.env' file. However, as
 this file is designed to be modified by maintainers of the
@@ -115,6 +110,7 @@ of the resulting 'Makefile.maintainer.env' file.
 
 Both 'Makefile.env' and 'Makefile.maintainer.env' are expected at the root
 directory of this repository. They are git-ignored.
+'make prepare' creates a copy at the right place.
 
 ********************************************************************************
 
@@ -133,9 +129,14 @@ There are some variables you can use to customize the bahvior of some targets:
                    explicitely the maintainer mode using this variable, you
                    have nonetheless access to all targets.
                    Example: make help maintainer_mode=1
-- cmd:             This variable is useful only for the 'exec' target and specify the
-                   command to execute with the 'worldserver_console' service.
+- cmd:             This variable is useful only for the 'exec' target and
+                   specify the command to execute with the
+                   'worldserver_console' service.
                    Example: make exec cmd='server info'
+                   If you issue the 'make exec' without specifying an explicit
+                   value into the 'cmd' variable, the 'server info' command
+                   will be executed.
+                   Example: make exec
 
 ********************************************************************************
 
@@ -157,11 +158,10 @@ In the 'Makefile.env' file, set the:
 - AUTHSERVER_CONF_PATH
 These variable have to contain either an absolute path or a relative path to
 the 'Makefile' file.
-They configure the 'worldserver' and the 'authserver' accordingly.
+They configure 'worldserver' and 'authserver' services accordingly.
 Note that some part of the configuration are susceptible to be changed when
 containers start, as specified in variable descriptions in the
 'Makefile.env.dist' file.
 
 ********************************************************************************
 EOF
-
