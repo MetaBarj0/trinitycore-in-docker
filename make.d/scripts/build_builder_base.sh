@@ -32,6 +32,7 @@ build_command="$(cat << EOF
 docker build \
     ${platform_arg} \
     ${build_arg_arg} \
+    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NAMESPACE=${NAMESPACE} \
     --build-arg USE_DOCKER_DESKTOP=${USE_DOCKER_DESKTOP} \
     -f docker.d/common/builderbase.Dockerfile \

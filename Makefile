@@ -36,3 +36,6 @@ down: down_ide
 exec: cmd = 'server info'
 exec:
 	$(call exec,$(cmd))
+
+rmi:
+	$(call rmi)

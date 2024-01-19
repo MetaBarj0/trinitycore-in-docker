@@ -56,3 +56,7 @@ endef
 define shell_ide
   @. make.d/scripts/shell_ide.sh
 endef
+
+define rmi
+  @. make.d/scripts/rmi.sh
+endef

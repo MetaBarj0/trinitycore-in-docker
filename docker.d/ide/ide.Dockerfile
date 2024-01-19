@@ -161,6 +161,8 @@ RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
   && locale-gen
 
 FROM install_locales
+ARG COMPOSE_PROJECT_NAME
+ARG NAMESPACE
 ARG USER
 ARG USER_HOME_DIR
 USER $USER
@@ -171,3 +173,5 @@ VOLUME $USER_HOME_DIR/ide_storage
 VOLUME $USER_HOME_DIR/.npm-prefix
 VOLUME $USER_HOME_DIR/.npm-cache
 VOLUME $USER_HOME_DIR/.local
+LABEL project=$COMPOSE_PROJECT_NAME
+LABEL namespace=$NAMESPACE

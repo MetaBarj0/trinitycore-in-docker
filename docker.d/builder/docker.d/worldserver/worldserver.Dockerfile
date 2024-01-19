@@ -30,6 +30,8 @@ COPY \
 COPY worldserver.conf etc/
 
 FROM install_worldserver
+ARG COMPOSE_PROJECT_NAME
+ARG NAMESPACE
 USER trinitycore
 WORKDIR /home/trinitycore
 COPY \
@@ -45,3 +47,5 @@ RUN mkdir trinitycore/data
 VOLUME /home/trinitycore/trinitycore/data
 RUN mkdir trinitycore/TrinityCore
 VOLUME /home/trinitycore/TrinityCore
+LABEL project=$COMPOSE_PROJECT_NAME
+LABEL namespace=$NAMESPACE

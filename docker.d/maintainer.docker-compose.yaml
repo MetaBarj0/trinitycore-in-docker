@@ -3,6 +3,7 @@ services:
   builder:
     build:
       args:
+        - COMPOSE_PROJECT_NAME
         - NAMESPACE
         - REPOSITORY_URI
         - REPOSITORY_REV
@@ -15,14 +16,15 @@ services:
         - ${NAMESPACE}.builder:${BUILDER_VERSION}
     entrypoint: scripts/builder-entrypoint.sh
     environment:
-      - BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
       - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
-      - WORLDSERVER_IMAGE_TAG=${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
-      - USE_CACHED_CLIENT_DATA
-      - NAMESPACE
-      - WORLDSERVER_CONF_PATH
+      - BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
       - CLIENT_PATH
+      - COMPOSE_PROJECT_NAME
+      - NAMESPACE
+      - USE_CACHED_CLIENT_DATA
       - USER_HOME_DIR
+      - WORLDSERVER_CONF_PATH
+      - WORLDSERVER_IMAGE_TAG=${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
     init: true
     network_mode: none
     profiles:
@@ -45,6 +47,7 @@ services:
   ide:
     build:
       args:
+        - COMPOSE_PROJECT_NAME
         - IDE_NEOVIM_REV
         - NAMESPACE
         - NODEJS_VER

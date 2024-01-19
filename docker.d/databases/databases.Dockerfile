@@ -1,4 +1,6 @@
 FROM alpine:edge
+ARG COMPOSE_PROJECT_NAME
+ARG NAMESPACE
 RUN \
   --mount=type=cache,target=/var/cache/apk,sharing=locked \
   apk update
@@ -10,3 +12,5 @@ COPY diffs ./diffs/
 COPY --chmod=755 scripts/ ./scripts/
 VOLUME /var/lib/mysql
 VOLUME /root/TrinityCore
+LABEL project=$COMPOSE_PROJECT_NAME
+LABEL namespace=$NAMESPACE

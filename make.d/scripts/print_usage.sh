@@ -83,6 +83,11 @@ if ! [ $1 -eq 0 ]; then
                          image is building, a debug container will be spawned
                          to help you troubleshoot the issue.
 - debug_build_builder:   debug the build of the builder service image.
+- rmi:                   This target is designed to remove all images of this
+                         project. It will remove images that belong to both
+                         this compose project and the namespace you setup in
+                         environment (See the Makefile.maintainer.env,
+                         NAMESPACE and COMPOSE_PROJECT environment variables)
 EOF
 fi
 

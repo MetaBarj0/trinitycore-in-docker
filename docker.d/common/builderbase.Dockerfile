@@ -31,10 +31,14 @@ RUN apt-get install -y --no-install-recommends \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 FROM install_docker
+ARG COMPOSE_PROJECT_NAME
 ARG DOCKER_GID
 ARG DOCKER_UID
+ARG NAMESPACE
 ARG USE_DOCKER_DESKTOP
 ARG USER_HOME_DIR
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_GID ] && groupmod -g $DOCKER_GID docker
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || useradd -d $USER_HOME_DIR -m -s /bin/bash -g docker docker
 RUN [ $USE_DOCKER_DESKTOP -eq 1 ] && exit 0 || [ ! -z $DOCKER_UID ] && usermod -u $DOCKER_UID docker
+LABEL project=$COMPOSE_PROJECT_NAME
+LABEL namespace=$NAMESPACE

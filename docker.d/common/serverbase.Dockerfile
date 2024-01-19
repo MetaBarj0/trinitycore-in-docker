@@ -16,5 +16,9 @@ RUN \
   mariadb-client
 
 FROM debian_upgraded
+ARG COMPOSE_PROJECT_NAME
+ARG NAMESPACE
 RUN groupadd -g 2000 trinitycore
 RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
+LABEL project=$COMPOSE_PROJECT_NAME
+LABEL namespace=$NAMESPACE

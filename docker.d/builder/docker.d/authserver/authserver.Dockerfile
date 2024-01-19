@@ -21,6 +21,8 @@ COPY \
 COPY authserver.conf etc/
 
 FROM install_authserver
+ARG COMPOSE_PROJECT_NAME
+ARG NAMESPACE
 USER trinitycore
 WORKDIR /home/trinitycore
 COPY \
@@ -29,4 +31,5 @@ COPY \
   scripts/ ./scripts/
 RUN mkdir trinitycore/TrinityCore
 VOLUME /home/trinitycore/TrinityCore
-
+LABEL project=$COMPOSE_PROJECT_NAME
+LABEL namespace=$NAMESPACE

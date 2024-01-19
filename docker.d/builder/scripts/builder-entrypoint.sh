@@ -26,6 +26,7 @@ prepare_authserver_configuration() {
 build_authserver_image() {
   docker build \
     --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} \
+    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/authserver/authserver.Dockerfile \
     -t ${AUTHSERVER_IMAGE_TAG} \
@@ -234,6 +235,7 @@ prepare_worldserver_configuration() {
 build_worldserver_image() {
   docker build \
     --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} \
+    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NAMESPACE=${NAMESPACE} \
     -f docker.d/worldserver/worldserver.Dockerfile \
     -t ${WORLDSERVER_IMAGE_TAG} \

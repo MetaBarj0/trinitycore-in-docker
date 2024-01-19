@@ -4,6 +4,9 @@ version: '3'
 services:
   databases:
     build:
+      args:
+        - COMPOSE_PROJECT_NAME
+        - NAMESPACE
       context: ./docker.d/databases
       dockerfile: databases.Dockerfile
       tags:
@@ -61,6 +64,9 @@ services:
         target: /home/trinitycore/TrinityCore
   worldserver_console:
     build:
+      args:
+        - COMPOSE_PROJECT_NAME
+        - NAMESPACE
       context: ./docker.d/worldserver_console
       dockerfile: worldserver_console.Dockerfile
       tags:

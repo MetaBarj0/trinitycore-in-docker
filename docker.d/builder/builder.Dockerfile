@@ -1,4 +1,3 @@
-# TODO: label all produced image for easy filtering
 ARG NAMESPACE
 
 FROM $NAMESPACE.builderbase as clone_repository
@@ -46,6 +45,8 @@ COPY --from=clone_repository /home/trinitycore/TrinityCore/ TrinityCore/
 COPY --from=cmake_install /home/trinitycore/trinitycore/ trinitycore/
 
 FROM install
+ARG NAMESPACE
+ARG COMPOSE_PROJECT_NAME
 ARG USER
 ARG USER_HOME_DIR
 USER $USER
@@ -63,3 +64,5 @@ COPY \
 COPY \
   --chown=$USER:$USER \
   authserver.conf trinitycore_configurations/
+LABEL project=$COMPOSE_PROJECT_NAME
+LABEL namespace=$NAMESPACE
