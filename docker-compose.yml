@@ -7,7 +7,7 @@ services:
       context: ./docker.d/databases
       dockerfile: databases.Dockerfile
       tags:
-        - ${NAMESPACE}.trinitycore.databases:${DATABASES_VERSION}
+        - ${NAMESPACE}.databases:${DATABASES_VERSION}
     entrypoint: /root/scripts/databases-entrypoint.sh
     healthcheck:
       test: ['CMD-SHELL', '/root/scripts/healthcheck.sh']
@@ -37,7 +37,7 @@ services:
       - TDB_FULL_URI
       - TDB_FULL_ARCHIVE_FILE_NAME
       - TDB_FULL_SQL_FILE_NAME
-    image: ${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
+    image: ${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
     init: true
     networks:
       inside:
@@ -64,7 +64,7 @@ services:
       context: ./docker.d/worldserver_console
       dockerfile: worldserver_console.Dockerfile
       tags:
-        - ${NAMESPACE}.trinitycore.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}
+        - ${NAMESPACE}.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}
     depends_on:
       - worldserver
     entrypoint: /home/worldserver_console/scripts/worldserver_console-entrypoint.sh
@@ -87,7 +87,7 @@ services:
       databases:
         condition: service_healthy
     entrypoint: /home/trinitycore/scripts/authserver-entrypoint.sh
-    image: ${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
+    image: ${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
     init: true
     networks:
       inside:

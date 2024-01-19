@@ -1,3 +1,4 @@
+# TODO: label all produced image for easy filtering
 ARG NAMESPACE
 
 FROM $NAMESPACE.builderbase as clone_repository

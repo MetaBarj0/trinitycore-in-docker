@@ -12,12 +12,12 @@ services:
       context: builder
       dockerfile: builder.Dockerfile
       tags:
-        - ${NAMESPACE}.trinitycore.builder:${BUILDER_VERSION}
+        - ${NAMESPACE}.builder:${BUILDER_VERSION}
     entrypoint: scripts/builder-entrypoint.sh
     environment:
-      - BUILDER_IMAGE=${NAMESPACE}.trinitycore.builder:${BUILDER_VERSION}
-      - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.authserver:${AUTHSERVER_VERSION}
-      - WORLDSERVER_IMAGE_TAG=${NAMESPACE}.trinitycore.worldserver:${WORLDSERVER_VERSION}
+      - BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
+      - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
+      - WORLDSERVER_IMAGE_TAG=${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
       - USE_CACHED_CLIENT_DATA
       - NAMESPACE
       - WORLDSERVER_CONF_PATH
@@ -53,7 +53,7 @@ services:
       context: ide
       dockerfile: ide.Dockerfile
       tags:
-        - ${NAMESPACE}.trinitycore.ide:${IDE_VERSION}
+        - ${NAMESPACE}.ide:${IDE_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-ide-container
     entrypoint: scripts/ide-entrypoint.sh
     environment:

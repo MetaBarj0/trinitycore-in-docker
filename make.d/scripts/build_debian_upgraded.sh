@@ -6,12 +6,12 @@ if ! [ -z "$TARGET_PLATFORM" ];then
   docker build \
     --platform $TARGET_PLATFORM \
     -f docker.d/common/debian-12-slim-upgraded.Dockerfile \
-    -t debian"${platform_tag}":12-slim-upgraded \
+    -t "${NAMESPACE}".debian"${platform_tag}":12-slim-upgraded \
     docker.d/common
 else
   docker build \
     -f docker.d/common/debian-12-slim-upgraded.Dockerfile \
-    -t debian:12-slim-upgraded \
+    -t "${NAMESPACE}".debian:12-slim-upgraded \
     docker.d/common
 fi
 
