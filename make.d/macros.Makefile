@@ -8,6 +8,7 @@ define exec
 endef
 
 define build_builder
+  @. make.d/scripts/copy_servers_conf_in_build_context.sh
   @. make.d/scripts/build_builder.sh
 endef
 
