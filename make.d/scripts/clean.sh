@@ -13,3 +13,5 @@ while read image_id; do
 done << EOF
 ${image_ids}
 EOF
+
+docker volume rm ${COMPOSE_PROJECT_NAME}_trinitycore_shallow_clone

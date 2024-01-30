@@ -1,5 +1,5 @@
-define print_usage
-  @. make.d/scripts/print_usage.sh $(maintainer_mode)
+define help
+  @. make.d/scripts/help.sh $(maintainer_mode)
 endef
 
 define exec
@@ -58,6 +58,6 @@ define shell_ide
   @. make.d/scripts/shell_ide.sh
 endef
 
-define rmi
-  @. make.d/scripts/rmi.sh
+define clean
+  @. make.d/scripts/clean.sh
 endef

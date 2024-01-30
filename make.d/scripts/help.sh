@@ -73,15 +73,19 @@ if ! [ $1 -eq 0 ]; then
                              in background. Requires the service to run
                              beforehand (see the 'up_ide' target)
 - ide:                       A shortcut target that runs build_ide, up_ide and
-- down_ide:                  Shutdown the 'ide' service and remove the stopped
-                             container. the 'build_ide' target)
                              shell_ide targets.
-- rmi:                       This target is designed to remove all images of
+- down_ide:                  Shutdown the 'ide' service and remove the stopped
+                             container.
+- clean:                     This target is designed to remove all images of
                              this project. It will remove images that belong to
                              both this compose project and the namespace you
                              setup in environment (See the
                              Makefile.maintainer.env, NAMESPACE and
-                             COMPOSE_PROJECT environment variables)
+                             COMPOSE_PROJECT environment variables). Besides,
+                             it also remove the volume containing the shallow
+                             clone of TrinityCore git repository.
+- rebuild:                   A shortcut target that runs clean and build
+                             targets.
 EOF
 fi
 

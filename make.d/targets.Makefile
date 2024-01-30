@@ -62,5 +62,7 @@ down_ide:
 shell_ide:
 	$(call shell_ide)
 
-rmi:
-	$(call rmi)
+clean:
+	$(call clean)
+
+rebuild: clean build

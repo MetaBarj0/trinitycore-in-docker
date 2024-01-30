@@ -11,7 +11,7 @@ export
 
 help: maintainer_mode = 0
 help:
-	$(call print_usage)
+	$(call help)
 
 prepare: Makefile.env Makefile.maintainer.env
 	$(call prepare)
