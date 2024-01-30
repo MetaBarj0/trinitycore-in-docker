@@ -57,7 +57,7 @@ up_ide:
 	$(call up_ide)
 
 down_ide:
-	$(call down_ide)
+	@docker compose down ide
 
 shell_ide:
 	$(call shell_ide)

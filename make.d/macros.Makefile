@@ -50,10 +50,6 @@ define up_ide
   @. make.d/scripts/up_ide.sh
 endef
 
-define down_ide
-  @. make.d/scripts/down_ide.sh
-endef
-
 define shell_ide
   @. make.d/scripts/shell_ide.sh
 endef
