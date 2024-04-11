@@ -57,3 +57,7 @@ endef
 define clean
   @. make.d/scripts/clean.sh
 endef
+
+define down
+  @. make.d/scripts/down.sh
+endef

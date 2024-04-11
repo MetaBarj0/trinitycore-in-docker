@@ -84,6 +84,12 @@ if ! [ $1 -eq 0 ]; then
                              COMPOSE_PROJECT environment variables). Besides,
                              it also remove the volume containing the shallow
                              clone of TrinityCore git repository.
+- nuke:                      Implies the 'clean' target. Does all the 'clean'
+                             target does. Moreover, it'll destroy all
+                             persistent volumes belonging to both this compose
+                             project and the namespace you defined (See the
+                             Makefile.maintainer.env, NAMESPACE and
+                             COMPOSE_PROJECT environment variables).
 - rebuild:                   A shortcut target that runs clean and build
                              targets.
 EOF

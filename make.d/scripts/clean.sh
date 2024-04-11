@@ -8,6 +8,10 @@ EOF
 
 image_ids=$(eval $image_ids_get_cmd)
 
+if [ -z "${image_ids}" ]; then
+  exit 0;
+fi
+
 while read image_id; do
   docker image rm -f ${image_id}
 done << EOF

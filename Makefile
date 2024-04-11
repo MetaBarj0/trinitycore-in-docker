@@ -22,7 +22,7 @@ up:
 	@docker compose up --detach
 
 down: down_ide
-	@docker compose down
+	$(call down)
 
 exec: cmd = 'server info'
 exec:

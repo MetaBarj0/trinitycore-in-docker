@@ -62,7 +62,10 @@ down_ide:
 shell_ide:
 	$(call shell_ide)
 
-clean:
+clean: down
 	$(call clean)
 
 rebuild: clean build
+
+nuke: remove_volumes=true
+nuke: clean
