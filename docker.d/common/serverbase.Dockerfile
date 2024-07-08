@@ -1,7 +1,7 @@
 ARG PLATFORM_TAG
 ARG NAMESPACE
 
-FROM $NAMESPACE.debian$PLATFORM_TAG:12-slim-upgraded as debian_upgraded
+FROM $NAMESPACE.debian$PLATFORM_TAG:12-slim-upgraded AS debian_upgraded
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \

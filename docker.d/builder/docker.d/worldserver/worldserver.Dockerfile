@@ -1,7 +1,7 @@
 ARG BUILDER_IMAGE
 ARG NAMESPACE
 
-FROM $NAMESPACE.serverbase as install_dependencies
+FROM $NAMESPACE.serverbase AS install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -12,9 +12,9 @@ RUN \
   apt-get install -y --no-install-recommends \
   libncurses6 libreadline8 ca-certificates wget p7zip
 
-FROM $BUILDER_IMAGE as builder
+FROM $BUILDER_IMAGE AS builder
 
-FROM install_dependencies as install_worldserver
+FROM install_dependencies AS install_worldserver
 USER trinitycore
 WORKDIR /home/trinitycore
 RUN mkdir -p trinitycore/bin trinitycore/etc

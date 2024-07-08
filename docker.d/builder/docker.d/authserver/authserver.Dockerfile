@@ -1,11 +1,11 @@
 ARG BUILDER_IMAGE
 ARG NAMESPACE
 
-FROM $NAMESPACE.serverbase as server_base
+FROM $NAMESPACE.serverbase AS server_base
 
-FROM $BUILDER_IMAGE as builder
+FROM $BUILDER_IMAGE AS builder
 
-FROM server_base as install_authserver
+FROM server_base AS install_authserver
 USER trinitycore
 WORKDIR /home/trinitycore
 RUN mkdir -p trinitycore/bin trinitycore/etc

@@ -1,7 +1,7 @@
 ARG NAMESPACE
 ARG PLATFORM_TAG
 
-FROM $NAMESPACE.serverbase$PLATFORM_TAG as install_prerequisites
+FROM $NAMESPACE.serverbase$PLATFORM_TAG AS install_prerequisites
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -12,7 +12,7 @@ RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-16 100
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-16 100
 RUN update-alternatives --install /usr/bin/ld ld /usr/bin/lld-16 100
 
-FROM install_prerequisites as install_docker
+FROM install_prerequisites AS install_docker
 USER root
 # docker installation for debian
 # see:

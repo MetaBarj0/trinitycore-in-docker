@@ -1,7 +1,7 @@
 ARG NAMESPACE
 ARG PLATFORM_TAG
 
-FROM $NAMESPACE.builderbase$PLATFORM_TAG as neovim_build
+FROM $NAMESPACE.builderbase$PLATFORM_TAG AS neovim_build
 ARG USER
 ARG USER_HOME_DIR
 ARG IDE_NEOVIM_REV
@@ -24,13 +24,13 @@ WORKDIR $USER_HOME_DIR/nvim-build/neovim
 RUN make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=$USER_HOME_DIR/nvim
 RUN make install
 
-FROM $NAMESPACE.builderbase$PLATFORM_TAG as neovim_install
+FROM $NAMESPACE.builderbase$PLATFORM_TAG AS neovim_install
 ARG USER_HOME_DIR
 COPY --from=neovim_build $USER_HOME_DIR/nvim $USER_HOME_DIR/.nvim
 ENV NVIM_INSTALL_DIR $USER_HOME_DIR/.nvim/
 ENV PATH=${PATH}:${NVIM_INSTALL_DIR}/bin
 
-FROM neovim_install as deno_install
+FROM neovim_install AS deno_install
 ARG USER
 ARG USER_HOME_DIR
 USER root
@@ -49,7 +49,7 @@ RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=$USER_HOME_
 ENV DENO_INSTALL_DIR $USER_HOME_DIR/.deno
 ENV PATH ${PATH}:${DENO_INSTALL_DIR}/bin
 
-FROM deno_install as nodejs_extract
+FROM deno_install AS nodejs_extract
 ARG NODEJS_VER
 ARG USER
 ARG USER_HOME_DIR
@@ -68,7 +68,7 @@ WORKDIR $USER_HOME_DIR
 RUN wget https://nodejs.org/dist/$NODEJS_VER/node-$NODEJS_VER-linux-x64.tar.xz
 RUN tar -xf node-$NODEJS_VER-linux-x64.tar.xz
 
-FROM deno_install as nodejs_install
+FROM deno_install AS nodejs_install
 ARG NODEJS_VER
 ARG USER_HOME_DIR
 RUN mkdir $USER_HOME_DIR/.nodejs
@@ -77,7 +77,7 @@ COPY --from=nodejs_extract $USER_HOME_DIR/node-$NODEJS_VER-linux-x64/ .
 ENV NODEJS_INSTALL_DIR $USER_HOME_DIR/.nodejs
 ENV PATH ${PATH}:${NODEJS_INSTALL_DIR}/bin
 
-FROM nodejs_install as uctags_build
+FROM nodejs_install AS uctags_build
 ARG USER
 ARG USER_HOME_DIR
 USER root
@@ -102,19 +102,19 @@ RUN ./configure --prefix=$USER_HOME_DIR/.ctags
 RUN make -j $(nproc)
 RUN make install
 
-FROM nodejs_install as uctags_install
+FROM nodejs_install AS uctags_install
 ARG USER_HOME_DIR
 COPY --from=uctags_build $USER_HOME_DIR/.ctags/ $USER_HOME_DIR/.ctags/
 ENV CTAGS_INSTALL_DIR $USER_HOME_DIR/.ctags
 ENV PATH ${PATH}:${CTAGS_INSTALL_DIR}/bin
 
-FROM uctags_install as environments_clone
+FROM uctags_install AS environments_clone
 ARG USER_HOME_DIR
 WORKDIR $USER_HOME_DIR
 RUN git clone --branch master --depth 1 \
   https://github.com/MetaBarj0/environments.git
 
-FROM uctags_install as environments_configuration
+FROM uctags_install AS environments_configuration
 ARG USER_HOME_DIR
 WORKDIR $USER_HOME_DIR
 RUN mkdir .bashd
@@ -136,7 +136,7 @@ COPY --from=environments_clone \
 COPY --from=environments_clone \
   $USER_HOME_DIR/environments/common/tmux/USER_HOME_DIR/.init/tmux/tmux.conf ./.init/tmux/
 
-FROM environments_configuration as package_install
+FROM environments_configuration AS package_install
 ARG USER
 ARG USER_HOME_DIR
 USER root
@@ -152,10 +152,10 @@ RUN \
 RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-16 100
 USER $USER
 
-FROM package_install as nodejs_global_packages_install
+FROM package_install AS nodejs_global_packages_install
 RUN npm install -g neovim npm-check-updates
 
-FROM nodejs_global_packages_install as install_locales
+FROM nodejs_global_packages_install AS install_locales
 USER root
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
   && locale-gen

@@ -1,6 +1,6 @@
 ARG NAMESPACE
 
-FROM $NAMESPACE.builderbase as clone_repository
+FROM $NAMESPACE.builderbase AS clone_repository
 ARG REPOSITORY_URI
 ARG REPOSITORY_REV
 ARG REPOSITORY_SHA
@@ -11,7 +11,7 @@ RUN git clone \
   $REPOSITORY_URI TrinityCore
 RUN cd TrinityCore && [ ! -z $REPOSITORY_SHA ] && git checkout $REPOSITORY_SHA && cd - || cd -
 
-FROM clone_repository as configure_build
+FROM clone_repository AS configure_build
 USER trinitycore
 WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
@@ -24,21 +24,21 @@ RUN \
   -DWITHOUT_METRICS=ON \
   ..
 
-FROM configure_build as cmake_build
+FROM configure_build AS cmake_build
 USER trinitycore
 WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
   --mount=type=cache,target=/home/trinitycore/TrinityCore/build,uid=2000,gid=2000 \
   cmake --build .
 
-FROM cmake_build as cmake_install
+FROM cmake_build AS cmake_install
 USER trinitycore
 WORKDIR /home/trinitycore/TrinityCore/build
 RUN \
   --mount=type=cache,target=/home/trinitycore/TrinityCore/build,uid=2000,gid=2000 \
   cmake --build . --target install
 
-FROM clone_repository as install
+FROM clone_repository AS install
 USER trinitycore
 WORKDIR /home/trinitycore
 COPY --from=clone_repository /home/trinitycore/TrinityCore/ TrinityCore/

@@ -1,8 +1,8 @@
-FROM alpine:edge as install_php_for_soap
+FROM alpine:edge AS install_php_for_soap
 RUN apk update
 RUN apk add php83-litespeed php83-soap
 
-FROM install_php_for_soap as create_user
+FROM install_php_for_soap AS create_user
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
 RUN adduser -D worldserver_console
