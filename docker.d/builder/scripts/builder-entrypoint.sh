@@ -140,7 +140,7 @@ store_vmaps() {
 }
 
 generate_vmaps() {
-  if ! [ $USE_CACHED_CLIENT_DATA ]; then
+  if ! [ $USE_CACHED_CLIENT_DATA -eq 1 ]; then
     regenerate_vmaps
   fi
 
@@ -190,7 +190,7 @@ store_mmaps() {
 }
 
 generate_mmaps() {
-  if ! [ $USE_CACHED_CLIENT_DATA ]; then
+  if ! [ $USE_CACHED_CLIENT_DATA -eq 1 ]; then
     regenerate_mmaps
   fi
 
