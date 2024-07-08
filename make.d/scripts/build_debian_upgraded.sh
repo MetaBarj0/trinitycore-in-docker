@@ -3,6 +3,7 @@
 if ! [ -z "$TARGET_PLATFORM" ];then
   platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
 
+# TODO: replace '-' with '_'
   docker build \
     --platform $TARGET_PLATFORM \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \

@@ -1,6 +1,5 @@
 include:
   - docker.d/maintainer.docker-compose.yaml
-version: '3'
 services:
   databases:
     build:
