@@ -50,6 +50,7 @@ Issue `make help` and follow the guide.
 Issue `make help maintainer_mode=1` to see usage with supplementary debugging
 and inspection targets.
 
+**TODO: replace '-' by '_' in project name and variables...**
 The maintainer mode is designed for... maintainers of both the
 `trinitycore-in-docker` project and `TrinityCore` project.
 
@@ -68,6 +69,7 @@ Using trinitycore in docker requires few things:
 
 ### make.d/env_file/Makefile.env: No such file or directory
 
+**TODO: a make init target, interactive, to setup .env file**
 Before attempting a build, you can just issue the `make prepare` command. Once
 this target job is done, follow the guide!
 
@@ -76,7 +78,7 @@ this target job is done, follow the guide!
 Be sure environment variables are set in your `Makefile.env` file.
 This specific message error is here to say that you did not specify a valid
 path to the `World of Warcraft Wrath of the Lich king` game client.
-Be sure environment variables are set in your `Makefile..maintainer.env` file.
+Be sure environment variables are set in your `Makefile.maintainer.env` file.
 Default values should do the job if you begin to work with this repo.
 If you think you screwed up (like me sometimes) with variables, just delete the
 `Makefile.maintainer.env` file and issue the `make prepare` command to
