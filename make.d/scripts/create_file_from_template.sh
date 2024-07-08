@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 file="$1"
 template="$2"
 

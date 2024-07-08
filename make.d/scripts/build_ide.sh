@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 build_arg_arg=
 
 if ! [ -z "$TARGET_PLATFORM" ];then

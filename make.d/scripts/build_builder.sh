@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   docker compose build \
     --build-arg USER=docker \

@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 check_file_paths() {
   if [ -z "${AUTHSERVER_CONF_PATH}" ] || [ -z "${WORLDSERVER_CONF_PATH}" ]; then
     cat << EOF >&2

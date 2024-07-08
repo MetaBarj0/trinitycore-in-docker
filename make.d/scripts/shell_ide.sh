@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   env_args="$(cat << EOF
   --env USER_GID=$(getent group docker | cut -d : -f 3) \

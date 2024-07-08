@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 cat << EOF
 Preparation phase is done.
 You need to manual setup some stuff if not already done:

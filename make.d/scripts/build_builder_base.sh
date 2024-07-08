@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 platform_arg=
 build_arg_arg=
 platform_tag=

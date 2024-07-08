@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 if [ "${remove_volumes}" = "true" ]; then
   docker compose down --volumes
   docker compose down ide --volumes

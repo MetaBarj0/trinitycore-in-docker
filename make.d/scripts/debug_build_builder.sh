@@ -1,5 +1,3 @@
-#!/bin/env sh
-
 export BUILDX_EXPERIMENTAL=1
 
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
