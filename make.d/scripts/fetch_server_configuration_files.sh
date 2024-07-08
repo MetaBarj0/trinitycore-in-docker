@@ -2,10 +2,12 @@
 
 check_file_paths() {
   if [ -z "${AUTHSERVER_CONF_PATH}" ] || [ -z "${WORLDSERVER_CONF_PATH}" ]; then
-    echo 'FATAL' >&2
-    echo 'AUTHSERVER_CONF_PATH variable must be set' >&2
-    echo 'WORLDSERVER_CONF_PATH variable must be set' >&2
-    echo 'Edit your Makefile.env file to set them' >&2
+    cat << EOF >&2
+    FATAL
+    AUTHSERVER_CONF_PATH variable must be set
+    WORLDSERVER_CONF_PATH variable must be set
+    Edit your Makefile.env file to set them
+EOF
 
     exit 1
   fi
