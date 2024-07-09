@@ -170,10 +170,22 @@ ARG USER_HOME_DIR
 USER $USER
 WORKDIR $USER_HOME_DIR
 COPY --chmod=755 scripts scripts
+RUN mkdir -p \
+  $USER_HOME_DIR/client_data/ \
+  $USER_HOME_DIR/ide_storage/ \
+  $USER_HOME_DIR/.npm-prefix/ \
+  $USER_HOME_DIR/.npm-cache/ \
+  $USER_HOME_DIR/.local/
 VOLUME $USER_HOME_DIR/client_data
 VOLUME $USER_HOME_DIR/ide_storage
 VOLUME $USER_HOME_DIR/.npm-prefix
 VOLUME $USER_HOME_DIR/.npm-cache
 VOLUME $USER_HOME_DIR/.local
+RUN touch \
+  $USER_HOME_DIR/client_data/.volume \
+  $USER_HOME_DIR/ide_storage/.volume \
+  $USER_HOME_DIR/.npm-prefix/.volume \
+  $USER_HOME_DIR/.npm-cache/.volume \
+  $USER_HOME_DIR/.local/.volume
 LABEL project=$COMPOSE_PROJECT_NAME
 LABEL namespace=$NAMESPACE
