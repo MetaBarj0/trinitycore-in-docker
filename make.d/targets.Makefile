@@ -69,3 +69,6 @@ rebuild: clean build
 
 nuke: remove_volumes=true
 nuke: clean
+
+logs:
+	@docker compose logs --follow

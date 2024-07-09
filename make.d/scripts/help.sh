@@ -90,6 +90,8 @@ if ! [ $1 -eq 0 ]; then
                              COMPOSE_PROJECT environment variables).
 - rebuild:                   A shortcut target that runs clean and build
                              targets.
+- logs:                      Display logs of all running services and follow
+                             them.
 EOF
 fi
 
