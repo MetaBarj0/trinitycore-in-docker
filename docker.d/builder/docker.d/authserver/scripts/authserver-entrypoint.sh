@@ -20,17 +20,3 @@ main() {
 }
 
 main
-
-trap shutdown SIGTERM
-
-kill_authserver_daemon() {
-  echo Terminating gracefully authserver service...
-
-  kill %1
-}
-
-shutdown() {
-  kill_authserver_daemon
-
-  exit 0
-}

@@ -75,17 +75,3 @@ main() {
 }
 
 main
-
-trap shutdown SIGTERM
-
-kill_worldserver_daemon() {
-  echo Terminating gracefully worldserver service...
-
-  kill %1
-}
-
-shutdown() {
-  kill_worldserver_daemon
-
-  exit 0
-}
