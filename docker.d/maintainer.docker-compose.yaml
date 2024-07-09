@@ -69,6 +69,7 @@ services:
       - REPOSITORY_REV
       - REPOSITORY_SHA
       - REPOSITORY_URI
+      - TERM=xterm-256color
       - USER_HOME_DIR
     hostname: ide
     init: true
