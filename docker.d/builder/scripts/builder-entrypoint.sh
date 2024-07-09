@@ -243,6 +243,7 @@ build_worldserver_image() {
 }
 
 create_world_server_image() {
+  # TODO: copy client on the running container to ensure maximum performances
   generate_client_data
   store_trinitycore_sources
   prepare_worldserver_configuration

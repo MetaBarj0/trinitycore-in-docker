@@ -44,11 +44,13 @@ To test and play with a TrinityCore server, hey it's a fun project after all.
 
 Using make, straightforward.
 Issue `make help` and follow the guide.
+Should something be unclear, please, fill a pull request and I'll be happy to
+work your enhancement ideas!
 
 ## Maintainer mode
 
 Issue `make help maintainer_mode=1` to see usage with supplementary debugging
-and inspection targets.
+and inspection targets. Not intended for faint of heart!
 
 **TODO: replace '-' by '_' in project name and variables...**
 The maintainer mode is designed for... maintainers of both the
@@ -67,17 +69,21 @@ Using trinitycore in docker requires few things:
 - a recent docker install
 - docker compose and docker buildx plugins
 
+Normally, all those things are handled by this project and you shouldn't have
+any issue with those topics unless a major breaking change somewhere...
+
 ### make.d/env_file/Makefile.env: No such file or directory
 
 **TODO: a make init target, interactive, to setup .env file**
-Before attempting a build, you can just issue the `make prepare` command. Once
-this target job is done, follow the guide!
+Before attempting a build, you must issue the `make prepare` command. Once this
+target job is done, follow the guide!
 
 ### invalid mount config for type "bind": field Source must not be empty
 
 Be sure environment variables are set in your `Makefile.env` file.
 This specific message error is here to say that you did not specify a valid
 path to the `World of Warcraft Wrath of the Lich king` game client.
+
 Be sure environment variables are set in your `Makefile.maintainer.env` file.
 Default values should do the job if you begin to work with this repo.
 If you think you screwed up (like me sometimes) with variables, just delete the
@@ -100,11 +106,17 @@ Ensure you have provided required configuration files:
 Don't forget to set both `WORLDSERVER_CONF_PATH` and `AUTHSERVER_CONF_PATH`
 variables in the `Makefile.env` file you own.
 `make prepare` is your friend here.
+Should you need more inspection, `make logs` could help here.
 
 ### It does not work with Docker Desktop for Windows
 
 Nope indeed. Due to lack of compliancy with POSIX environments, it's a pain in
-the a\*\* to make it work with Docker Desktop for Windows. However, don't loose
-hope as it's possible to make it works with `WSL2`. I need to fine tune the
-thing and provide guidance to help you setup and `WSL2` environment though.
-It's on its way, be patient.
+the a\*\* to make it work with Docker Desktop for Windows. Moreover,
+performances with Docker Desktop are absolutely terrible. I do not know why and
+I did not investigated much. I prefered to work on a hand-crafted docker
+install on WSL2.
+
+### But it works within WSL2
+
+However, I need to fine tune the thing and provide guidance to help you setup
+and `WSL2` environment though. It's on its way, be patient.

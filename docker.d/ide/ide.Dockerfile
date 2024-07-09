@@ -1,3 +1,4 @@
+# TODO: parallelize?
 ARG NAMESPACE
 ARG PLATFORM_TAG
 

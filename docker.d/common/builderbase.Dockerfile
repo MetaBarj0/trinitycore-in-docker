@@ -1,3 +1,4 @@
+# TODO: remove the 'common' directory
 ARG NAMESPACE
 ARG PLATFORM_TAG
 
@@ -14,6 +15,7 @@ RUN update-alternatives --install /usr/bin/ld ld /usr/bin/lld-16 100
 
 FROM install_prerequisites AS install_docker
 USER root
+# TODO: review if it's still up-to-date
 # docker installation for debian
 # see:
 # https://docs.docker.com/engine/install/debian/#install-using-the-repository

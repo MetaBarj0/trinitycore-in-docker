@@ -1,3 +1,4 @@
+# TODO: refactor update/upgrade instructions
 FROM debian:12-slim
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE

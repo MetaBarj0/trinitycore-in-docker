@@ -16,6 +16,7 @@ help:
 prepare: Makefile.env Makefile.maintainer.env
 	$(call prepare)
 
+# TODO: ensure prepare has been executed beforehand
 build: build_databases build_servers_and_tools build_worldserver_console
 
 up:
