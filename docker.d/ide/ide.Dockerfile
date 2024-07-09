@@ -27,7 +27,7 @@ RUN make install
 FROM $NAMESPACE.builderbase$PLATFORM_TAG AS neovim_install
 ARG USER_HOME_DIR
 COPY --from=neovim_build $USER_HOME_DIR/nvim $USER_HOME_DIR/.nvim
-ENV NVIM_INSTALL_DIR $USER_HOME_DIR/.nvim/
+ENV NVIM_INSTALL_DIR=$USER_HOME_DIR/.nvim/
 ENV PATH=${PATH}:${NVIM_INSTALL_DIR}/bin
 
 FROM neovim_install AS deno_install
@@ -46,8 +46,8 @@ RUN \
 USER $USER
 WORKDIR $USER_HOME_DIR
 RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=$USER_HOME_DIR/.deno sh
-ENV DENO_INSTALL_DIR $USER_HOME_DIR/.deno
-ENV PATH ${PATH}:${DENO_INSTALL_DIR}/bin
+ENV DENO_INSTALL_DIR=$USER_HOME_DIR/.deno
+ENV PATH=${PATH}:${DENO_INSTALL_DIR}/bin
 
 FROM deno_install AS nodejs_extract
 ARG NODEJS_VER
@@ -74,8 +74,8 @@ ARG USER_HOME_DIR
 RUN mkdir $USER_HOME_DIR/.nodejs
 WORKDIR $USER_HOME_DIR/.nodejs
 COPY --from=nodejs_extract $USER_HOME_DIR/node-$NODEJS_VER-linux-x64/ .
-ENV NODEJS_INSTALL_DIR $USER_HOME_DIR/.nodejs
-ENV PATH ${PATH}:${NODEJS_INSTALL_DIR}/bin
+ENV NODEJS_INSTALL_DIR=$USER_HOME_DIR/.nodejs
+ENV PATH=${PATH}:${NODEJS_INSTALL_DIR}/bin
 
 FROM nodejs_install AS uctags_build
 ARG USER
@@ -105,8 +105,8 @@ RUN make install
 FROM nodejs_install AS uctags_install
 ARG USER_HOME_DIR
 COPY --from=uctags_build $USER_HOME_DIR/.ctags/ $USER_HOME_DIR/.ctags/
-ENV CTAGS_INSTALL_DIR $USER_HOME_DIR/.ctags
-ENV PATH ${PATH}:${CTAGS_INSTALL_DIR}/bin
+ENV CTAGS_INSTALL_DIR=$USER_HOME_DIR/.ctags
+ENV PATH=${PATH}:${CTAGS_INSTALL_DIR}/bin
 
 FROM uctags_install AS environments_clone
 ARG USER_HOME_DIR
