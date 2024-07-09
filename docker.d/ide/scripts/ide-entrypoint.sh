@@ -11,6 +11,12 @@ setup_ssh_keys() {
   cd -
 }
 
+setup_git_user() {
+  git config --global user.email "${GIT_USER_EMAIL}"
+  git config --global user.name "${GIT_USER_NAME}"
+
+}
+
 copy_repository_from_builder() {
   cd ~/ide_storage
 
@@ -48,18 +54,12 @@ run_live_loop() {
   done
 }
 
+# TODO: chain function in all scripts
 main() {
   setup_ssh_keys
+  setup_git_user
   setup_repository  
   run_live_loop
 }
 
 main
-
-shutdown() {
-  echo 'Terminating ide gracefully...'
-
-  exit 0
-}
-
-trap shutdown SIGTERM

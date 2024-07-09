@@ -149,8 +149,9 @@ RUN \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   apt-get install -y --no-install-recommends \
-  tmux python3-neovim locales clangd-16
+  tmux python3-neovim locales clangd-16 sudo
 RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-16 100
+RUN echo $USER' ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ide
 USER $USER
 
 FROM package_install AS nodejs_global_packages_install

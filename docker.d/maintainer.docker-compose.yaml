@@ -59,6 +59,8 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-ide-container
     entrypoint: scripts/ide-entrypoint.sh
     environment:
+      - GIT_USER_EMAIL
+      - GIT_USER_NAME
       - BUILDER_VERSION
       - LANG=en_US.UTF-8
       - LANGUAGE=en_US:en
