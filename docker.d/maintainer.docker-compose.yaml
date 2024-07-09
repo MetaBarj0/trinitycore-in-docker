@@ -110,6 +110,11 @@ services:
         volume:
           nocopy: false
       - type: volume
+        source: ide_xdg_init
+        target: ${USER_HOME_DIR:-implementation defined}/.init
+        volume:
+          nocopy: false
+      - type: volume
         source: ide_xdg_local
         target: ${USER_HOME_DIR:-implementation defined}/.local
         volume:
@@ -127,4 +132,5 @@ volumes:
   trinitycore_shallow_clone:
   ide_npm_prefix:
   ide_npm_cache:
+  ide_xdg_init:
   ide_xdg_local:
