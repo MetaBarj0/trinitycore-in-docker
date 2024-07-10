@@ -72,3 +72,6 @@ nuke: clean
 
 logs:
 	@docker compose logs --follow
+
+ensure_prepared:
+	$(call ensure_prepared)

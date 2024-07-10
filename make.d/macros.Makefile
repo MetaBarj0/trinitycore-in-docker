@@ -61,3 +61,7 @@ endef
 define down
   @. make.d/scripts/down.sh
 endef
+
+define ensure_prepared
+  @. make.d/scripts/ensure_prepared.sh
+endef
