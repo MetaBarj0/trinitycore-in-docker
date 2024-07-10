@@ -157,7 +157,7 @@ RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   apt-get update \
   && apt-get install -y --no-install-recommends \
-  tmux python3-neovim locales clangd-16 sudo tig man-db less make
+  tmux python3-neovim locales clangd-16 sudo tig man-db less make btop
 RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-16 100
 RUN echo $USER' ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ide
 USER $USER
