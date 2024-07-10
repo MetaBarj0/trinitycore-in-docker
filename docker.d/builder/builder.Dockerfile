@@ -4,6 +4,7 @@ FROM $NAMESPACE.builderbase AS clone_repository
 ARG REPOSITORY_URI
 ARG REPOSITORY_REV
 ARG REPOSITORY_SHA
+# TODO: do not hardcode user!
 USER trinitycore
 WORKDIR /home/trinitycore
 RUN git clone \
