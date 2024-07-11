@@ -41,11 +41,15 @@ COPY \
 COPY \
   --chown=trinitycore:trinitycore \
   sql/ ./sql/
-RUN mkdir downloads
+RUN \
+  mkdir -p \
+  downloads trinitycore/data TrinityCore
+RUN touch \
+  downloads/.volume \
+  trinitycore/data/.volume \
+  TrinityCore/.volume
 VOLUME /home/trinitycore/downloads
-RUN mkdir trinitycore/data
 VOLUME /home/trinitycore/trinitycore/data
-RUN mkdir TrinityCore
 VOLUME /home/trinitycore/TrinityCore
 LABEL project=$COMPOSE_PROJECT_NAME
 LABEL namespace=$NAMESPACE
