@@ -7,6 +7,17 @@ ARG REPOSITORY_SHA
 # TODO: do not hardcode user!
 USER trinitycore
 WORKDIR /home/trinitycore
+# EXPLAIN: in case of bad internet connections. Change the behavior of cloning
+RUN \
+  export GIT_TRACE_PACKET=1 \
+  && export GIT_TRACE=1 \
+  && export GIT_CURL_VERBOSE=1 \
+  && git config --global http.version HTTP/1.1 \
+  && git config --global http.postBuffer 524288000 \
+  && git config --global http.maxRequestBuffer 524288000 \
+  && git config --global http.lowSpeedLimit 0 \
+  && git config --global http.lowSpeedTime 999999 \
+  && git config --global core.compression 0
 RUN git clone \
   --branch $REPOSITORY_REV --depth=1 \
   $REPOSITORY_URI TrinityCore
