@@ -6,8 +6,9 @@ include $(MAKEFILE_DIR)/make.d/macros.Makefile
 ps:
 	@docker compose ps
 
+config: compose_args=
 config:
-	@docker compose config
+	@docker compose $(compose_args) config
 
 build_databases:
 	@docker compose build databases
