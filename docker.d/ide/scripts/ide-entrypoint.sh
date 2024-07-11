@@ -23,7 +23,7 @@ copy_repository_from_builder() {
   if ! [ -d TrinityCore ]; then
     docker run \
       -u trinitycore --rm -it --entrypoint /bin/bash -d --name trinitycore.builder.container \
-      ${NAMESPACE}.trinitycore.builder:${BUILDER_VERSION}
+      ${NAMESPACE}.builder:${BUILDER_VERSION}
     docker cp trinitycore.builder.container:/home/trinitycore/TrinityCore .
     docker kill trinitycore.builder.container
   fi
@@ -34,9 +34,12 @@ copy_repository_from_builder() {
 unshallow_repository() {
   cd ~/ide_storage/TrinityCore
 
-  rm .git/shallow.lock
-  git fetch --unshallow
+  if [ -f .git/shallow.lock ]; then
+    rm .git/shallow.lock
+  fi
+
   git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  git fetch --unshallow
   git fetch
   git config url."git@github.com:".insteadOf "https://github.com/"
 
@@ -44,8 +47,8 @@ unshallow_repository() {
 }
 
 setup_repository() {
-  copy_repository_from_builder
-  unshallow_repository
+  copy_repository_from_builder \
+  && unshallow_repository
 }
 
 run_live_loop() {
@@ -54,12 +57,11 @@ run_live_loop() {
   done
 }
 
-# TODO: chain function in all scripts
 main() {
-  setup_ssh_keys
-  setup_git_user
-  setup_repository  
-  run_live_loop
+  setup_ssh_keys \
+  && setup_git_user \
+  && setup_repository \
+  && run_live_loop
 }
 
 main
