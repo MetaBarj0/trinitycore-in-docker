@@ -65,14 +65,13 @@ run_live_loop() {
   done
 }
 
-# TODO: chain of success
 main() {
-  fetch_tdb_full
-  uncompress_tdb_full_to_worldserver
-  run_worldserver
-  create_bootstrap_admin_account
-  set_realmlist_address
-  run_live_loop
+  fetch_tdb_full \
+  && uncompress_tdb_full_to_worldserver \
+  && run_worldserver \
+  && create_bootstrap_admin_account \
+  && set_realmlist_address \
+  && run_live_loop
 }
 
 main
