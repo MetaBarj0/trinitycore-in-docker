@@ -20,6 +20,7 @@ services:
       - CLIENT_PATH
       - COMPOSE_PROJECT_NAME
       - NAMESPACE
+      - SHELL=/bin/bash
       - USE_CACHED_CLIENT_DATA
       - USER_HOME_DIR
       - WORLDSERVER_CONF_PATH
