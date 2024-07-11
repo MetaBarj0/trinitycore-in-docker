@@ -65,6 +65,7 @@ run_live_loop() {
   done
 }
 
+# TODO: chain of success
 main() {
   fetch_tdb_full
   uncompress_tdb_full_to_worldserver
