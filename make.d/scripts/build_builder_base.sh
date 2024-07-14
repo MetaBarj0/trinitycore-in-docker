@@ -22,6 +22,8 @@ fi
 if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
   build_arg_arg="$(cat << EOF
   ${build_arg_arg} \
+  --build-arg DOCKER_GID=0 \
+  --build-arg DOCKER_UID=0 \
   --build-arg USER_HOME_DIR=/root
 EOF
   )"
