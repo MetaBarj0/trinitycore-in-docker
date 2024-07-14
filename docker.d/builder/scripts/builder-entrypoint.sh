@@ -250,6 +250,7 @@ create_world_server_image() {
   build_worldserver_image
 }
 
+# TODO: chain functions
 main() {
   create_auth_server_image
   create_world_server_image
