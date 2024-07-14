@@ -2,7 +2,9 @@ set -e
 
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   export USER_HOME_DIR=/home/docker
-else
+fi
+
+if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
   export USER_HOME_DIR=/root
 fi
 
