@@ -1,6 +1,3 @@
-# EXPLAIN: Weird trick to 'force' make to use the shell it has been invoked
-# with. If not applied, build fail on Windows, WSL2
-SHELL := $(shell echo $$SHELL)
 MAKEFILE_DIR := $(shell dirname $(MAKEFILE_LIST))
 
 include make.d/macros.Makefile
