@@ -2,6 +2,7 @@ platform_arg=
 build_arg_arg=
 platform_tag=
 
+# TODO: condition within square brackets
 if ! [ -z "$TARGET_PLATFORM" ];then
   platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
   platform_arg='--platform '$TARGET_PLATFORM

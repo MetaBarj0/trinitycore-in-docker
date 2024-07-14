@@ -1,6 +1,7 @@
 FROM alpine:edge
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
+# TODO: merge update and upgrade instructions
 RUN \
   --mount=type=cache,target=/var/cache/apk,sharing=locked \
   apk update

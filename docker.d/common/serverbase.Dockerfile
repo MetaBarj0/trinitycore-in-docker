@@ -15,6 +15,7 @@ RUN \
   libboost-system1.74.0 libboost-chrono1.74.0 libboost-atomic1.74.0 \
   mariadb-client
 
+# TODO: no more uid and gid hardcoded
 FROM debian_upgraded
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
