@@ -1,5 +1,4 @@
 #!/bin/env bash
-
 set -e
 
 patch_authserver_configuration() {
@@ -203,6 +202,7 @@ generate_client_data() {
   generate_mmaps
 }
 
+#TODO: well pretty sure it needs a fix
 store_trinitycore_sources() {
   cd /home/trinitycore/TrinityCore
 

@@ -8,9 +8,13 @@ services:
         - REPOSITORY_REV
         - REPOSITORY_SHA
         - USER
+        - USER_GID
         - USER_HOME_DIR
+        - USER_UID
       context: builder
       dockerfile: builder.Dockerfile
+      ssh:
+        - default
       tags:
         - ${NAMESPACE}.builder:${BUILDER_VERSION}
     entrypoint: scripts/builder-entrypoint.sh
