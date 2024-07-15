@@ -3,8 +3,8 @@ define help
 endef
 
 define exec
-  @. make.d/scripts/check_cmd.sh $(cmd)
-  @. make.d/scripts/exec.sh $(cmd)
+  @. make.d/scripts/check_cmd.sh
+  @. make.d/scripts/exec.sh
 endef
 
 define build_builder

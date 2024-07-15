@@ -1,4 +1,4 @@
-if [ -z "$1" ]; then
+if [ -z "$cmd" ]; then
   echo 'You must specify a command to execute on the worldserver' >&2
   echo "Example: make exec cmd='server info'" >&2
 
