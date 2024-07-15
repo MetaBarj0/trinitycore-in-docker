@@ -38,7 +38,11 @@ create_auth_server_image() {
 }
 
 generate_Cameras_dbc_and_maps_in_client_dir() {
-  cd WoW-3.3.5a-12340/
+  if [ is_within_wsl2_container ]; then
+    cd wsl2_client_copy/WoW-3.3.5a-12340/
+  else
+    cd WoW-3.3.5a-12340/
+  fi
 
   rm -rf Cameras dbc maps
   rm -f mapextractor
@@ -49,7 +53,11 @@ generate_Cameras_dbc_and_maps_in_client_dir() {
 }
 
 store_Cameras_dbc_and_maps_from_client_dir() {
-  cd WoW-3.3.5a-12340/
+  if [ is_within_wsl2_container ]; then
+    cd wsl2_client_copy/WoW-3.3.5a-12340/
+  else
+    cd WoW-3.3.5a-12340/
+  fi
 
   local client_data_store_dir=${USER_HOME_DIR}/data
 
@@ -92,7 +100,11 @@ generate_Cameras_dbc_and_maps() {
 }
 
 generate_vmaps_in_client_dir() {
-  cd WoW-3.3.5a-12340/
+  if [ is_within_wsl2_container ]; then
+    cd wsl2_client_copy/WoW-3.3.5a-12340/
+  else
+    cd WoW-3.3.5a-12340/
+  fi
 
   rm -rf Buildings
   rm -f vmap4extractor
@@ -109,7 +121,11 @@ generate_vmaps_in_client_dir() {
 }
 
 store_vmaps_from_client_dir() {
-  cd WoW-3.3.5a-12340/
+  if [ is_within_wsl2_container ]; then
+    cd wsl2_client_copy/WoW-3.3.5a-12340/
+  else
+    cd WoW-3.3.5a-12340/
+  fi
 
   local client_data_store_dir=${USER_HOME_DIR}/data
   rm -rf $client_data_store_dir/vmaps
@@ -147,7 +163,11 @@ generate_vmaps() {
 }
 
 generate_mmaps_in_client_dir() {
-  cd WoW-3.3.5a-12340/
+  if [ is_within_wsl2_container ]; then
+    cd wsl2_client_copy/WoW-3.3.5a-12340/
+  else
+    cd WoW-3.3.5a-12340/
+  fi
 
   rm -rf mmaps
   rm -f mmaps_generator
@@ -159,7 +179,11 @@ generate_mmaps_in_client_dir() {
 }
 
 store_mmaps_from_client_dir() {
-  cd WoW-3.3.5a-12340/
+  if [ is_within_wsl2_container ]; then
+    cd wsl2_client_copy/WoW-3.3.5a-12340/
+  else
+    cd WoW-3.3.5a-12340/
+  fi
 
   local client_data_store_dir=${USER_HOME_DIR}/data
   rm -rf $client_data_store_dir/mmaps
@@ -242,8 +266,22 @@ build_worldserver_image() {
     docker.d/worldserver
 }
 
+is_within_wsl2_container() {
+  uname -a | grep WSL2 > /dev/null
+}
+
+copy_data_to_wsl2_container() {
+  if [ is_within_wsl2_container ]; then
+    cd WoW-3.3.5a-12340
+
+    rsync -avz --delete --progress --files-from ../client_files.txt . ../wsl2_client_copy/WoW-3.3.5a-12340
+
+    cd -
+  fi
+}
+
 create_world_server_image() {
-  # TODO: copy client on the running container to ensure maximum performances
+  copy_data_to_wsl2_container
   generate_client_data
   store_trinitycore_sources
   prepare_worldserver_configuration

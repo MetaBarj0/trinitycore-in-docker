@@ -64,7 +64,15 @@ RUN \
   cmake --build . --target install
 RUN chown -R trinitycore:trinitycore /home/trinitycore/trinitycore
 
-FROM cmake_install
+FROM cmake_install as install_packages
+RUN \
+  --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt,sharing=locked \
+  apt-get update \
+  && apt-get install -y --no-install-recommends \
+  rsync
+
+FROM install_packages
 ARG NAMESPACE
 ARG COMPOSE_PROJECT_NAME
 ARG USER
@@ -76,6 +84,9 @@ COPY --chmod=755 scripts scripts
 RUN mkdir -p data
 RUN touch ./data/.volume
 VOLUME $USER_HOME_DIR/data
+RUN mkdir -p wsl2_client_copy
+RUN touch $USER_HOME_DIR/wsl2_client_copy/.volume
+VOLUME $USER_HOME_DIR/wsl2_client_copy
 RUN mkdir -p TrinityCore
 VOLUME $USER_HOME_DIR/TrinityCore
 RUN mkdir -p trinitycore_configurations
@@ -85,5 +96,8 @@ COPY \
 COPY \
   --chown=$USER:$USER \
   authserver.conf trinitycore_configurations/
+COPY \
+  --chown=$USER:$USER \
+  client_files.txt .
 LABEL project=$COMPOSE_PROJECT_NAME
 LABEL namespace=$NAMESPACE
