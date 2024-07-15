@@ -5,7 +5,7 @@ patch_authserver_configuration() {
   cd docker.d/authserver/patches/configuration
 
   patch \
-    ~/trinitycore_configurations/authserver.conf \
+    ${USER_HOME_DIR}/trinitycore_configurations/authserver.conf \
     authserver.conf.diff
 
   cd -
