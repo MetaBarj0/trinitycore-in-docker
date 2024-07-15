@@ -18,7 +18,7 @@ build: ensure_prepared build_databases build_servers_and_tools build_worldserver
 up:
 	@docker compose up --detach
 
-down: down_ide
+down:
 	$(call down)
 
 exec: cmd = 'server info'

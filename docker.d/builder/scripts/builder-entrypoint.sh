@@ -226,15 +226,6 @@ generate_client_data() {
   generate_mmaps
 }
 
-#TODO: well pretty sure it needs a fix
-store_trinitycore_sources() {
-  cd /home/trinitycore/TrinityCore
-
-  cp -r * ${USER_HOME_DIR}/TrinityCore
-
-  cd -
-}
-
 patch_worldserver_configuration() {
   cd docker.d/worldserver/patches/configuration
 
@@ -283,7 +274,6 @@ copy_data_to_wsl2_container() {
 create_world_server_image() {
   copy_data_to_wsl2_container
   generate_client_data
-  store_trinitycore_sources
   prepare_worldserver_configuration
   build_worldserver_image
 }

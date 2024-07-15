@@ -60,6 +60,9 @@ up_ide:
 down_ide:
 	@docker compose down ide
 
+nuke_ide:
+	@docker compose down --volumes ide
+
 shell_ide:
 	$(call shell_ide)
 
