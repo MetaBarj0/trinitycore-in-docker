@@ -1,18 +1,12 @@
-@@ -204,7 +204,7 @@
- #    The SSL option will enable TLS when connecting to the specified database. If not provided or
- #    any value other than 'ssl' is set, TLS will not be used.
-
--LoginDatabaseInfo = "127.0.0.1;3306;trinity;trinity;auth"
-+LoginDatabaseInfo = "databases;3306;trinity;trinity;auth"
-
- #
- #    LoginDatabase.WorkerThreads
-@@ -255,7 +255,7 @@
- #        Default:     0  - (All Disabled)
- #                     1  - (All Enabled)
-
--Updates.EnableDatabases = 0
-+Updates.EnableDatabases = 1
-
- #
- #    Updates.AutoSetup
+157c157
+< SourceDirectory  = ""
+---
+> SourceDirectory  = "/home/trinitycore/TrinityCore"
+207c207
+< LoginDatabaseInfo = "127.0.0.1;3306;trinity;trinity;auth"
+---
+> LoginDatabaseInfo = "databases;3306;trinity;trinity;auth"
+258c258
+< Updates.EnableDatabases = 0
+---
+> Updates.EnableDatabases = 1
