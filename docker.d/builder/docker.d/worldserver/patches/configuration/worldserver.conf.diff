@@ -10,6 +10,10 @@
 > LoginDatabaseInfo     = "databases;3306;trinity;trinity;auth"
 > WorldDatabaseInfo     = "databases;3306;trinity;trinity;world"
 > CharacterDatabaseInfo = "databases;3306;trinity;trinity;characters"
+202c202
+< SourceDirectory  = ""
+---
+> SourceDirectory  = "/home/trinitycore/TrinityCore"
 3012c3012
 < Console.Enable = 1
 ---
