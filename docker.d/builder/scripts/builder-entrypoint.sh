@@ -38,7 +38,7 @@ create_auth_server_image() {
 }
 
 generate_Cameras_dbc_and_maps_in_client_dir() {
-  if [ is_within_wsl2_container ]; then
+  if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
     cd WoW-3.3.5a-12340/
@@ -53,7 +53,7 @@ generate_Cameras_dbc_and_maps_in_client_dir() {
 }
 
 store_Cameras_dbc_and_maps_from_client_dir() {
-  if [ is_within_wsl2_container ]; then
+  if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
     cd WoW-3.3.5a-12340/
@@ -100,7 +100,7 @@ generate_Cameras_dbc_and_maps() {
 }
 
 generate_vmaps_in_client_dir() {
-  if [ is_within_wsl2_container ]; then
+  if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
     cd WoW-3.3.5a-12340/
@@ -121,7 +121,7 @@ generate_vmaps_in_client_dir() {
 }
 
 store_vmaps_from_client_dir() {
-  if [ is_within_wsl2_container ]; then
+  if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
     cd WoW-3.3.5a-12340/
@@ -163,7 +163,7 @@ generate_vmaps() {
 }
 
 generate_mmaps_in_client_dir() {
-  if [ is_within_wsl2_container ]; then
+  if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
     cd WoW-3.3.5a-12340/
@@ -179,7 +179,7 @@ generate_mmaps_in_client_dir() {
 }
 
 store_mmaps_from_client_dir() {
-  if [ is_within_wsl2_container ]; then
+  if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
     cd WoW-3.3.5a-12340/
@@ -262,7 +262,7 @@ is_within_wsl2_container() {
 }
 
 copy_data_to_wsl2_container() {
-  if [ is_within_wsl2_container ]; then
+  if is_within_wsl2_container; then
     cd WoW-3.3.5a-12340
 
     rsync -avz --delete --progress --files-from ../client_files.txt . ../wsl2_client_copy/WoW-3.3.5a-12340
