@@ -4,7 +4,7 @@ export
 include $(MAKEFILE_DIR)/make.d/macros.Makefile
 
 ps:
-	@docker -f docker.d/docker-compose.yml compose ps
+	@docker compose -f docker.d/docker-compose.yml ps
 
 config: compose_args=
 config:

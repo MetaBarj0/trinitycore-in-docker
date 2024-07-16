@@ -18,8 +18,8 @@ copy_authserver_configuration_in_authserver_build_context() {
 }
 
 prepare_authserver_configuration() {
-  patch_authserver_configuration
-  copy_authserver_configuration_in_authserver_build_context
+  patch_authserver_configuration \
+  && copy_authserver_configuration_in_authserver_build_context
 }
 
 build_authserver_image() {
@@ -33,8 +33,8 @@ build_authserver_image() {
 }
 
 create_auth_server_image() {
-  prepare_authserver_configuration
-  build_authserver_image
+  prepare_authserver_configuration \
+  && build_authserver_image
 }
 
 generate_Cameras_dbc_and_maps_in_client_dir() {
@@ -81,8 +81,8 @@ is_Cameras_dbc_maps_store_set() {
 }
 
 regenerate_Cameras_dbc_and_maps() {
-  generate_Cameras_dbc_and_maps_in_client_dir
-  store_Cameras_dbc_and_maps_from_client_dir
+  generate_Cameras_dbc_and_maps_in_client_dir \
+  && store_Cameras_dbc_and_maps_from_client_dir
 }
 
 store_Cameras_dbc_and_maps() {
@@ -92,7 +92,7 @@ store_Cameras_dbc_and_maps() {
 }
 
 generate_Cameras_dbc_and_maps() {
-  if ! [ $USE_CACHED_CLIENT_DATA -eq 1 ]; then
+  if [ ! $USE_CACHED_CLIENT_DATA -eq 1 ]; then
     regenerate_Cameras_dbc_and_maps
   fi
 
@@ -135,15 +135,15 @@ store_vmaps_from_client_dir() {
 }
 
 regenerate_vmaps() {
-  generate_vmaps_in_client_dir
-  store_vmaps_from_client_dir
+  generate_vmaps_in_client_dir \
+  && store_vmaps_from_client_dir
 }
 
 is_vmaps_store_set() {
   local store_dir=${USER_HOME_DIR}/data
   local vmaps_dir=$store_dir/vmaps
 
-  if ! [ -d "$vmaps_dir" ]; then
+  if [ ! -d "$vmaps_dir" ]; then
     return 1
   fi
 }
@@ -155,7 +155,7 @@ store_vmaps() {
 }
 
 generate_vmaps() {
-  if ! [ $USE_CACHED_CLIENT_DATA -eq 1 ]; then
+  if [ ! $USE_CACHED_CLIENT_DATA -eq 1 ]; then
     regenerate_vmaps
   fi
 
@@ -202,8 +202,8 @@ is_mmaps_store_set() {
 }
 
 regenerate_mmaps() {
-  generate_mmaps_in_client_dir
-  store_mmaps_from_client_dir
+  generate_mmaps_in_client_dir \
+  && store_mmaps_from_client_dir
 }
 
 store_mmaps() {
@@ -213,7 +213,7 @@ store_mmaps() {
 }
 
 generate_mmaps() {
-  if ! [ $USE_CACHED_CLIENT_DATA -eq 1 ]; then
+  if [ ! $USE_CACHED_CLIENT_DATA -eq 1 ]; then
     regenerate_mmaps
   fi
 
@@ -221,9 +221,9 @@ generate_mmaps() {
 }
 
 generate_client_data() {
-  generate_Cameras_dbc_and_maps
-  generate_vmaps
-  generate_mmaps
+  generate_Cameras_dbc_and_maps \
+  && generate_vmaps \
+  && generate_mmaps
 }
 
 patch_worldserver_configuration() {
@@ -243,8 +243,8 @@ copy_worldserver_configuration_in_worldserver_build_context() {
 }
 
 prepare_worldserver_configuration() {
-  patch_worldserver_configuration
-  copy_worldserver_configuration_in_worldserver_build_context
+  patch_worldserver_configuration \
+  && copy_worldserver_configuration_in_worldserver_build_context
 }
 
 build_worldserver_image() {
@@ -272,16 +272,15 @@ copy_data_to_wsl2_container() {
 }
 
 create_world_server_image() {
-  copy_data_to_wsl2_container
-  generate_client_data
-  prepare_worldserver_configuration
-  build_worldserver_image
+  copy_data_to_wsl2_container \
+  && generate_client_data \
+  && prepare_worldserver_configuration \
+  && build_worldserver_image
 }
 
-# TODO: chain functions
 main() {
-  create_auth_server_image
-  create_world_server_image
+  create_auth_server_image \
+  && create_world_server_image
 }
 
 main
