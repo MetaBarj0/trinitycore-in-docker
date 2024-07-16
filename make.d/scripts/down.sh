@@ -1,5 +1,5 @@
 if [ "${remove_volumes}" = "true" ]; then
-  docker compose down --volumes
+  docker compose -f docker.d/docker-compose.yml down --volumes
 else
-  docker compose down
+  docker compose -f docker.d/docker-compose.yml down
 fi

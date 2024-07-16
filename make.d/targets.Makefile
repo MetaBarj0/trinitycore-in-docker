@@ -4,20 +4,20 @@ export
 include $(MAKEFILE_DIR)/make.d/macros.Makefile
 
 ps:
-	@docker compose ps
+	@docker -f docker.d/docker-compose.yml compose ps
 
 config: compose_args=
 config:
-	@docker compose $(compose_args) config
+	@docker compose -f docker.d/docker-compose.yml $(compose_args) config
 
 build_databases:
-	@docker compose build databases
+	@docker compose -f docker.d/docker-compose.yml build databases
 
 build_servers_and_tools: build_builder
 	$(call build_servers_and_tools)
 
 build_worldserver_console:
-	@docker compose build worldserver_console
+	@docker compose -f docker.d/docker-compose.yml build worldserver_console
 
 build_debian_upgraded:
 	$(call build_debian_upgraded)
@@ -58,10 +58,10 @@ up_ide:
 	$(call up_ide)
 
 down_ide:
-	@docker compose down ide
+	@docker compose -f docker.d/docker-compose.yml down ide
 
 nuke_ide:
-	@docker compose down --volumes ide
+	@docker compose -f docker.d/docker-compose.yml down --volumes ide
 
 shell_ide:
 	$(call shell_ide)
@@ -75,7 +75,7 @@ nuke: remove_volumes=true
 nuke: clean
 
 logs:
-	@docker compose logs --follow
+	@docker compose -f docker.d/docker-compose.yml logs --follow
 
 ensure_prepared:
 	$(call ensure_prepared)

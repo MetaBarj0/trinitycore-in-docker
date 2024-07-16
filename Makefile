@@ -16,7 +16,7 @@ prepare: Makefile.env Makefile.maintainer.env
 build: ensure_prepared build_databases build_servers_and_tools build_worldserver_console
 
 up:
-	@docker compose up --detach
+	@docker compose -f docker.d/docker-compose.yml up --detach
 
 down:
 	$(call down)

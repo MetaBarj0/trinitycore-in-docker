@@ -24,7 +24,7 @@ EOF
 fi
 
 build_command="$(cat << EOF
-docker compose build ${build_arg_arg} ide 
+docker compose -f docker.d/docker-compose.yml build ${build_arg_arg} ide 
 EOF
 )"
 

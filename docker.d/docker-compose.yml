@@ -1,13 +1,12 @@
-# TODO: move into docker.d directory
 include:
-  - docker.d/maintainer.docker-compose.yaml
+  - maintainer.docker-compose.yml
 services:
   databases:
     build:
       args:
         - COMPOSE_PROJECT_NAME
         - NAMESPACE
-      context: ./docker.d/databases
+      context: ./databases
       dockerfile: databases.Dockerfile
       tags:
         - ${NAMESPACE}.databases:${DATABASES_VERSION}
@@ -67,7 +66,7 @@ services:
       args:
         - COMPOSE_PROJECT_NAME
         - NAMESPACE
-      context: ./docker.d/worldserver_console
+      context: ./worldserver_console
       dockerfile: worldserver_console.Dockerfile
       tags:
         - ${NAMESPACE}.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}
