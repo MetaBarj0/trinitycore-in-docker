@@ -64,7 +64,7 @@ RUN \
   cmake --build . --target install
 RUN chown -R trinitycore:trinitycore /home/trinitycore/trinitycore
 
-FROM cmake_install as install_packages
+FROM cmake_install AS install_packages
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
