@@ -8,7 +8,7 @@ RUN \
 RUN apk add mariadb mariadb-client patch
 COPY configuration/mariadb-server.cnf /etc/my.cnf.d/
 WORKDIR /root
-COPY sql/root-privileges.sql ./sql/
+COPY sql/root_privileges.sql ./sql/
 COPY diffs ./diffs/
 COPY --chmod=755 scripts/ ./scripts/
 VOLUME /var/lib/mysql

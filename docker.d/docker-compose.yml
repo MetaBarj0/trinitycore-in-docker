@@ -10,7 +10,7 @@ services:
       dockerfile: databases.Dockerfile
       tags:
         - ${NAMESPACE}.databases:${DATABASES_VERSION}
-    entrypoint: /root/scripts/databases-entrypoint.sh
+    entrypoint: /root/scripts/databases_entrypoint.sh
     healthcheck:
       test: ['CMD-SHELL', '/root/scripts/healthcheck.sh']
       interval: 1s
@@ -33,7 +33,7 @@ services:
     depends_on:
       databases:
         condition: service_healthy
-    entrypoint: /home/trinitycore/scripts/worldserver-entrypoint.sh
+    entrypoint: /home/trinitycore/scripts/worldserver_entrypoint.sh
     environment:
       - REALMLIST_ADDRESS
       - TDB_FULL_URI
@@ -72,7 +72,7 @@ services:
         - ${NAMESPACE}.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}
     depends_on:
       - worldserver
-    entrypoint: /home/worldserver_console/scripts/worldserver_console-entrypoint.sh
+    entrypoint: /home/worldserver_console/scripts/worldserver_console_entrypoint.sh
     environment:
       - ADMIN_ACCOUNT_NAME
       - ADMIN_ACCOUNT_PASSWORD
@@ -91,7 +91,7 @@ services:
     depends_on:
       databases:
         condition: service_healthy
-    entrypoint: /home/trinitycore/scripts/authserver-entrypoint.sh
+    entrypoint: /home/trinitycore/scripts/authserver_entrypoint.sh
     image: ${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
     init: true
     networks:

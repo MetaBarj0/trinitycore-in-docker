@@ -1,3 +1,4 @@
+# TODO: refactor with platform=local
 if ! [ -z "$TARGET_PLATFORM" ];then
   platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
 

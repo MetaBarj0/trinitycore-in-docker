@@ -1,5 +1,6 @@
 build_arg_arg=
 
+# TODO: simplify by refactor, platform local value
 if ! [ -z "$TARGET_PLATFORM" ];then
   platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
   build_arg_arg='--build-arg PLATFORM_TAG='"${platform_tag}"

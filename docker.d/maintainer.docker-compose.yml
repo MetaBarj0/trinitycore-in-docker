@@ -17,7 +17,7 @@ services:
         - default
       tags:
         - ${NAMESPACE}.builder:${BUILDER_VERSION}
-    entrypoint: scripts/builder-entrypoint.sh
+    entrypoint: scripts/builder_entrypoint.sh
     environment:
       - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
       - BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
@@ -64,8 +64,8 @@ services:
       dockerfile: ide.Dockerfile
       tags:
         - ${NAMESPACE}.ide:${IDE_VERSION}
-    container_name: ${COMPOSE_PROJECT_NAME}-ide-container
-    entrypoint: scripts/ide-entrypoint.sh
+    container_name: ${COMPOSE_PROJECT_NAME}_ide_container
+    entrypoint: scripts/ide_entrypoint.sh
     environment:
       - GIT_USER_EMAIL
       - GIT_USER_NAME

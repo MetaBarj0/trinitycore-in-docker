@@ -1,6 +1,7 @@
 ARG BUILDER_IMAGE
 ARG NAMESPACE
 
+# TODO: merge update upgrade
 FROM $NAMESPACE.serverbase AS install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \

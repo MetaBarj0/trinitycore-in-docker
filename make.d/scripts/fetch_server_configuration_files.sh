@@ -47,6 +47,7 @@ fetch_worldserver_configuration() {
     "${WORLDSERVER_CONF_PATH}"
 }
 
+# TODO: functions and chain
 check_file_paths
 fetch_authserver_configuration
 fetch_worldserver_configuration

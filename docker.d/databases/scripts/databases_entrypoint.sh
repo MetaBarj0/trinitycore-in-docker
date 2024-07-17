@@ -2,6 +2,7 @@
 
 set -e
 
+# TODO; handle depreacation warning send by mariadb at start
 install_databases() {
   mysql_install_db --user=mysql --datadir=/var/lib/mysql/data
 }
@@ -19,7 +20,7 @@ apply_sql_file() {
 }
 
 install_root_privileges() {
-  apply_sql_file '/root/sql/root-privileges.sql'
+  apply_sql_file '/root/sql/root_privileges.sql'
 }
 
 patch_create_mysql_script() {

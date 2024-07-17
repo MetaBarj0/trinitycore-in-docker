@@ -1,3 +1,6 @@
+# TODO: simplify
+# TODO: make this target faster with optimistic trys: shell not working, try
+#       up, up not working, make build
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   env_args="$(cat << EOF
   --env USER_GID=$(getent group docker | cut -d : -f 3) \
@@ -17,7 +20,7 @@ EOF
 fi
 
 cmd="$(cat << EOF
-docker exec ${env_args} -it ${COMPOSE_PROJECT_NAME}-ide-container bash
+docker exec ${env_args} -it ${COMPOSE_PROJECT_NAME}_ide_container bash
 EOF
 )"
 
