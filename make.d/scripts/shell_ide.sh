@@ -1,27 +1,19 @@
-# TODO: simplify
 # TODO: make this target faster with optimistic trys: shell not working, try
 #       up, up not working, make build
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-  env_args="$(cat << EOF
-  --env USER_GID=$(getent group docker | cut -d : -f 3) \
-  --env USER_UID=$(id -u) \
-  --env USER_HOME_DIR=/home/docker
-EOF
-  )"
+  USER_GID=$(getent group docker | cut -d : -f 3)
+  USER_UID=$(id -u)
+  USER_HOME_DIR=/home/docker
 fi
 
 if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
-  env_args="$(cat << EOF
-  --env USER_GID=0 \
-  --env USER_UID=0 \
-  --env USER_HOME_DIR=/root
-EOF
-  )"
+  USER_GID=0
+  USER_UID=0
+  USER_HOME_DIR=/root
 fi
 
-cmd="$(cat << EOF
-docker exec ${env_args} -it ${COMPOSE_PROJECT_NAME}_ide_container bash
-EOF
-)"
-
-eval "${cmd}"
+docker exec \
+  --env USER_GID=${USER_GID} \
+  --env USER_HOME_DIR=${USER_HOME_DIR} \
+  --env USER_UID=${USER_UID} \
+  -it ${COMPOSE_PROJECT_NAME}_ide_container bash
