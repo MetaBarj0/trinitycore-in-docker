@@ -1,5 +1,3 @@
-# TODO: make this target faster with optimistic trys: shell not working, try
-#       up, up not working, make build
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   USER_GID=$(getent group docker | cut -d : -f 3)
   USER_UID=$(id -u)
