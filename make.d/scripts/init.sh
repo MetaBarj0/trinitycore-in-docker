@@ -203,7 +203,7 @@ update_variable_in_file() {
   local variable_value="$3"
 
   sed -E -i \
-    "s%^${variable_name}\s*=\s*.*$%${variable_name} = ${variable_value}%" \
+    "s%^${variable_name}\s*=\s*.*\$%${variable_name} = ${variable_value}%" \
     "${file}"
 }
 
