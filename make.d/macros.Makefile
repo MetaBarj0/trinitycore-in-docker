@@ -65,3 +65,7 @@ endef
 define ensure_prepared
   @. make.d/scripts/ensure_prepared.sh
 endef
+
+define init
+  @. make.d/scripts/init.sh
+endef

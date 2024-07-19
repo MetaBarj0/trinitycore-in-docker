@@ -7,6 +7,9 @@ make targets:
 Usage: make <target> where target is one of:
 
 - help:    display this message.
+- init:    Ask you a bunch of questions. Aims to simplify the configuration by
+           automatically preparing the project and let you answer questions to
+           configure each needed variables in environment variable files.
 - prepare: This target prepares the environment before the build. Its purpose
            is to facilitate the user's life. It will setup then environment by
            creating 'Makefile.env' and 'Makefile.maintainer.env' files from

@@ -24,3 +24,7 @@ down:
 exec: cmd = 'server info'
 exec:
 	$(call exec,$(cmd))
+
+init: maintainer_mode = 0
+init:
+	$(call init)

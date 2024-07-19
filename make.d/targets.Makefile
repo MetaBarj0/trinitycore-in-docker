@@ -67,6 +67,7 @@ nuke_ide:
 shell_ide:
 	$(call shell_ide)
 
+# TODO: add help for nuke_ide
 clean: down
 	$(call clean)
 

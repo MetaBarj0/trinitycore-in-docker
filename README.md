@@ -47,14 +47,23 @@ Issue `make help` and follow the guide.
 Should something be unclear, please, fill a pull request and I'll be happy to
 work your enhancement ideas!
 
+### Initialize the project
+
+using make, more especially, `make init`.
+Answer questions carefully and things should be good.
+
 ## Maintainer mode
 
 Issue `make help maintainer_mode=1` to see usage with supplementary debugging
 and inspection targets. Not intended for faint of heart!
 
-**TODO: replace '-' by '_' in project name and variables...**
 The maintainer mode is designed for... maintainers of both the
 `trinitycore-in-docker` project and `TrinityCore` project.
+
+### Initialize the project
+
+using make, more especially, `make init maintainer_mode=1`.
+Answer questions carefully and things should be good.
 
 ## Troubleshooting
 
@@ -74,7 +83,6 @@ any issue with those topics unless a major breaking change somewhere...
 
 ### make.d/env_file/Makefile.env: No such file or directory
 
-**TODO: a make init target, interactive, to setup .env file**
 Before attempting a build, you must issue the `make prepare` command. Once this
 target job is done, follow the guide!
 
