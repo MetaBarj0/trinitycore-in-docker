@@ -1,3 +1,23 @@
+set_print_green() {
+  echo -e '\033[1;32m'
+}
+
+set_print_yellow() {
+  echo -e '\033[1;33m'
+}
+
+set_print_blue() {
+  echo -e '\033[1;34m'
+}
+
+set_print_purple() {
+  echo -e '\033[1;35m'
+}
+
+reset_print_color() {
+  echo -e '\033[0;0m'
+}
+
 print_usage() {
   local cmd \
     && [ $maintainer_mode -eq 1 ] \
@@ -14,6 +34,8 @@ EOF
 }
 
 print_init_maintainer_header() {
+  set_print_green
+
   cat << EOF
 
 ========================= trinitycore-in-docker maintainer initialization script
@@ -25,12 +47,15 @@ print_init_maintainer_header() {
   project instance.
   $(print_usage $maintainer_mode)
 EOF
+
+  reset_print_color
 }
 
 print_init_header() {
+  set_print_green
+
   if [ $maintainer_mode -eq 1 ]; then
     cat << EOF
-
   Now you'll have to configure general settings for this trinitycore-in-docker
   project instance.
 EOF
@@ -46,6 +71,8 @@ EOF
   $(print_usage $maintainer_mode)
 EOF
   fi
+
+  reset_print_color
 }
 
 get_first_empty_line_in_file_from() {
@@ -106,12 +133,14 @@ top_section() {
 print_section_header() {
   local section="$1"
 
-  echo
+  set_print_yellow
+
   echo "${section}" \
-  | sed -n '1,3 p' \
-  | sed -E '/^##+##$/ d' \
+  | sed -n '2 p' \
   | sed -E 's/^# /    /' \
   | sed -E 's/$/ CONFIGURATION/'
+
+  reset_print_color
 }
 
 format_section_declarations() {
@@ -215,12 +244,19 @@ ask_question() {
   local variable_name="$(get_question_variable_name "${body}")"
   local variable_value="$(get_question_variable_value "${body}")"
 
-  echo $'\n'"  ${variable_name}:"$'\n'
+  set_print_blue
+  echo "  ${variable_name}:"
+  reset_print_color
+
   echo "${description}"$'\n'
+
+  set_print_purple
 
   read -p \
   "  [${variable_value}]: " \
   ${variable_name}
+
+  reset_print_color
 
   eval 'local value=$'"${variable_name}"
 
@@ -297,9 +333,13 @@ init_maintainer() {
 }
 
 display_final_preparation_message() {
+  set_print_green
+
   echo '' \
   && make prepare \
      | sed -E '/^make\[1\]: / d'
+
+  reset_print_color
 }
 
 init() {
@@ -308,7 +348,19 @@ init() {
   && display_final_preparation_message
 }
 
+reset_print_color_and_exit() {
+  reset_print_color
+
+  exit
+}
+
+setup_signal_handling() {
+  trap reset_print_color_and_exit SIGINT
+}
+
 main() {
+  setup_signal_handling
+
   make prepare > /dev/null 2>&1
 
   if [ ${maintainer_mode} -eq 1 ]; then
