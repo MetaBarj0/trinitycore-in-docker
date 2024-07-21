@@ -111,7 +111,7 @@ print_section_header() {
   | sed -n '1,3 p' \
   | sed -E '/^##+##$/ d' \
   | sed -E 's/^# /    /' \
-  | sed -E 's/$/ CONFIGURATION\n/'
+  | sed -E 's/$/ CONFIGURATION/'
 }
 
 format_section_declarations() {
@@ -215,7 +215,7 @@ ask_question() {
   local variable_name="$(get_question_variable_name "${body}")"
   local variable_value="$(get_question_variable_value "${body}")"
 
-  echo "  ${variable_name}:"$'\n\n'
+  echo $'\n'"  ${variable_name}:"$'\n'
   echo "${description}"$'\n'
 
   read -p \
