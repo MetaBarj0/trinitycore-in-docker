@@ -1,6 +1,6 @@
 cat << EOF
 Preparation phase is done.
-You need to manual setup some stuff if not already done:
+You may need to manual setup some stuff if not already done:
 
 - Makefile.env
   - Make sure every variables have a value

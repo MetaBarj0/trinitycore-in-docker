@@ -296,9 +296,16 @@ init_maintainer() {
   && ask_maintainer_questions
 }
 
+display_final_preparation_message() {
+  echo '' \
+  && make prepare \
+     | sed -E '/^make\[1\]: / d'
+}
+
 init() {
   print_init_header \
-  && ask_general_questions
+  && ask_general_questions \
+  && display_final_preparation_message
 }
 
 main() {
