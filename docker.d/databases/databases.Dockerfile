@@ -10,6 +10,7 @@ COPY configuration/mariadb-server.cnf /etc/my.cnf.d/
 WORKDIR /root
 COPY sql/root_privileges.sql ./sql/
 COPY diffs ./diffs/
+COPY configuration_files.tar ./
 COPY --chmod=755 scripts/ ./scripts/
 VOLUME /var/lib/mysql
 VOLUME /root/TrinityCore

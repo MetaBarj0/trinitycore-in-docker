@@ -95,6 +95,20 @@ if [ ! $maintainer_mode -eq 0 ]; then
                              targets.
 - logs:                      Display logs of all running services and follow
                              them.
+- extract_conf:              Retrieve all configuration files from built
+                             images. Note that built images are necessary to
+                             retrieve configuration files from. Exits with an
+                             error if any image is missing. The
+                             'worldserver.conf' file is retrieved from the
+                             worldserver image. The 'authserver.conf' file is
+                             retrieved from the authserver image.
+                             'Makefile.env' and 'Makefile.maintainer.env' are
+                             retrieved from any built server image (database,
+                             authserver, worldserver, worldserver_console).
+                             Should any existing configuration file exist
+                             before the call of this target, they are backed-up
+                             to their respective directories and suffixed with
+                             the '.old' extension
 EOF
 fi
 

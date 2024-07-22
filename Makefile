@@ -14,7 +14,7 @@ prepare: Makefile.env Makefile.maintainer.env
 	$(call prepare)
 
 # TODO: harden even more ensure_prepared
-build: ensure_prepared build_databases build_servers_and_tools build_worldserver_console
+build: build_databases build_servers_and_tools build_worldserver_console
 
 up:
 	@docker compose -f docker.d/docker-compose.yml up --detach

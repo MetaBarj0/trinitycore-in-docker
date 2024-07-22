@@ -11,14 +11,14 @@ config: compose_args=
 config:
 	@docker compose -f docker.d/docker-compose.yml $(compose_args) config
 
-build_databases:
-	@docker compose -f docker.d/docker-compose.yml build databases
+build_databases: ensure_prepared
+	$(call build_databases)
 
 build_servers_and_tools: build_builder
 	$(call build_servers_and_tools)
 
 build_worldserver_console:
-	@docker compose -f docker.d/docker-compose.yml build worldserver_console
+	$(call build_worldserver_console)
 
 build_debian_upgraded:
 	$(call build_debian_upgraded)
@@ -81,3 +81,6 @@ logs:
 
 ensure_prepared:
 	$(call ensure_prepared)
+
+extract_conf:
+	$(call extract_conf)

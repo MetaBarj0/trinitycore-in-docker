@@ -11,6 +11,22 @@ patch_authserver_configuration() {
   cd -
 }
 
+archive_configuration_files_for() {
+  local server_name="$1"
+
+  . trinitycore_scripts/archive.sh
+
+  cd trinitycore_configurations
+
+  archive_files_to \
+    Makefile.env \
+    Makefile.maintainer.env \
+    ${server_name}.conf \
+    ../docker.d/${server_name}/configuration_files.tar
+
+  cd -
+}
+
 copy_authserver_configuration_in_authserver_build_context() {
   cp \
     trinitycore_configurations/authserver.conf \
@@ -19,6 +35,7 @@ copy_authserver_configuration_in_authserver_build_context() {
 
 prepare_authserver_configuration() {
   patch_authserver_configuration \
+  && archive_configuration_files_for authserver \
   && copy_authserver_configuration_in_authserver_build_context
 }
 
@@ -244,6 +261,7 @@ copy_worldserver_configuration_in_worldserver_build_context() {
 
 prepare_worldserver_configuration() {
   patch_worldserver_configuration \
+  && archive_configuration_files_for worldserver \
   && copy_worldserver_configuration_in_worldserver_build_context
 }
 

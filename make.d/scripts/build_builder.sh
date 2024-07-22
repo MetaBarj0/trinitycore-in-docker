@@ -1,3 +1,4 @@
+# TODO: simplify, conditioning variables only
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
   docker compose -f docker.d/docker-compose.yml build \
     --build-arg USER=docker \

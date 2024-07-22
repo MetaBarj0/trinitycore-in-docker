@@ -2,3 +2,7 @@ Makefile.env
 Makefile.maintainer.env
 worldserver.conf
 authserver.conf
+Makefile.env.old
+Makefile.maintainer.env.old
+worldserver.conf.old
+authserver.conf.old

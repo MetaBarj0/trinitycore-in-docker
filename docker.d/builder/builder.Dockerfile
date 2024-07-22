@@ -98,6 +98,16 @@ COPY \
   authserver.conf trinitycore_configurations/
 COPY \
   --chown=$USER:$USER \
+  Makefile.env trinitycore_configurations/
+COPY \
+  --chown=$USER:$USER \
+  Makefile.maintainer.env trinitycore_configurations/
+RUN mkdir -p trinitycore_scripts
+COPY \
+  --chown=$USER:$USER \
+  archive.sh trinitycore_scripts/
+COPY \
+  --chown=$USER:$USER \
   client_files.txt .
 LABEL project=$COMPOSE_PROJECT_NAME
 LABEL namespace=$NAMESPACE

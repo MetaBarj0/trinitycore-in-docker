@@ -42,6 +42,9 @@ COPY \
 COPY \
   --chown=trinitycore:trinitycore \
   sql/ ./sql/
+COPY \
+  --chown=trinitycore:trinitycore \
+  configuration_files.tar .
 RUN \
   mkdir -p \
   downloads trinitycore/data TrinityCore

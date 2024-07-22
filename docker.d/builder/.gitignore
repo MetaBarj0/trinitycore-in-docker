@@ -1,2 +1,5 @@
 worldserver.conf
 authserver.conf
+Makefile.env
+Makefile.maintainer.env
+archive.sh

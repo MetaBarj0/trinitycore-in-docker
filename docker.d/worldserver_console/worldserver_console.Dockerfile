@@ -1,4 +1,5 @@
 FROM alpine:edge AS install_php_for_soap
+# TODO: cache and merge upgrade/update
 RUN apk update
 RUN apk add php83-litespeed php83-soap
 
@@ -11,6 +12,9 @@ COPY \
   --chown=worldserver_console:worldserver_console \
   --chmod=755 \
   scripts/ ./scripts
+COPY \
+  --chown=worldserver_console:worldserver_console \
+  configuration_files.tar .
 RUN ln -s \
   /home/worldserver_console/scripts/execute_console_command.sh \
   /usr/local/bin/

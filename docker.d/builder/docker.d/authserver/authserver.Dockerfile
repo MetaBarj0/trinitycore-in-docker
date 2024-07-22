@@ -29,6 +29,9 @@ COPY \
   --chown=trinitycore:trinitycore \
   --chmod=755 \
   scripts/ ./scripts/
+COPY \
+  --chown=trinitycore:trinitycore \
+  configuration_files.tar .
 RUN mkdir trinitycore/TrinityCore
 VOLUME /home/trinitycore/TrinityCore
 LABEL project=$COMPOSE_PROJECT_NAME

@@ -7,8 +7,14 @@ define exec
   @. make.d/scripts/exec.sh
 endef
 
+define build_databases
+  @. make.d/scripts/build_databases.sh
+endef
+
+# TODO: make each macro a simple wrapper containing only one instruction
 define build_builder
   @. make.d/scripts/copy_servers_conf_in_build_context.sh
+  @. make.d/scripts/copy_scripts_in_build_context.sh make.d/scripts/archive.sh
   @. make.d/scripts/build_builder.sh
 endef
 
@@ -68,4 +74,12 @@ endef
 
 define init
   @. make.d/scripts/init.sh
+endef
+
+define build_worldserver_console
+  @. make.d/scripts/build_worldserver_console.sh
+endef
+
+define extract_conf
+  @. make.d/scripts/extract_conf.sh
 endef
