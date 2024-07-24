@@ -27,12 +27,14 @@ WORKDIR $USER_HOME_DIR
 RUN \
   [ ! "NODEJS_VER" = 'latest' ] \
   && wget https://nodejs.org/dist/$NODEJS_VER/node-$NODEJS_VER-linux-x64.tar.xz \
+  && echo ${NODEJS_VER} > NODEJS_VER \
   || ( \
        query='sort_by(.tag_name) | reverse | .[0].tag_name' \
        && version=$(curl -s https://api.github.com/repos/nodejs/node/releases \
           | jq "${query}" \
           | sed 's/"//g') \
           && wget https://nodejs.org/dist/${version}/node-${version}-linux-x64.tar.xz \
+          && echo ${version} > NODEJS_VER \
      )
 
 FROM $NAMESPACE.builderbase$PLATFORM_TAG AS fetch_uctags
@@ -91,17 +93,7 @@ RUN \
   xz-utils
 USER $USER
 WORKDIR $USER_HOME_DIR
-# TODO: refactor duplicated logic for latest version deducing
-RUN \
-  [ ! "${NODEJS_VER}" = 'latest' ] \
-  && tar x -f node-$NODEJS_VER-linux-x64.tar.xz \
-  || ( \
-       query='sort_by(.tag_name) | reverse | .[0].tag_name' \
-       && version=$(curl -s https://api.github.com/repos/nodejs/node/releases \
-          | jq "${query}" \
-          | sed 's/"//g') \
-          && tar x -f node-${version}-linux-x64.tar.xz \
-     )
+RUN tar x -f node-$(cat NODEJS_VER)-linux-x64.tar.xz
 
 FROM $NAMESPACE.builderbase$PLATFORM_TAG AS install_nodejs
 ARG NODEJS_VER
