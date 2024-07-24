@@ -150,7 +150,6 @@ format_section_declarations() {
   | sed -E 's/(^[A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*$)/\1=\2/'
 }
 
-# TODO: duplication get_top*
 get_top_question_last_line_index() {
   local questions="$1"
   local it=1
@@ -167,7 +166,6 @@ get_top_question_last_line_index() {
   echo $(( it - 1 ))
 }
 
-# TODO: pop duplicated code
 top_question() {
   local questions="$1"
 
@@ -177,7 +175,6 @@ top_question() {
   echo "${questions}" | sed -n "1,$question_line_count p"
 }
 
-# TODO: duplicated code
 get_variable_line_index() {
   local body="$1"
   local it=1
@@ -281,7 +278,7 @@ pop_question() {
   | sed -n "$it,$ p"
 }
 
-ask_questions_of() {
+ask_questions_of_section_in_file() {
   local section="$1"
   local file="$2"
   local questions="$(format_section_declarations "${section}")"
@@ -302,27 +299,16 @@ pop_section() {
   | sed -n "$next_section_line_index,$ p"
 }
 
-ask_maintainer_questions() {
-  local sections="$(extract_sections_in Makefile.maintainer.env)"
+ask_questions_for_file() {
+  local file="$1"
+
+  local sections="$(extract_sections_in "$file")"
 
   while [ ! -z "${sections}" -a $? -eq 0 ]; do
     local section \
     && section="$(top_section "${sections}")" \
     && print_section_header "${section}" \
-    && ask_questions_of "${section}" "Makefile.maintainer.env" \
-    && sections="$(pop_section "${sections}")"
-  done
-}
-
-# TODO: duplicated code
-ask_general_questions() {
-  local sections="$(extract_sections_in Makefile.env)"
-
-  while [ ! -z "${sections}" -a $? -eq 0 ]; do
-    local section \
-    && section="$(top_section "${sections}")" \
-    && print_section_header "${section}" \
-    && ask_questions_of "${section}" "Makefile.env" \
+    && ask_questions_of_section_in_file "${section}" "${file}" \
     && sections="$(pop_section "${sections}")"
   done
 }
@@ -342,7 +328,7 @@ EOF
 
 init_maintainer() {
   print_init_maintainer_header \
-  && ask_maintainer_questions \
+  && ask_questions_for_file "Makefile.maintainer.env" \
   && report_init_maintainer_done
 }
 
@@ -370,7 +356,7 @@ EOF
 
 init() {
   print_init_header \
-  && ask_general_questions \
+  && ask_questions_for_file "Makefile.env" \
   && display_final_preparation_message \
   && report_init_done
 }
