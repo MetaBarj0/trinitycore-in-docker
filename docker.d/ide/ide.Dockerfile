@@ -21,10 +21,19 @@ RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   apt-get update \
   && apt-get install -y --no-install-recommends \
-  wget
+  wget curl jq
 USER $USER
 WORKDIR $USER_HOME_DIR
-RUN wget https://nodejs.org/dist/$NODEJS_VER/node-$NODEJS_VER-linux-x64.tar.xz
+RUN \
+  [ ! "NODEJS_VER" = 'latest' ] \
+  && wget https://nodejs.org/dist/$NODEJS_VER/node-$NODEJS_VER-linux-x64.tar.xz \
+  || ( \
+       query='sort_by(.tag_name) | reverse | .[0].tag_name' \
+       && version=$(curl -s https://api.github.com/repos/nodejs/node/releases \
+          | jq "${query}" \
+          | sed 's/"//g') \
+          && wget https://nodejs.org/dist/${version}/node-${version}-linux-x64.tar.xz \
+     )
 
 FROM $NAMESPACE.builderbase$PLATFORM_TAG AS fetch_uctags
 ARG USER
@@ -82,7 +91,17 @@ RUN \
   xz-utils
 USER $USER
 WORKDIR $USER_HOME_DIR
-RUN tar -xf node-$NODEJS_VER-linux-x64.tar.xz
+# TODO: refactor duplicated logic for latest version deducing
+RUN \
+  [ ! "${NODEJS_VER}" = 'latest' ] \
+  && tar x -f node-$NODEJS_VER-linux-x64.tar.xz \
+  || ( \
+       query='sort_by(.tag_name) | reverse | .[0].tag_name' \
+       && version=$(curl -s https://api.github.com/repos/nodejs/node/releases \
+          | jq "${query}" \
+          | sed 's/"//g') \
+          && tar x -f node-${version}-linux-x64.tar.xz \
+     )
 
 FROM $NAMESPACE.builderbase$PLATFORM_TAG AS install_nodejs
 ARG NODEJS_VER
@@ -91,7 +110,7 @@ ARG USER
 USER $USER
 RUN mkdir $USER_HOME_DIR/.nodejs
 WORKDIR $USER_HOME_DIR/.nodejs
-COPY --from=extract_nodejs $USER_HOME_DIR/node-$NODEJS_VER-linux-x64/ .
+COPY --from=extract_nodejs $USER_HOME_DIR/node-*-linux-x64/ .
 ENV NODEJS_INSTALL_DIR=$USER_HOME_DIR/.nodejs
 ENV PATH=${PATH}:${NODEJS_INSTALL_DIR}/bin
 
