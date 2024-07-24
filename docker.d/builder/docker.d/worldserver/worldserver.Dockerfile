@@ -7,7 +7,7 @@ RUN \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get update \
   && apt-get install -y --no-install-recommends \
-  libncurses6 libreadline8 ca-certificates wget p7zip
+  libncurses6 libreadline8 ca-certificates wget p7zip curl jq
 
 FROM $BUILDER_IMAGE AS builder
 

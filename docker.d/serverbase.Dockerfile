@@ -1,6 +1,7 @@
 ARG PLATFORM_TAG
 ARG NAMESPACE
 
+# TODO: upgrade boost
 FROM $NAMESPACE.debian$PLATFORM_TAG:12_slim_upgraded AS debian_upgraded
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \

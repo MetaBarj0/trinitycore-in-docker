@@ -1,5 +1,14 @@
 #!/bin/bash
 
+query_latest_download_uri() {
+  local query='map(select(.tag_name|startswith("TDB335"))) | sort_by(.created_at) | reverse | .[0].assets | .[0].browser_download_url'
+
+  curl -s \
+    https://api.github.com/repos/TrinityCore/TrinityCore/releases \
+    | jq "${query}" \
+    | sed 's/"//g'
+}
+
 extract_archive_name() {
   echo "${TDB_FULL_URI}" \
   | rev \
@@ -8,6 +17,10 @@ extract_archive_name() {
 }
 
 fetch_tdb_full() {
+  if [ "${TDB_FULL_URI}" = 'latest' ]; then
+    TDB_FULL_URI="$(query_latest_download_uri)"
+  fi
+
   local tdb_full_archive_file_name="$(extract_archive_name)"
 
   cd downloads
