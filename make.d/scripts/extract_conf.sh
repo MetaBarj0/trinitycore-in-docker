@@ -13,7 +13,6 @@ backup_authserver_conf_file() {
   cp -f "${AUTHSERVER_CONF_PATH}" "${AUTHSERVER_CONF_PATH}.old"
 }
 
-# TODO: refactor duplication
 backup_authserver_conf_file_if_needed() {
   [ ! -f "${AUTHSERVER_CONF_PATH}" ] && return 0
 
