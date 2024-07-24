@@ -1,16 +1,12 @@
 ARG BUILDER_IMAGE
 ARG NAMESPACE
 
-# TODO: merge update upgrade
 FROM $NAMESPACE.serverbase AS install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get update
-RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get install -y --no-install-recommends \
+  apt-get update \
+  && apt-get install -y --no-install-recommends \
   libncurses6 libreadline8 ca-certificates wget p7zip
 
 FROM $BUILDER_IMAGE AS builder

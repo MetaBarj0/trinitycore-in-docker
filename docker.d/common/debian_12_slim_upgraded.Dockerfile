@@ -5,10 +5,7 @@ ARG NAMESPACE
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get update -y
-RUN \
-  --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt-get upgrade -y --no-install-recommends
+  apt-get update \
+  && apt-get upgrade -y --no-install-recommends
 LABEL project=$COMPOSE_PROJECT_NAME
 LABEL namespace=$NAMESPACE

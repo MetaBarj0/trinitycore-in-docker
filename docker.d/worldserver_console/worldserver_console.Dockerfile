@@ -1,7 +1,8 @@
 FROM alpine:edge AS install_php_for_soap
-# TODO: cache and merge upgrade/update
-RUN apk update
-RUN apk add php83-litespeed php83-soap
+RUN \
+  --mount=type=cache,target=/var/cache/apk,sharing=locked \
+  apk update \
+  && apk add php83-litespeed php83-soap
 
 FROM install_php_for_soap AS create_user
 ARG COMPOSE_PROJECT_NAME

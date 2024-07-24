@@ -1,11 +1,10 @@
 FROM alpine:edge
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
-# TODO: merge update and upgrade instructions
 RUN \
   --mount=type=cache,target=/var/cache/apk,sharing=locked \
-  apk update
-RUN apk add mariadb mariadb-client patch
+  apk update \
+  && apk add mariadb mariadb-client patch
 COPY configuration/mariadb-server.cnf /etc/my.cnf.d/
 WORKDIR /root
 COPY sql/root_privileges.sql ./sql/
