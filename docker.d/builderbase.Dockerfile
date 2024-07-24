@@ -6,7 +6,7 @@ RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   apt-get install -y --no-install-recommends \
-  libboost-all-dev libmariadb-dev-compat libssl-dev cmake clang-16 zlib1g-dev \
+  libboost1.81-all-dev libmariadb-dev-compat libssl-dev cmake clang-16 zlib1g-dev \
   libreadline-dev git lld-16 ca-certificates ninja-build libbz2-dev patch
 RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-16 100
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-16 100
