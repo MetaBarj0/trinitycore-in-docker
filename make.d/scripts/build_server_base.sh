@@ -1,21 +1,20 @@
-# TODO: refactor with platform=local
-if ! [ -z "$TARGET_PLATFORM" ];then
-  platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
+main() {
+  local platform_tag=''
+  local target_platform=local
+
+  if ! [ -z "$TARGET_PLATFORM" ];then
+    platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
+    target_platform="${TARGET_PLATFORM}"
+  fi
 
   docker build \
-    --platform $TARGET_PLATFORM \
+    --platform "${target_platform}" \
     --build-arg COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME}" \
     --build-arg NAMESPACE="${NAMESPACE}" \
     --build-arg PLATFORM_TAG="${platform_tag}" \
     -f docker.d/common/serverbase.Dockerfile \
     -t "${NAMESPACE}".serverbase"${platform_tag}" \
     docker.d/common
-else
-  docker build \
-    --build-arg COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME}" \
-    --build-arg NAMESPACE="${NAMESPACE}" \
-    -f docker.d/common/serverbase.Dockerfile \
-    -t "${NAMESPACE}".serverbase \
-    docker.d/common
-fi
+}
 
+main
