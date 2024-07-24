@@ -12,11 +12,13 @@ RUN \
   libboost-system1.74.0 libboost-chrono1.74.0 libboost-atomic1.74.0 \
   mariadb-client
 
-# TODO: no more uid and gid hardcoded
+# TODO: braces around build args
 FROM debian_upgraded
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
-RUN groupadd -g 2000 trinitycore
-RUN useradd -g 2000 -u 2000 -m -s /bin/bash trinitycore
+ARG TRINITYCORE_USER_GID
+ARG TRINITYCORE_USER_UID
+RUN groupadd -g ${TRINITYCORE_USER_GID} trinitycore
+RUN useradd -g ${TRINITYCORE_USER_GID} -u ${TRINITYCORE_USER_UID} -m -s /bin/bash trinitycore
 LABEL project=$COMPOSE_PROJECT_NAME
 LABEL namespace=$NAMESPACE
