@@ -327,9 +327,23 @@ ask_general_questions() {
   done
 }
 
+report_init_maintainer_done() {
+  cat << EOF
+
+The maintainer initialization of this trinitycore-in-docker project instance is
+now complete.
+
+You can initiate the build, the launch and the attachement to the ide container
+by issuing: \`make ide\`
+
+Happy hacking!
+EOF
+}
+
 init_maintainer() {
   print_init_maintainer_header \
-  && ask_maintainer_questions
+  && ask_maintainer_questions \
+  && report_init_maintainer_done
 }
 
 display_final_preparation_message() {
@@ -342,10 +356,23 @@ display_final_preparation_message() {
   reset_print_color
 }
 
+report_init_done() {
+  cat << EOF
+
+The general initialization of this trinitycore-in-docker project instance is
+now complete.
+
+You may initiate servers and tool build by issuing: \`make build\`
+
+Once the build is done, you may start the beast with: \`make up\`
+EOF
+}
+
 init() {
   print_init_header \
   && ask_general_questions \
-  && display_final_preparation_message
+  && display_final_preparation_message \
+  && report_init_done
 }
 
 reset_print_color_and_exit() {
@@ -365,30 +392,9 @@ main() {
 
   if [ ${maintainer_mode} -eq 1 ]; then
     init_maintainer
-
-  cat << EOF
-
-The maintainer initialization of this trinitycore-in-docker project instance is
-now complete.
-
-You can initiate the build, the launch and the attachement to the ide container
-by issuing: \`make ide\`
-
-Happy hacking!
-EOF
   fi
 
   init
-
-  cat << EOF
-
-The general initialization of this trinitycore-in-docker project instance is
-now complete.
-
-You may initiate servers and tool build by issuing: \`make build\`
-
-Once the build is done, you may start the beast with: \`make up\`
-EOF
 }
 
 main
