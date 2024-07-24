@@ -12,9 +12,9 @@ main() {
     --build-arg COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME}" \
     --build-arg NAMESPACE="${NAMESPACE}" \
     --build-arg PLATFORM_TAG="${platform_tag}" \
-    -f docker.d/common/serverbase.Dockerfile \
+    -f docker.d/serverbase.Dockerfile \
     -t "${NAMESPACE}".serverbase"${platform_tag}" \
-    docker.d/common
+    docker.d
 }
 
 main

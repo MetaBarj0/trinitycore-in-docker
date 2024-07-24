@@ -1,4 +1,3 @@
-# TODO: remove the 'common' directory
 ARG NAMESPACE
 ARG PLATFORM_TAG
 

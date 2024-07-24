@@ -36,9 +36,9 @@ docker build \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NAMESPACE=${NAMESPACE} \
     --build-arg USE_DOCKER_DESKTOP=${USE_DOCKER_DESKTOP} \
-    -f docker.d/common/builderbase.Dockerfile \
+    -f docker.d/builderbase.Dockerfile \
     -t ${NAMESPACE}.builderbase${platform_tag} \
-    docker.d/common
+    docker.d
 EOF
 )"
 
