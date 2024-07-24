@@ -91,6 +91,9 @@ if [ ! $maintainer_mode -eq 0 ]; then
                              project and the namespace you defined (See the
                              Makefile.maintainer.env, NAMESPACE and
                              COMPOSE_PROJECT environment variables).
+- nuke_ide:                  Implies down_ide, that is, removes containers,
+                             networks and also all volumes related to the ide
+                             service.
 - rebuild:                   A shortcut target that runs clean and build
                              targets.
 - logs:                      Display logs of all running services and follow
