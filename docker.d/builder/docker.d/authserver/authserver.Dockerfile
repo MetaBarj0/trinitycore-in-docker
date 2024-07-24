@@ -1,9 +1,9 @@
 ARG BUILDER_IMAGE
 ARG NAMESPACE
 
-FROM $NAMESPACE.serverbase AS server_base
+FROM ${NAMESPACE}.serverbase AS server_base
 
-FROM $BUILDER_IMAGE AS builder
+FROM ${BUILDER_IMAGE} AS builder
 
 FROM server_base AS install_authserver
 USER trinitycore
@@ -34,5 +34,5 @@ COPY \
   configuration_files.tar .
 RUN mkdir trinitycore/TrinityCore
 VOLUME /home/trinitycore/TrinityCore
-LABEL project=$COMPOSE_PROJECT_NAME
-LABEL namespace=$NAMESPACE
+LABEL project=${COMPOSE_PROJECT_NAME}
+LABEL namespace=${NAMESPACE}

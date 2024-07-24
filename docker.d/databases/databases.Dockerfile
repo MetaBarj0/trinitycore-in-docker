@@ -13,5 +13,5 @@ COPY configuration_files.tar ./
 COPY --chmod=755 scripts/ ./scripts/
 VOLUME /var/lib/mysql
 VOLUME /root/TrinityCore
-LABEL project=$COMPOSE_PROJECT_NAME
-LABEL namespace=$NAMESPACE
+LABEL project=${COMPOSE_PROJECT_NAME}
+LABEL namespace=${NAMESPACE}

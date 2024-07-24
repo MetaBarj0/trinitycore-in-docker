@@ -20,5 +20,5 @@ RUN ln -s \
   /home/worldserver_console/scripts/execute_console_command.sh \
   /usr/local/bin/
 USER worldserver_console
-LABEL project=$COMPOSE_PROJECT_NAME
-LABEL namespace=$NAMESPACE
+LABEL project=${COMPOSE_PROJECT_NAME}
+LABEL namespace=${NAMESPACE}

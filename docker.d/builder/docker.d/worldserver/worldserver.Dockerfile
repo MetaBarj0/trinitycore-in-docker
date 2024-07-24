@@ -1,7 +1,7 @@
 ARG BUILDER_IMAGE
 ARG NAMESPACE
 
-FROM $NAMESPACE.serverbase AS install_dependencies
+FROM ${NAMESPACE}.serverbase AS install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -9,7 +9,7 @@ RUN \
   && apt-get install -y --no-install-recommends \
   libncurses6 libreadline8 ca-certificates wget p7zip curl jq
 
-FROM $BUILDER_IMAGE AS builder
+FROM ${BUILDER_IMAGE} AS builder
 
 FROM install_dependencies AS install_worldserver
 USER trinitycore
@@ -51,5 +51,5 @@ RUN touch \
 VOLUME /home/trinitycore/downloads
 VOLUME /home/trinitycore/trinitycore/data
 VOLUME /home/trinitycore/TrinityCore
-LABEL project=$COMPOSE_PROJECT_NAME
-LABEL namespace=$NAMESPACE
+LABEL project=${COMPOSE_PROJECT_NAME}
+LABEL namespace=${NAMESPACE}
