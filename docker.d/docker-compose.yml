@@ -37,8 +37,6 @@ services:
     environment:
       - REALMLIST_ADDRESS
       - TDB_FULL_URI
-      - TDB_FULL_ARCHIVE_FILE_NAME
-      - TDB_FULL_SQL_FILE_NAME
     image: ${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
     init: true
     networks:

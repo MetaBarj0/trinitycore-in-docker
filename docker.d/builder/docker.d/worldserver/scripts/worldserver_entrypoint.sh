@@ -1,22 +1,39 @@
 #!/bin/bash
 
+extract_archive_name() {
+  echo "${TDB_FULL_URI}" \
+  | rev \
+  | sed -E 's%(^[^/]+)/.+$%\1%' \
+  | rev
+}
+
 fetch_tdb_full() {
+  local tdb_full_archive_file_name="$(extract_archive_name)"
+
   cd downloads
 
-  wget -c "${TDB_FULL_URI}" -O "${TDB_FULL_ARCHIVE_FILE_NAME}"
+  wget -c "${TDB_FULL_URI}" -O "${tdb_full_archive_file_name}"
 
   cd -
 }
 
+extract_sql_name() {
+  echo "$(extract_archive_name)" \
+  | sed -E 's/\.7z$/.sql/'
+}
+
 uncompress_tdb_full_to_worldserver() {
+  local tdb_full_archive_file_name="$(extract_archive_name)"
+  local tdb_full_sql_file_name="$(extract_sql_name)"
+
   cd downloads
 
-  if ! [ -f "${TDB_FULL_SQL_FILE_NAME}" ]; then
-    p7zip -d -k "${TDB_FULL_ARCHIVE_FILE_NAME}"
+  if [ ! -f "${tdb_full_sql_file_name}" ]; then
+    p7zip -d -k "${tdb_full_archive_file_name}"
   fi
 
-  if ! [ -L "../trinitycore/bin/${TDB_FULL_SQL_FILE_NAME}" ]; then
-    ln -s "$(pwd)/${TDB_FULL_SQL_FILE_NAME}" ../trinitycore/bin/
+  if [ ! -L "../trinitycore/bin/${tdb_full_sql_file_name}" ]; then
+    ln -s "$(pwd)/${tdb_full_sql_file_name}" ../trinitycore/bin/
   fi
 
   cd -
