@@ -146,8 +146,11 @@ is_databases_image_exists() {
   [ ! -z "$id" ]
 }
 
-extract_conf_files_from_databases() {
-  local container_id=$(docker run --rm -it -d ${NAMESPACE}.databases:${DATABASES_VERSION})
+extract_makefiles_from_container() {
+  local container_name="$1"
+  local container_version="$2"
+
+  local container_id=$(docker run --rm -it -d ${NAMESPACE}.${container_name}:${container_version})
 
   docker exec ${container_id} tar x -f configuration_files.tar
 
@@ -160,7 +163,7 @@ extract_conf_files_from_databases() {
 extract_databases_conf() {
   is_databases_image_exists \
   && backup_env_files_if_needed \
-  && extract_conf_files_from_databases
+  && extract_makefiles_from_container 'databases' "${DATABASES_VERSION}"
 }
 
 is_worldserver_console_image_exists() {
@@ -170,21 +173,10 @@ is_worldserver_console_image_exists() {
   [ ! -z "$id" ]
 }
 
-extract_conf_files_from_worldserver_console() {
-  local container_id=$(docker run --rm -it -d ${NAMESPACE}.worldserver_console:${WORLDSERVER_CONSOLE_VERSION})
-
-  docker exec ${container_id} tar x -f configuration_files.tar
-
-  docker cp ${container_id}:/home/trinitycore/Makefile.env . > /dev/null
-  docker cp ${container_id}:/home/trinitycore/Makefile.maintainer.env . > /dev/null
-
-  docker kill ${container_id} > /dev/null
-}
-
 extract_worldserver_console_conf() {
   is_worldserver_console_image_exists \
   && backup_env_files_if_needed \
-  && extract_conf_files_from_worldserver_console
+  && extract_makefiles_from_container 'worldserver_console' "${WORLDSERVER_CONSOLE_VERSION}"
 }
 
 extract_auxiliary_servers_conf() {
