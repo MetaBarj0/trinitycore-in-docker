@@ -22,11 +22,12 @@ cryptic error message.
 Solution:
 ---------
 
-Issue the following command:
+Issue one of these following commands:
 
-- make prepare
+- make init (autopilot initialization, guided)
+- make prepare (manual initialization)
 
-And follow instruction. Then you could just build the whole thing with:
+And follow instructions. Then you could just build the whole thing with:
 
 - make build
 EOF
@@ -38,6 +39,38 @@ check_configuration_files() {
   check_for_configuration_file "${AUTHSERVER_CONF_PATH}" \
   && check_for_configuration_file "${WORLDSERVER_CONF_PATH}" \
   || print_user_guidance_for_configuration_files
+}
+
+check_use_docker_desktop_variable() {
+  [ ${USE_DOCKER_DESKTOP} -ne 0 ] \
+  && [ ${USE_DOCKER_DESKTOP} -ne 1 ]
+}
+
+# TODO: refactor problem/solution section construction into a function
+print_user_guidance_for_use_docker_desktop() {
+  cat << EOF >&2
+
+Problem:
+--------
+
+The USE_DOCKER_DESKTOP variable contains an out-of-range value or does not
+contain a value at all.
+
+Solution:
+---------
+
+Edit the Makefile.env file and set the USE_DOCKER_DESKTOP variable value
+according to instructions above the variable definition.
+You could also issue the \`make init\` command to set only this variable to a
+correct value and do not touch any other variable.
+EOF
+
+  return 1
+}
+
+check_use_docker_desktop() {
+  check_use_docker_desktop_variable \
+  || print_user_guidance_for_use_docker_desktop
 }
 
 check_client_path_variable() {
@@ -59,6 +92,7 @@ Solution:
 Edit the Makefile.env file, look for the CLIENT_PATH variable and set a correct
 value here that is, the absolute path of the World of Warcraft client version
 3.3.5a build 12340 directory.
+You can also set the CLIENT_PATH variable with the \`make init\` command.
 EOF
 
   return 1
@@ -93,6 +127,8 @@ Edit the Makefile.env file, look for ADMIN_ACCOUNT_NAME variable and set an
 account name. Follow instructions in the comment above.
 Edit the Makefile.env file, look for ADMIN_ACCOUNT_PASSWORD variable and set an
 account password. Follow instructions in the comment above.
+You can also set these variables by issuing the \`make init\` command and set
+only ADMIN_ACCOUNT_NAME and ADMIN_ACCOUNT_PASSWORD variables.
 EOF
 
  return 1
@@ -121,6 +157,7 @@ Solution:
 
 Edit the Makefile.env file, find the REALMLIST_ADDRESS variable with a valid
 value. Follow comment above the variable.
+You could also issue the \`make init\` command to set this variable only.
 EOF
 
   return 1
@@ -133,6 +170,7 @@ check_realm_address() {
 
 main() {
   check_configuration_files \
+  && check_use_docker_desktop \
   && check_client_path \
   && check_admin_account \
   && check_realm_address

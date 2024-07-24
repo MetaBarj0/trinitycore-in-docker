@@ -52,7 +52,7 @@ ide: TARGET_PLATFORM=linux/amd64
 ide: build_ide up_ide shell_ide
 
 build_ide: TARGET_PLATFORM=linux/amd64
-build_ide: build_debian_upgraded build_server_base build_builder_base
+build_ide: ensure_prepared build_debian_upgraded build_server_base build_builder_base
 	$(call build_ide)
 
 up_ide:
