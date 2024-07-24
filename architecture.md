@@ -127,4 +127,4 @@ Good knowledge of docker and build tools for C++ projects.
 
 - Primarily, everything the casual user can do plus:
 - `make ide` build and run a full IDE to work on servers and tools.
-- `make mmaintainer_mode=1 <target>` to see what's possible to do
+- `make maintainer_mode=1 help` to see what's possible to do
