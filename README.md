@@ -85,6 +85,7 @@ any issue with those topics unless a major breaking change somewhere...
 
 Before attempting a build, you must issue the `make prepare` command. Once this
 target job is done, follow the guide!
+For a more autopilot way, `make init` may help.
 
 ### invalid mount config for type "bind": field Source must not be empty
 
@@ -95,10 +96,12 @@ path to the `World of Warcraft Wrath of the Lich king` game client.
 Be sure environment variables are set in your `Makefile.maintainer.env` file.
 Default values should do the job if you begin to work with this repo.
 If you think you screwed up (like me sometimes) with variables, just delete the
-`Makefile.maintainer.env` file and issue the `make prepare` command to
-re-create it.
+`Makefile.maintainer.env` file and issue the `make prepare` ot the `make init`
+command to re-create it.
 Of course, you may have to setup some value if default are not suitable for
 you.
+You could also, if you have already built images issue the `make extract_conf`
+to retrieve configuration files directly from built images.
 
 ### Strange Warning message regarding unset variables and BLANK values...
 
