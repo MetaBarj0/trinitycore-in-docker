@@ -3,7 +3,6 @@ define help
 endef
 
 define exec
-  @. make.d/scripts/check_cmd.sh
   @. make.d/scripts/exec.sh
 endef
 
@@ -11,10 +10,7 @@ define build_databases
   @. make.d/scripts/build_databases.sh
 endef
 
-# TODO: make each macro a simple wrapper containing only one instruction
 define build_builder
-  @. make.d/scripts/copy_servers_conf_in_build_context.sh
-  @. make.d/scripts/copy_scripts_in_build_context.sh make.d/scripts/archive.sh
   @. make.d/scripts/build_builder.sh
 endef
 
@@ -23,7 +19,6 @@ define build_servers_and_tools
 endef
 
 define debug_build_builder
-  @. make.d/scripts/copy_servers_conf_in_build_context.sh
   @. make.d/scripts/debug_build_builder.sh
 endef
 
@@ -44,8 +39,7 @@ define create_file_from_template
 endef
 
 define prepare
-  @. make.d/scripts/fetch_server_configuration_files.sh
-  @. make.d/scripts/print_post_prepare_message.sh
+  @. make.d/scripts/prepare.sh
 endef
 
 define build_ide

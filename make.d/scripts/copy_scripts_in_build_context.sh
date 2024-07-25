@@ -1,1 +1,0 @@
-cp $@ docker.d/builder
