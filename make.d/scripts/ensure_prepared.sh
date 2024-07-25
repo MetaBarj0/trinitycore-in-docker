@@ -71,12 +71,13 @@ check_use_docker_desktop() {
 }
 
 check_client_path_variable() {
-  [ ! -z "${CLIENT_PATH}" ]
+  [ ! -z "${CLIENT_PATH}" ] \
+  && [ -f "${CLIENT_PATH}/Wow.exe" ]
 }
 
 print_user_guidance_for_client_path() {
   print_problem_solution_guildance \
-"Missing value for the CLIENT_PATH variable. The build system cannot find the
+"Invalid value for the CLIENT_PATH variable. The build system cannot find the
 World of Warcraft client installation directory. It is necessary to generate
 all client data the server need to operate." \
 "Edit the Makefile.env file, look for the CLIENT_PATH variable and set a correct
