@@ -151,10 +151,14 @@ extract_makefiles_from_container() {
 
   local container_id=$(docker run --rm -it -d ${NAMESPACE}.${container_name}:${container_version})
 
+  local user_home_dir=$(docker exec ${container_id} env \
+                        | grep USER_HOME_DIR \
+                        | sed 's/USER_HOME_DIR=//')
+
   docker exec ${container_id} tar x -f configuration_files.tar
 
-  docker cp ${container_id}:/home/trinitycore/Makefile.env . > /dev/null
-  docker cp ${container_id}:/home/trinitycore/Makefile.maintainer.env . > /dev/null
+  docker cp ${container_id}:${user_home_dir}/Makefile.env . > /dev/null
+  docker cp ${container_id}:${user_home_dir}/Makefile.maintainer.env . > /dev/null
 
   docker kill ${container_id} > /dev/null
 }

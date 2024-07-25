@@ -13,5 +13,6 @@ COPY configuration_files.tar ./
 COPY --chmod=755 scripts/ ./scripts/
 VOLUME /var/lib/mysql
 VOLUME /root/TrinityCore
+ENV USER_HOME_DIR=/root
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}
