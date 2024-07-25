@@ -1,45 +1,36 @@
-platform_arg=
-build_arg_arg=
-platform_tag=
+main() {
+  local platform_tag=
+  local target_platform=local
 
-# TODO: condition within square brackets
-if ! [ -z "$TARGET_PLATFORM" ];then
-  platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
-  platform_arg='--platform '$TARGET_PLATFORM
-  build_arg_arg='--build-arg PLATFORM_TAG='"${platform_tag}"
-fi
+  if [ ! -z "${TARGET_PLATFORM}" ]; then
+    platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
+    target_platform=${TARGET_PLATFORM}
+  fi
 
-if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-  build_arg_arg="$(cat << EOF
-  ${build_arg_arg} \
-  --build-arg DOCKER_GID=$(getent group docker | cut -d : -f 3) \
-  --build-arg DOCKER_UID=$(id -u) \
-  --build-arg USER_HOME_DIR=/home/docker
-EOF
-  )"
-fi
+  if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
+    docker_gid=$(getent group docker | cut -d : -f 3)
+    docker_uid=$(id -u)
+    user_home_dir=/home/docker
+  fi
 
-if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
-  build_arg_arg="$(cat << EOF
-  ${build_arg_arg} \
-  --build-arg DOCKER_GID=0 \
-  --build-arg DOCKER_UID=0 \
-  --build-arg USER_HOME_DIR=/root
-EOF
-  )"
-fi
+  if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
+    docker_gid=0
+    docker_uid=0
+    user_home_dir=/root
+  fi
 
-build_command="$(cat << EOF
-docker build \
-    ${platform_arg} \
-    ${build_arg_arg} \
+  docker build \
+    --platform ${target_platform} \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
+    --build-arg DOCKER_GID=${docker_gid} \
+    --build-arg DOCKER_UID=${docker_uid} \
     --build-arg NAMESPACE=${NAMESPACE} \
+    --build-arg PLATFORM_TAG=${platform_tag} \
     --build-arg USE_DOCKER_DESKTOP=${USE_DOCKER_DESKTOP} \
+    --build-arg USER_HOME_DIR=${user_home_dir} \
     -f docker.d/builderbase.Dockerfile \
     -t ${NAMESPACE}.builderbase${platform_tag} \
     docker.d
-EOF
-)"
+}
 
-eval ${build_command}
+main
