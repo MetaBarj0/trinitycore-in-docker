@@ -1,32 +1,31 @@
-build_arg_arg=
+main() {
+  local platform_tag
 
-# TODO: simplify by refactor, platform local value
-if ! [ -z "$TARGET_PLATFORM" ];then
-  platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
-  build_arg_arg='--build-arg PLATFORM_TAG='"${platform_tag}"
-fi
+  if ! [ -z "$TARGET_PLATFORM" ];then
+    target_platform="$TARGET_PLATFORM"
+    platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
+  fi
 
-if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-  build_arg_arg="$(cat << EOF
-  ${build_arg_arg} \
-  --build-arg USER=docker \
-  --build-arg USER_HOME_DIR=/home/docker
-EOF
-)"
-fi
+  local user
+  local user_home_dir
 
-if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
-  build_arg_arg="$(cat << EOF
-  ${build_arg_arg} \
-  --build-arg USER=root \
-  --build-arg USER_HOME_DIR=/root
-EOF
-)"
-fi
+  if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
+    user=docker
+    user_home_dir=/home/docker
+  fi
 
-build_command="$(cat << EOF
-docker compose -f docker.d/docker-compose.yml build ${build_arg_arg} ide 
-EOF
-)"
+  if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
+    user=root
+    user_home_dir=/root
+  fi
 
-eval ${build_command}
+  docker compose \
+    -f docker.d/docker-compose.yml \
+    build \
+    --build-arg PLATFORM_TAG=${platform_tag} \
+    --build-arg USER=${user} \
+    --build-arg USER_HOME_DIR=${user_home_dir} \
+    ide 
+}
+
+main
