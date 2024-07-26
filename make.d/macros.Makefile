@@ -35,7 +35,7 @@ define build_builder_base
 endef
 
 define create_file_from_template
-  @. make.d/scripts/create_file_from_template.sh $(1) $(2)
+  @. make.d/scripts/create_file_from_template.sh
 endef
 
 define prepare

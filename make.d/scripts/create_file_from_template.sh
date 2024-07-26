@@ -1,4 +1,1 @@
-file="$1"
-template="$2"
-
-cp make.d/env_file/"$template" "$file"
+cp make.d/env_file/"${ENV_FILE_TEMPLATE}" "${ENV_FILE}"

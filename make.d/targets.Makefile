@@ -42,11 +42,15 @@ debug_build_builder:
 	$(call copy_servers_conf_in_build_context)
 	$(call debug_build_builder)
 
+Makefile.env: ENV_FILE=$@
+Makefile.env: ENV_FILE_TEMPLATE=$@.dist
 Makefile.env:
-	$(call create_file_from_template,Makefile.env,Makefile.env.dist)
+	$(call create_file_from_template)
 
+Makefile.maintainer.env: ENV_FILE=$@
+Makefile.maintainer.env: ENV_FILE_TEMPLATE=$@.dist
 Makefile.maintainer.env:
-	$(call create_file_from_template,Makefile.maintainer.env,Makefile.maintainer.env.dist)
+	$(call create_file_from_template)
 
 ide: TARGET_PLATFORM=linux/amd64
 ide: build_ide up_ide shell_ide
