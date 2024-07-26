@@ -11,6 +11,7 @@ WORKDIR ${USER_HOME_DIR}/nvim-build
 RUN git clone --branch ${IDE_NEOVIM_REV} --depth=1 \
  https://github.com/neovim/neovim
 
+# TODO: refacto nodejs fetch in a proper script
 FROM ${NAMESPACE}.builderbase${PLATFORM_TAG} AS fetch_nodejs
 ARG NODEJS_VER
 ARG USER
@@ -25,16 +26,16 @@ RUN \
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
 RUN \
-  [ ! "NODEJS_VER" = 'latest' ] \
-  && wget https://nodejs.org/dist/${NODEJS_VER}/node-${NODEJS_VER}-linux-x64.tar.xz \
-  && echo ${NODEJS_VER} > NODEJS_VER \
+  [ $(arch) = 'aarch64' ] && nodejs_arch='arm64' \
+  ; [ $(arch) = 'x86_64' ] && nodejs_arch='x64' \
+  ; [ "${NODEJS_VER}" != 'latest' ] \
+  && wget https://nodejs.org/dist/${NODEJS_VER}/node-${NODEJS_VER}-linux-${nodejs_arch}.tar.xz \
   || ( \
        query='sort_by(.tag_name) | reverse | .[0].tag_name' \
        && version=$(curl -s https://api.github.com/repos/nodejs/node/releases \
           | jq "${query}" \
           | sed 's/"//g') \
-          && wget https://nodejs.org/dist/${version}/node-${version}-linux-x64.tar.xz \
-          && echo ${version} > NODEJS_VER \
+          && wget https://nodejs.org/dist/${version}/node-${version}-linux-${nodejs_arch}.tar.xz \
      )
 
 FROM ${NAMESPACE}.builderbase${PLATFORM_TAG} AS fetch_uctags
@@ -92,7 +93,7 @@ RUN \
   xz-utils
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
-RUN tar x -f node-$(cat NODEJS_VER)-linux-x64.tar.xz
+RUN tar x -f node-*-linux-*.tar.xz
 
 FROM ${NAMESPACE}.builderbase${PLATFORM_TAG} AS install_nodejs
 ARG USER_HOME_DIR
@@ -100,7 +101,7 @@ ARG USER
 USER ${USER}
 RUN mkdir ${USER_HOME_DIR}/.nodejs
 WORKDIR ${USER_HOME_DIR}/.nodejs
-COPY --from=extract_nodejs ${USER_HOME_DIR}/node-*-linux-x64/ .
+COPY --from=extract_nodejs ${USER_HOME_DIR}/node-*-linux-*/ .
 ENV NODEJS_INSTALL_DIR=${USER_HOME_DIR}/.nodejs
 ENV PATH=${PATH}:${NODEJS_INSTALL_DIR}/bin
 

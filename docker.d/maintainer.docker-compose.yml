@@ -95,8 +95,6 @@ services:
         published: '3724'
         protocol: tcp
         mode: host
-    # EXPLAIN: because of deno.js that does not support linux/arm64 architecture
-    platform: linux/amd64
     profiles:
       - dev
     secrets:

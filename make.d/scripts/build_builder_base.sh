@@ -2,7 +2,7 @@ main() {
   local platform_tag=
   local target_platform=local
 
-  if [ ! -z "${TARGET_PLATFORM}" ]; then
+  if [ ! -z "${TARGET_PLATFORM}" ] && [ 'local' != "${TARGET_PLATFORM}" ]; then
     platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
     target_platform=${TARGET_PLATFORM}
   fi
