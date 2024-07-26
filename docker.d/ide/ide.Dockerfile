@@ -169,6 +169,7 @@ RUN \
   python3.11-venv cmake-curses-gui lldb-16 clang-format-16
 RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-16 100
 RUN update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-16 100
+RUN update-alternatives --install /usr/bin/lldb-vscode lldb-vscode /usr/bin/lldb-vscode-16 100
 RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-16 100
 RUN echo ${USER}' ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ide
 USER ${USER}
