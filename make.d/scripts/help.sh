@@ -22,7 +22,8 @@ Usage: make <target> where target is one of:
            variable description to correctly setup your environment.
 - build:   build docker images for databases, worldserver_console and builder
            in a first time. Then, build the authserver and worldserver images.
-- up:      Make TrinityCore servers up and running.
+- up:      Make TrinityCore servers up and running. You can specify a single
+           service to run with the 'service' variable
 - down:    shutdown TrinityCore servers, destroys containers.
 - exec:    Execute a worldserver command using the 'worldserver_console'
            service. You must use the 'cmd' variable to specify the worldserver
@@ -67,9 +68,6 @@ if [ ! $maintainer_mode -eq 0 ]; then
                              integrated environment within a docker container.
                              The image will also expose docker-in-docker
                              capabilities to ease test deployments.
-- up_ide:                    Spin up the 'ide service' in background. Requires
-                             the 'ide' service docker image is built beforehand
-                             (see the 'build_ide' target)
 - shell_ide:                 Attach to a running 'ide' service that is running
                              in background. Requires the service to run
                              beforehand (see the 'up_ide' target)
@@ -142,6 +140,10 @@ Both 'Makefile.env' and 'Makefile.maintainer.env' are expected at the root
 directory of this repository. They are git-ignored.
 'make prepare' creates a copy at the right place.
 
+You can also use the 'make init' target to guide you alongside you
+configuration efforts. The 'maintainer_mode' variable applies for this target
+too: 'make init maintainer_mode=1'.
+
 ********************************************************************************
 
 ********************************************************************************
@@ -151,6 +153,10 @@ Variables:
 
 There are some variables you can use to customize the bahvior of some targets:
 
+- service:         Applies for the 'up' target. If left uninitialized, the 'up'
+                   target will start all game servers services at once. You can
+                   initialize the 'service' variable to pick only one service
+                   to start: 'make up service=databases' for instance.
 - maintainer_mode: setting this variable to '1' will turn on the maintainer
                    mode and alter the bahvior of the 'help' target. It will
                    display supplementary documentation about target considered
@@ -192,6 +198,9 @@ They configure 'worldserver' and 'authserver' services accordingly.
 Note that some part of the configuration are susceptible to be changed when
 containers start, as specified in variable descriptions in the
 'Makefile.env.dist' file.
+Following targets are of great help to configure your project:
+- make init
+- make prepare
 
 ********************************************************************************
 EOF

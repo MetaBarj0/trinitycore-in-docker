@@ -59,8 +59,9 @@ build_ide: TARGET_PLATFORM=local
 build_ide: ensure_prepared build_debian_upgraded build_server_base build_builder_base
 	$(call build_ide)
 
+up_ide: service = ide
 up_ide:
-	$(call up_ide)
+	$(call up_service_or_all)
 
 down_ide:
 	@docker compose -f docker.d/docker-compose.yml down ide

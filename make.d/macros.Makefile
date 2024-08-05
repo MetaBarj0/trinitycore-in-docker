@@ -46,8 +46,8 @@ define build_ide
   @. make.d/scripts/build_ide.sh
 endef
 
-define up_ide
-  @. make.d/scripts/up_ide.sh
+define up_service_or_all
+  @. make.d/scripts/up_service_or_all.sh
 endef
 
 define shell_ide

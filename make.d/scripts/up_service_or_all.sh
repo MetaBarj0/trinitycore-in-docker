@@ -4,4 +4,4 @@ else
   export USER_HOME_DIR=/root
 fi
 
-docker compose -f docker.d/docker-compose.yml up -d ide
+docker compose -f docker.d/docker-compose.yml up ${service} --detach

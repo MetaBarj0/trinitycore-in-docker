@@ -15,8 +15,9 @@ prepare: Makefile.env Makefile.maintainer.env
 
 build: build_databases build_servers_and_tools build_worldserver_console
 
+up: service = 
 up:
-	@docker compose -f docker.d/docker-compose.yml up --detach
+	$(call up_service_or_all)
 
 down:
 	$(call down)
