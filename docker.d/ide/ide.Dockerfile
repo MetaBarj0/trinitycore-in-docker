@@ -11,7 +11,6 @@ WORKDIR ${USER_HOME_DIR}/nvim-build
 RUN git clone --branch ${IDE_NEOVIM_REV} --depth=1 \
  https://github.com/neovim/neovim
 
-# TODO: refacto nodejs fetch in a proper script
 FROM ${NAMESPACE}.builderbase${PLATFORM_TAG} AS fetch_nodejs
 ARG NODEJS_VER
 ARG USER
