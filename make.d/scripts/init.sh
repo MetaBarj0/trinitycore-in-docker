@@ -1,21 +1,29 @@
+echo_ext() {
+  [ "${SHELL}" = "/bin/bash" ] \
+  && echo $@ \
+  || echo -e $@
+
+  return 0
+}
+
 set_print_green() {
-  echo -e '\033[1;32m'
+  echo_ext '\033[1;32m'
 }
 
 set_print_yellow() {
-  echo -e '\033[1;33m'
+  echo_ext '\033[1;33m'
 }
 
 set_print_blue() {
-  echo -e '\033[1;34m'
+  echo_ext '\033[1;34m'
 }
 
 set_print_purple() {
-  echo -e '\033[1;35m'
+  echo_ext '\033[1;35m'
 }
 
 reset_print_color() {
-  echo -e '\033[0;0m'
+  echo_ext '\033[0;0m'
 }
 
 print_usage() {
@@ -245,7 +253,7 @@ ask_question() {
   echo "  ${variable_name}:"
   reset_print_color
 
-  echo "${description}"$'\n'
+  echo "${description}"
 
   set_print_purple
 
@@ -368,7 +376,7 @@ reset_print_color_and_exit() {
 }
 
 setup_signal_handling() {
-  trap reset_print_color_and_exit SIGINT
+  trap reset_print_color_and_exit INT
 }
 
 main() {
