@@ -35,6 +35,8 @@ To begin with your development endeavors you can:
 - build the whole thing either:
   - using trinitycore-in-docker
   - manually with cmake
+- start trinitycore-in-docker game servers with the following command:
+  'make up'
 - install debug version of tools and servers with cmake
 - patch configuration file to make them suitable for debugging purposes with
   the 'trinitycore_patch_conf_in_install_directory.sh' command

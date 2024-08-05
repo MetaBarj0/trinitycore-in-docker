@@ -67,7 +67,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_ide_container
     entrypoint: scripts/ide_entrypoint.sh
     environment:
-      - BUILDER_VERSION
+      - AUTHSERVER_VERSION
       - GIT_USER_EMAIL
       - GIT_USER_NAME
       - NAMESPACE
@@ -77,6 +77,7 @@ services:
       - TRINITYCORE_INSTALL_DIRECTORY
       - TRINITYCORE_REPOSITORY_TARGET_DIRECTORY
       - USER_HOME_DIR
+      - WORLDSERVER_VERSION
     hostname: ide
     init: true
     networks:
