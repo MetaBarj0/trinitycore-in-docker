@@ -23,9 +23,26 @@ run_live_loop() {
   done
 }
 
+source_scripts() {
+  . "${USER_HOME_DIR}/scripts/trinitycore_clone.sh"
+}
+
+display_motd() {
+  cat << EOF
+Welcome into the trinitycore-in-docker development environment.
+To begin with you development endeavors you can:
+
+- Clone the configure TrinityCore repository with:
+  \`trinitycore_clone.sh\` command
+- Use \`neovim\` as IDE.
+EOF
+}
+
 main() {
   setup_ssh_keys \
   && setup_git_user \
+  && source_scripts \
+  && display_motd \
   && run_live_loop
 }
 

@@ -1,5 +1,6 @@
 services:
   builder:
+    # TODO: remove all build stuff from compose. Build is for make, run is for compose
     build:
       args:
         - COMPOSE_PROJECT_NAME
@@ -66,17 +67,14 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_ide_container
     entrypoint: scripts/ide_entrypoint.sh
     environment:
+      - BUILDER_VERSION
       - GIT_USER_EMAIL
       - GIT_USER_NAME
-      - BUILDER_VERSION
-      - LANG=en_US.UTF-8
-      - LANGUAGE=en_US:en
-      - LC_ALL=en_US.UTF-8
       - NAMESPACE
       - REPOSITORY_REV
       - REPOSITORY_SHA
       - REPOSITORY_URI
-      - TERM=xterm-256color
+      - TRINITYCORE_REPOSITORY_TARGET_DIRECTORY
       - USER_HOME_DIR
     hostname: ide
     init: true
@@ -84,6 +82,7 @@ services:
       dev:
       inside:
         ipv4_address: 11.12.13.5
+    #TODO: make exposed ports configurable (after research on how ports work for trinitycore)
     ports:
       - target: 8085
         host_ip: 0.0.0.0

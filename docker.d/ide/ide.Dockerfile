@@ -167,7 +167,7 @@ RUN \
   apt-get update \
   && apt-get install -y --no-install-recommends \
   tmux python3-neovim locales clangd-16 sudo tig man-db less make btop \
-  python3.11-venv cmake-curses-gui lldb-16 clang-format-16
+  python3.11-venv cmake-curses-gui lldb-16 clang-format-16 telnet
 RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-16 100
 RUN update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-16 100
 RUN update-alternatives --install /usr/bin/lldb-vscode lldb-vscode /usr/bin/lldb-vscode-16 100
@@ -185,7 +185,12 @@ ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
 ARG USER
 ARG USER_HOME_DIR
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 ENV NVIM_LLDB_VSCODE_PATH=/usr/bin/lldb-vscode
+ENV PATH=${PATH}:${USER_HOME_DIR}/scripts
+ENV TERM=xterm-256color
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
 COPY --chmod=755 scripts scripts
