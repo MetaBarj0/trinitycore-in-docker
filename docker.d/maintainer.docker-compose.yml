@@ -109,6 +109,10 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
         read_only: true
+      - type: bind
+        source: ${CLIENT_PATH}
+        target: ${CLIENT_PATH}
+        read_only: true
       - type: volume
         source: client_data
         target: ${USER_HOME_DIR:-implementation defined}/client_data

@@ -22,6 +22,7 @@ main() {
   docker compose \
     -f docker.d/docker-compose.yml \
     build \
+    --build-arg CLIENT_PATH="${CLIENT_PATH}" \
     --build-arg PLATFORM_TAG=${platform_tag} \
     --build-arg USER=${user} \
     --build-arg USER_HOME_DIR=${user_home_dir} \

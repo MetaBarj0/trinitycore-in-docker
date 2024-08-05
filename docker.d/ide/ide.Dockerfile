@@ -180,6 +180,7 @@ RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
   && locale-gen
 
 FROM install_locales
+ARG CLIENT_PATH
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
 ARG USER
@@ -207,6 +208,7 @@ VOLUME ${USER_HOME_DIR}/.npm-prefix
 VOLUME ${USER_HOME_DIR}/.npm-cache
 VOLUME ${USER_HOME_DIR}/.init
 VOLUME ${USER_HOME_DIR}/.local
+VOLUME ${CLIENT_PATH}
 RUN touch \
   ${USER_HOME_DIR}/client_data/.volume \
   ${USER_HOME_DIR}/ide_storage/.volume \
