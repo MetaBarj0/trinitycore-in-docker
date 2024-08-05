@@ -1,12 +1,17 @@
+get_real_target_directory() {
+  echo "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" \
+  | sed -E "s%^~(/.+)%${USER_HOME_DIR}\1%"
+}
+
 is_target_directory_empty_or_inexisting() {
-  if [ ! -d "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" ]; then
+  if [ ! -d "$(get_real_target_directory)" ]; then
     return 0
   fi
 
-  local count=$(find "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" -maxdepth 1 -mindepth 1 | wc -l)
+  local count=$(find "$(get_real_target_directory)" -maxdepth 1 -mindepth 1 | wc -l)
 
   if [ $count -eq 0 ]; then
-    rm -r "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}"
+    rm -r "$(get_real_target_directory)"
 
     return 0
   else
@@ -17,13 +22,13 @@ is_target_directory_empty_or_inexisting() {
 clone_repository() {
   echo "Cloning the TrinityCore repository to ${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}..."
 
-  git clone "${REPOSITORY_URI}" "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}"
+  git clone --branch "${REPOSITORY_REV}" "${REPOSITORY_URI}" "$(get_real_target_directory)"
 
   echo "TrinityCore repository clone into ${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}."
 }
 
 ensure_target_directory_contains_cloned_repository() {
-  cd "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" 2>&1 > /dev/null
+  cd "$(get_real_target_directory)" 2>&1 > /dev/null
 
   local repository_uri="$(git remote get-url origin 2> /dev/null)"
 
