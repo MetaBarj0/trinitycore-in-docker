@@ -26,12 +26,21 @@ run_live_loop() {
 setup_motd() {
   local motd_command=\
 "cat << EOF
-Welcome into the trinitycore-in-docker development environment.
-To begin with you development endeavors you can:
+Welcome into the trinitycore-in-docker ide service.
+To begin with your development endeavors you can:
 
-- Clone the configure TrinityCore repository with:
+- clone the configure TrinityCore repository with:
   'trinitycore_clone.sh' command
-- Use 'neovim' as IDE.
+- use 'neovim' as IDE.
+- build the whole thing either:
+  - using trinitycore-in-docker
+  - manually with cmake
+- install debug version of tools and servers with cmake
+- patch configuration file to make them suitable for debugging purposes with
+  the 'trinitycore_patch_conf_in_install_directory.sh' command
+- start your debug versions of servers
+- debug the stuff
+- ...
 EOF
 "
 
