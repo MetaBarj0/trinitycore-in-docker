@@ -54,14 +54,6 @@ services:
         target: /home/trinitycore/TrinityCore
   # TODO: rename to worldserver_remote_access
   worldserver_console:
-    build:
-      args:
-        - COMPOSE_PROJECT_NAME
-        - NAMESPACE
-      context: ./worldserver_console
-      dockerfile: worldserver_console.Dockerfile
-      tags:
-        - ${NAMESPACE}.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}
     depends_on:
       - worldserver
     entrypoint: /home/worldserver_console/scripts/worldserver_console_entrypoint.sh
@@ -75,6 +67,7 @@ services:
       retries: 10
       start_period: 20s
       start_interval: 10s
+    image: ${NAMESPACE}.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}
     init: true
     networks:
       inside:
