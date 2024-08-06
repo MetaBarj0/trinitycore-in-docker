@@ -1,16 +1,28 @@
-# TODO: introduce color here
-cat << EOF
-********************************************************************************
+. make.d/scripts/color.sh
 
-make targets:
--------------
+print_help() {
+  cat << EOF
 
 Usage: make <target> where target is one of:
 
+make targets:
+-------------
+EOF
+
+  set_print_green
+  cat << EOF
 - help:    display this message.
+EOF
+
+  set_print_yellow
+  cat << EOF
 - init:    Ask you a bunch of questions. Aims to simplify the configuration by
            automatically preparing the project and let you answer questions to
            configure each needed variables in environment variable files.
+EOF
+
+  set_print_green
+  cat << EOF
 - prepare: This target prepares the environment before the build. Its purpose
            is to facilitate the user's life. It will setup then environment by
            creating 'Makefile.env' and 'Makefile.maintainer.env' files from
@@ -21,18 +33,35 @@ Usage: make <target> where target is one of:
            even if it does a lot, you still have to provide some environment
            setup such as where to locate the WoW client. Read carefully each
            variable description to correctly setup your environment.
+EOF
+
+  set_print_yellow
+  cat << EOF
 - build:   build docker images for databases, worldserver_console and builder
            in a first time. Then, build the authserver and worldserver images.
+EOF
+
+  set_print_green
+  cat << EOF
 - up:      Make TrinityCore servers up and running. You can specify a single
            service to run with the 'service' variable
+EOF
+
+  set_print_yellow
+  cat << EOF
 - down:    shutdown TrinityCore servers, destroys containers.
+EOF
+
+  set_print_green
+  cat << EOF
 - exec:    Execute a worldserver command using the 'worldserver_console'
            service. You must use the 'cmd' variable to specify the worldserver
            command to execute. Example: make exec cmd='server info'
 EOF
 
-if [ $maintainer_mode -ne 0 ]; then
-  cat << EOF
+  if [ $maintainer_mode -ne 0 ]; then
+    set_print_light_cyan
+    cat << EOF
 - config:                    Use this target to check the 'docker-compose.yml'
                              configuration. It is the same thing as running
                              'docker compose config' except that it will
@@ -41,26 +70,58 @@ if [ $maintainer_mode -ne 0 ]; then
                              will be displayed to help you spot the culprit. If
                              the configuration is correct, the entire
                              'docker-compose.yml' file will be evaluated.
+EOF
+
+  set_print_purple
+  cat << EOF
 - ps:                        this target show docker container that are
                              currently running in this compose project.
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - build_builder:             build the builder meta builder service image. See
+EOF
+
+  set_print_purple
+  cat << EOF
 - debug_build_builder:       debug the build of the builder service image.
                              this one like a kind of bootstrap service that is
                              responsible to build each TrinityCore servers.
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - build_databases:           build the databases service docker image.
+EOF
+
+  set_print_purple
+  cat << EOF
 - debug_build_databases:     debug the build of the databases service docker
                              image. If something goes wrong while the databases
                              service image is building, a debug container will
                              be spawned to help you troubleshoot the issue.
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - build_servers_and_tools:   Build the actual server docker images. It relies
                              on the 'build_builder' make target. This step can
                              be very long as it may generate client data such
                              as vmaps and mmaps if they are not already
                              generated.
+EOF
+
+  set_print_purple
+  cat << EOF
 - build_worldserver_console: build the worldserver remote access console
                              service. This service allow a user to issue
                              command to be executed by the worldserver remotely
                              in a separate container.
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - build_ide:                 Build the 'ide' service. It is a docker image that
                              contains everything that is needed to contribute
                              to TrinityCore project. Development tools of all
@@ -69,13 +130,29 @@ if [ $maintainer_mode -ne 0 ]; then
                              integrated environment within a docker container.
                              The image will also expose docker-in-docker
                              capabilities to ease test deployments.
+EOF
+
+  set_print_purple
+  cat << EOF
 - shell_ide:                 Attach to a running 'ide' service that is running
                              in background. Requires the service to run
                              beforehand (see the 'up_ide' target)
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - ide:                       A shortcut target that runs build_ide, up_ide and
                              shell_ide targets.
+EOF
+
+  set_print_purple
+  cat << EOF
 - down_ide:                  Shutdown the 'ide' service and remove the stopped
                              container.
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - clean:                     This target is designed to remove all images of
                              this project. It will remove images that belong to
                              both this compose project and the namespace you
@@ -84,19 +161,39 @@ if [ $maintainer_mode -ne 0 ]; then
                              COMPOSE_PROJECT environment variables). Besides,
                              it also remove the volume containing the shallow
                              clone of TrinityCore git repository.
+EOF
+
+  set_print_purple
+  cat << EOF
 - nuke:                      Implies the 'clean' target. Does all the 'clean'
                              target does. Moreover, it'll destroy all
                              persistent volumes belonging to both this compose
                              project and the namespace you defined (See the
                              Makefile.maintainer.env, NAMESPACE and
                              COMPOSE_PROJECT environment variables).
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - nuke_ide:                  Implies down_ide, that is, removes containers,
                              networks and also all volumes related to the ide
                              service.
+EOF
+
+  set_print_purple
+  cat << EOF
 - rebuild:                   A shortcut target that runs clean and build
                              targets.
+EOF
+
+  set_print_light_cyan
+  cat << EOF
 - logs:                      Display logs of all running services and follow
                              them.
+EOF
+
+  set_print_purple
+  cat << EOF
 - extract_conf:              Retrieve all configuration files from built
                              images. Note that built images are necessary to
                              retrieve configuration files from. Exits with an
@@ -112,20 +209,17 @@ if [ $maintainer_mode -ne 0 ]; then
                              to their respective directories and suffixed with
                              the '.old' extension
 EOF
-fi
+  fi
 
-cat << EOF
+  reset_print_color
 
-********************************************************************************
-EOF
-
-cat << EOF
-
-********************************************************************************
-
+  cat << EOF
 Environment:
 ------------
+EOF
 
+  set_print_blue
+  cat << EOF
 Make sure to have your own copy of the 'Makefile.env' file. You can create your
 own from the 'Makefile.env.dist' file located in the 'make.d/env_file'
 directory and set all variables according your need and your environment. Each
@@ -144,14 +238,16 @@ directory of this repository. They are git-ignored.
 You can also use the 'make init' target to guide you alongside you
 configuration efforts. The 'maintainer_mode' variable applies for this target
 too: 'make init maintainer_mode=1'.
+EOF
 
-********************************************************************************
-
-********************************************************************************
-
+  reset_print_color
+  cat << EOF
 Variables:
 ----------
+EOF
 
+  set_print_green
+  cat << EOF
 There are some variables you can use to customize the bahvior of some targets:
 
 - service:         Applies for the 'up' target. If left uninitialized, the 'up'
@@ -174,14 +270,16 @@ There are some variables you can use to customize the bahvior of some targets:
                    value into the 'cmd' variable, the 'server info' command
                    will be executed.
                    Example: make exec
+EOF
 
-********************************************************************************
-
-********************************************************************************
-
+  reset_print_color
+  cat << EOF
 TrinityCore servers configuration:
 ----------------------------------
+EOF
 
+  set_print_red
+  cat << EOF
 You also have to provide configuration files for TrinityCore servers to run
 correctly.
 There are 2 servers to configure:
@@ -202,6 +300,19 @@ containers start, as specified in variable descriptions in the
 Following targets are of great help to configure your project:
 - make init
 - make prepare
-
-********************************************************************************
 EOF
+
+}
+
+main() {
+  if ! less -r 2> /dev/null; then
+    print_help
+  else
+    print_help \
+    | less -r
+  fi
+
+  reset_print_color
+}
+
+main

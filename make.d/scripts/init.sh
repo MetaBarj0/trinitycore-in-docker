@@ -1,30 +1,4 @@
-echo_ext() {
-  [ "${SHELL}" = "/bin/bash" ] \
-  && echo $@ \
-  || echo -e $@
-
-  return 0
-}
-
-set_print_green() {
-  echo_ext '\033[1;32m'
-}
-
-set_print_yellow() {
-  echo_ext '\033[1;33m'
-}
-
-set_print_blue() {
-  echo_ext '\033[1;34m'
-}
-
-set_print_purple() {
-  echo_ext '\033[1;35m'
-}
-
-reset_print_color() {
-  echo_ext '\033[0;0m'
-}
+. make.d/scripts/color.sh
 
 print_usage() {
   local cmd \
