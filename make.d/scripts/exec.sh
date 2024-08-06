@@ -7,6 +7,5 @@ EOF
   exit 1
 fi
 
-# TODO: rename container in compose to prevent scaling
-docker exec ${COMPOSE_PROJECT_NAME}-worldserver_remote_access-1 \
+docker exec ${COMPOSE_PROJECT_NAME}_worldserver_remote_access_container \
   sh -c "execute_console_command.sh '${cmd}'"

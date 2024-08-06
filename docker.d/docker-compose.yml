@@ -53,6 +53,7 @@ services:
         source: trinitycore_shallow_clone
         target: /home/trinitycore/TrinityCore
   worldserver_remote_access:
+    container_name: ${COMPOSE_PROJECT_NAME}_worldserver_remote_access_container
     depends_on:
       - worldserver
     entrypoint: /home/worldserver_remote_access/scripts/worldserver_remote_access_entrypoint.sh
