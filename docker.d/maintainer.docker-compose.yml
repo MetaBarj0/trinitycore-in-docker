@@ -35,18 +35,6 @@ services:
         source: trinitycore_shallow_clone
         target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
   ide:
-    build:
-      args:
-        - COMPOSE_PROJECT_NAME
-        - IDE_NEOVIM_REV
-        - NAMESPACE
-        - NODEJS_VER
-        - USER
-        - USER_HOME_DIR
-      context: ide
-      dockerfile: ide.Dockerfile
-      tags:
-        - ${NAMESPACE}.ide:${IDE_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}_ide_container
     entrypoint: scripts/ide_entrypoint.sh
     environment:
@@ -62,6 +50,7 @@ services:
       - USER_HOME_DIR
       - WORLDSERVER_VERSION
     hostname: ide
+    image: ${NAMESPACE}.ide:${IDE_VERSION}
     init: true
     networks:
       dev:

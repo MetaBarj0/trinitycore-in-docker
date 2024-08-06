@@ -1,11 +1,4 @@
 main() {
-  local platform_tag
-
-  if ! [ -z "${TARGET_PLATFORM}" ] && [ 'local' != "${TARGET_PLATFORM}" ];then
-    target_platform="$TARGET_PLATFORM"
-    platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
-  fi
-
   local user
   local user_home_dir
 
@@ -20,14 +13,17 @@ main() {
     user_home_dir=/root
   fi
 
-  docker compose \
-    -f docker.d/docker-compose.yml \
-    build \
+  docker build \
     --build-arg CLIENT_PATH="${CLIENT_PATH}" \
-    --build-arg PLATFORM_TAG=${platform_tag} \
+    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
+    --build-arg IDE_NEOVIM_REV=${IDE_NEOVIM_REV} \
+    --build-arg NAMESPACE=${NAMESPACE} \
+    --build-arg NODEJS_VER=${NODEJS_VER} \
     --build-arg USER=${user} \
     --build-arg USER_HOME_DIR=${user_home_dir} \
-    ide 
+    -f docker.d/ide/ide.Dockerfile \
+    -t ${NAMESPACE}.ide:${IDE_VERSION} \
+    docker.d/ide
 }
 
 main
