@@ -2,14 +2,6 @@ include:
   - maintainer.docker-compose.yml
 services:
   databases:
-    build:
-      args:
-        - COMPOSE_PROJECT_NAME
-        - NAMESPACE
-      context: ./databases
-      dockerfile: databases.Dockerfile
-      tags:
-        - ${NAMESPACE}.databases:${DATABASES_VERSION}
     entrypoint: /root/scripts/databases_entrypoint.sh
     healthcheck:
       test: ['CMD-SHELL', '/root/scripts/healthcheck.sh']
@@ -18,6 +10,7 @@ services:
       retries: 10
       start_period: 2s
       start_interval: 1s
+    image: ${NAMESPACE}.databases:${DATABASES_VERSION}
     init: true
     networks:
       inside:

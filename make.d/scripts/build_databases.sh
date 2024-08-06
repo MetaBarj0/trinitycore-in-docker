@@ -5,6 +5,11 @@ archive_files_to \
   Makefile.maintainer.env \
   ./docker.d/databases/configuration_files.tar
 
-docker compose -f docker.d/docker-compose.yml build databases
+docker build \
+  --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
+  --build-arg NAMESPACE=${NAMESPACE} \
+  -f docker.d/databases/databases.Dockerfile \
+  -t ${NAMESPACE}.databases:${DATABASES_VERSION} \
+  docker.d/databases
 
 rm -f ./docker.d/databases/configuration_files.tar

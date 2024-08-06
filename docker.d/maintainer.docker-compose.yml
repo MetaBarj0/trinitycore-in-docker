@@ -1,6 +1,5 @@
 services:
   builder:
-    # TODO: remove all build stuff from compose. Build is for make, run is for compose
     build:
       args:
         - COMPOSE_PROJECT_NAME
