@@ -4,8 +4,8 @@ main() {
 
   # TODO: change user name for ide service
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-    user=docker
-    user_home_dir=/home/docker
+    user=${IDE_USER_NAME}
+    user_home_dir=${IDE_USER_HOME_DIR}
   fi
 
   if [ $USE_DOCKER_DESKTOP -eq 1 ]; then

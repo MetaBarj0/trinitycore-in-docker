@@ -38,13 +38,14 @@ RUN \
 
 FROM install_docker
 ARG COMPOSE_PROJECT_NAME
-ARG DOCKER_GID
-ARG DOCKER_UID
 ARG NAMESPACE
 ARG USE_DOCKER_DESKTOP
+ARG USER
+ARG USER_GID
 ARG USER_HOME_DIR
-RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || [ ! -z ${DOCKER_GID} ] && groupmod -g ${DOCKER_GID} docker
-RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || useradd -d ${USER_HOME_DIR} -m -s /bin/bash -g docker docker
-RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || [ ! -z ${DOCKER_UID} ] && usermod -u ${DOCKER_UID} docker
+ARG USER_UID
+RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || [ ! -z ${USER_GID} ] && groupmod -g ${USER_GID} docker
+RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || useradd -d ${USER_HOME_DIR} -m -s /bin/bash -g docker ${USER}
+RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || [ ! -z ${USER_UID} ] && usermod -u ${USER_UID} ${USER}
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}
