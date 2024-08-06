@@ -27,12 +27,20 @@ main() {
     user_uid=0
   fi
 
-  docker compose -f docker.d/docker-compose.yml build \
+  docker build \
+    --ssh default \
+    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
+    --build-arg NAMESPACE=${NAMESPACE} \
+    --build-arg REPOSITORY_URI=${REPOSITORY_URI} \
+    --build-arg REPOSITORY_REV=${REPOSITORY_REV} \
+    --build-arg REPOSITORY_SHA=${REPOSITORY_SHA} \
     --build-arg USER=${user} \
     --build-arg USER_GID=${user_gid} \
     --build-arg USER_HOME_DIR=${user_home_dir} \
     --build-arg USER_UID=${user_uid} \
-    builder
+    -t ${NAMESPACE}.builder:${BUILDER_VERSION} \
+    -f docker.d/builder/builder.Dockerfile \
+    docker.d/builder
 }
 
 main
