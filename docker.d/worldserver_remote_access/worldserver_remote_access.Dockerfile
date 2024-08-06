@@ -7,19 +7,19 @@ RUN \
 FROM install_php_for_soap AS create_user
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
-RUN adduser -D worldserver_console
-WORKDIR /home/worldserver_console
+RUN adduser -D worldserver_remote_access
+WORKDIR /home/worldserver_remote_access
 COPY \
-  --chown=worldserver_console:worldserver_console \
+  --chown=worldserver_remote_access:worldserver_remote_access \
   --chmod=755 \
   scripts/ ./scripts
 COPY \
-  --chown=worldserver_console:worldserver_console \
+  --chown=worldserver_remote_access:worldserver_remote_access \
   configuration_files.tar .
 RUN ln -s \
-  /home/worldserver_console/scripts/execute_console_command.sh \
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
   /usr/local/bin/
-USER worldserver_console
-ENV USER_HOME_DIR=/home/worldserver_console
+USER worldserver_remote_access
+ENV USER_HOME_DIR=/home/worldserver_remote_access
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}

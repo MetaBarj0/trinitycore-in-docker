@@ -13,7 +13,7 @@ help:
 prepare: Makefile.env Makefile.maintainer.env
 	$(call prepare)
 
-build: build_databases build_servers_and_tools build_worldserver_console
+build: build_databases build_servers_and_tools build_worldserver_remote_access
 
 up: service = 
 up:

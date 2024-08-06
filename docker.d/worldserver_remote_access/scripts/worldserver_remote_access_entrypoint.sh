@@ -33,22 +33,22 @@ use_bootstrap_admin_account() {
 }
 
 wait_for_worldserver() {
-  until /home/worldserver_console/scripts/healthcheck.sh; do
+  until /home/worldserver_remote_access/scripts/healthcheck.sh; do
     sleep 1
   done
 }
 
 re_create_admin_account() {
-  /home/worldserver_console/scripts/execute_console_command.sh \
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
     'account delete '"${CREATED_ADMIN_ACCOUNT_NAME}"
 
-  /home/worldserver_console/scripts/execute_console_command.sh \
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
     'account create '"${CREATED_ADMIN_ACCOUNT_NAME}"' '"${CREATED_ADMIN_ACCOUNT_PASSWORD}"
 
-  /home/worldserver_console/scripts/execute_console_command.sh \
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
     'account set addon '"${CREATED_ADMIN_ACCOUNT_NAME}"' 2'
 
-  /home/worldserver_console/scripts/execute_console_command.sh \
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
     'account set gm '"${CREATED_ADMIN_ACCOUNT_NAME}"' 3'
 }
 
@@ -58,7 +58,7 @@ use_created_admin_account() {
 }
 
 delete_bootstrap_admin_account() {
-  /home/worldserver_console/scripts/execute_console_command.sh \
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
     'account delete TC_ADMIN'
 }
 
@@ -87,7 +87,7 @@ main
 trap shutdown SIGTERM
 
 shutdown() {
-  echo Terminating gracefully worldserver_console service...
+  echo Terminating gracefully worldserver_remote_access service...
 
   exit 0
 }

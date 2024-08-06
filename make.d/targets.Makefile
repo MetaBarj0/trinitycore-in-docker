@@ -17,8 +17,8 @@ build_databases: ensure_prepared
 build_servers_and_tools: build_builder
 	$(call build_servers_and_tools)
 
-build_worldserver_console:
-	$(call build_worldserver_console)
+build_worldserver_remote_access:
+	$(call build_worldserver_remote_access)
 
 build_debian_upgraded:
 	$(call build_debian_upgraded)

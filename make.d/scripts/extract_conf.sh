@@ -169,22 +169,22 @@ extract_databases_conf() {
   && extract_makefiles_from_container 'databases' "${DATABASES_VERSION}"
 }
 
-is_worldserver_console_image_exists() {
-  local image_name="${NAMESPACE}.worldserver_console:${WORLDSERVER_CONSOLE_VERSION}"
+is_worldserver_remote_access_image_exists() {
+  local image_name="${NAMESPACE}.worldserver_remote_access:${WORLDSERVER_REMOTE_ACCESS_VERSION}"
   local id=$(docker image ls -q ${image_name})
 
   [ ! -z "$id" ]
 }
 
-extract_worldserver_console_conf() {
-  is_worldserver_console_image_exists \
+extract_worldserver_remote_access_conf() {
+  is_worldserver_remote_access_image_exists \
   && backup_env_files_if_needed \
-  && extract_makefiles_from_container 'worldserver_console' "${WORLDSERVER_CONSOLE_VERSION}"
+  && extract_makefiles_from_container 'worldserver_remote_access' "${WORLDSERVER_REMOTE_ACCESS_VERSION}"
 }
 
 extract_auxiliary_servers_conf() {
   extract_databases_conf \
-  || extract_worldserver_console_conf
+  || extract_worldserver_remote_access_conf
 }
 
 report_partial_success() {

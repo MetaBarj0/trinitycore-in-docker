@@ -37,8 +37,9 @@ EOF
 
   set_print_yellow
   cat << EOF
-- build:   build docker images for databases, worldserver_console and builder
-           in a first time. Then, build the authserver and worldserver images.
+- build:   build docker images for databases, worldserver_remote_access and
+           builder in a first time. Then, build the authserver and worldserver
+           images.
 EOF
 
   set_print_green
@@ -54,7 +55,7 @@ EOF
 
   set_print_green
   cat << EOF
-- exec:    Execute a worldserver command using the 'worldserver_console'
+- exec:    Execute a worldserver command using the 'worldserver_remote_access'
            service. You must use the 'cmd' variable to specify the worldserver
            command to execute. Example: make exec cmd='server info'
 EOF
@@ -62,152 +63,161 @@ EOF
   if [ $maintainer_mode -ne 0 ]; then
     set_print_light_cyan
     cat << EOF
-- config:                    Use this target to check the 'docker-compose.yml'
-                             configuration. It is the same thing as running
-                             'docker compose config' except that it will
-                             evaluate all variables defined in the 'Makefile'.
-                             If the configuration is incorrect, a diagnastic
-                             will be displayed to help you spot the culprit. If
-                             the configuration is correct, the entire
-                             'docker-compose.yml' file will be evaluated.
+- config:                          Use this target to check the
+                                   'docker-compose.yml' configuration. It is
+                                   the same thing as running 'docker compose
+                                   config' except that it will evaluate all
+                                   variables defined in the 'Makefile'. If the
+                                   configuration is incorrect, a diagnastic
+                                   will be displayed to help you spot the
+                                   culprit. If the configuration is correct,
+                                   the entire 'docker-compose.yml' file will be
+                                   evaluated.
 EOF
 
   set_print_purple
   cat << EOF
-- ps:                        this target show docker container that are
-                             currently running in this compose project.
+- ps:                              this target show docker container that are
+                                   currently running in this compose project.
 EOF
 
   set_print_light_cyan
   cat << EOF
-- build_builder:             build the builder meta builder service image. See
+- build_builder:                   build the builder meta builder service
+                                   image.
 EOF
 
   set_print_purple
   cat << EOF
-- debug_build_builder:       debug the build of the builder service image.
-                             this one like a kind of bootstrap service that is
-                             responsible to build each TrinityCore servers.
+- debug_build_builder:             debug the build of the builder service
+                                   image. this one like a kind of bootstrap
+                                   service that is responsible to build each
+                                   TrinityCore servers.
 EOF
 
   set_print_light_cyan
   cat << EOF
-- build_databases:           build the databases service docker image.
+- build_databases:                 build the databases service docker image.
 EOF
 
   set_print_purple
   cat << EOF
-- debug_build_databases:     debug the build of the databases service docker
-                             image. If something goes wrong while the databases
-                             service image is building, a debug container will
-                             be spawned to help you troubleshoot the issue.
+- debug_build_databases:           debug the build of the databases service
+                                   docker image. If something goes wrong while
+                                   the databases service image is building, a
+                                   debug container will be spawned to help you
+                                   troubleshoot the issue.
 EOF
 
   set_print_light_cyan
   cat << EOF
-- build_servers_and_tools:   Build the actual server docker images. It relies
-                             on the 'build_builder' make target. This step can
-                             be very long as it may generate client data such
-                             as vmaps and mmaps if they are not already
-                             generated.
+- build_servers_and_tools:         Build the actual server docker images. It
+                                   relies on the 'build_builder' make target.
+                                   This step can be very long as it may
+                                   generate client data such as vmaps and mmaps
+                                   if they are not already generated.
 EOF
 
   set_print_purple
   cat << EOF
-- build_worldserver_console: build the worldserver remote access console
-                             service. This service allow a user to issue
-                             command to be executed by the worldserver remotely
-                             in a separate container.
+- build_worldserver_remote_access: build the worldserver remote access console
+                                   service. This service allow a user to issue
+                                   command to be executed by the worldserver
+                                   remotely in a separate container.
 EOF
 
   set_print_light_cyan
   cat << EOF
-- build_ide:                 Build the 'ide' service. It is a docker image that
-                             contains everything that is needed to contribute
-                             to TrinityCore project. Development tools of all
-                             sort, utilities, everything you need will be in
-                             this image for you to work in a completely
-                             integrated environment within a docker container.
-                             The image will also expose docker-in-docker
-                             capabilities to ease test deployments.
+- build_ide:                       Build the 'ide' service. It is a docker
+                                   image that contains everything that is
+                                   needed to contribute to TrinityCore project.
+                                   Development tools of all sort, utilities,
+                                   everything you need will be in this image
+                                   for you to work in a completely integrated
+                                   environment within a docker container. The
+                                   image will also expose docker-in-docker
+                                   capabilities to ease test deployments.
 EOF
 
   set_print_purple
   cat << EOF
-- shell_ide:                 Attach to a running 'ide' service that is running
-                             in background. Requires the service to run
-                             beforehand (see the 'up_ide' target)
+- shell_ide:                       Attach to a running 'ide' service that is
+                                   running in background. Requires the service
+                                   to run beforehand (see the 'up_ide' target)
 EOF
 
   set_print_light_cyan
   cat << EOF
-- ide:                       A shortcut target that runs build_ide, up_ide and
-                             shell_ide targets.
+- ide:                             A shortcut target that runs build_ide,
+                                   up_ide and shell_ide targets.
 EOF
 
   set_print_purple
   cat << EOF
-- down_ide:                  Shutdown the 'ide' service and remove the stopped
-                             container.
+- down_ide:                        Shutdown the 'ide' service and remove the
+                                   stopped container.
 EOF
 
   set_print_light_cyan
   cat << EOF
-- clean:                     This target is designed to remove all images of
-                             this project. It will remove images that belong to
-                             both this compose project and the namespace you
-                             setup in environment (See the
-                             Makefile.maintainer.env, NAMESPACE and
-                             COMPOSE_PROJECT environment variables). Besides,
-                             it also remove the volume containing the shallow
-                             clone of TrinityCore git repository.
+- clean:                           This target is designed to remove all images
+                                   of this project. It will remove images that
+                                   belong to both this compose project and the
+                                   namespace you setup in environment (See the
+                                   Makefile.maintainer.env, NAMESPACE and
+                                   COMPOSE_PROJECT environment variables).
+                                   Besides, it also remove the volume
+                                   containing the shallow clone of TrinityCore
+                                   git repository.
 EOF
 
   set_print_purple
   cat << EOF
-- nuke:                      Implies the 'clean' target. Does all the 'clean'
-                             target does. Moreover, it'll destroy all
-                             persistent volumes belonging to both this compose
-                             project and the namespace you defined (See the
-                             Makefile.maintainer.env, NAMESPACE and
-                             COMPOSE_PROJECT environment variables).
+- nuke:                            Implies the 'clean' target. Does all the
+                                   'clean' target does. Moreover, it'll destroy
+                                   all persistent volumes belonging to both
+                                   this compose project and the namespace you
+                                   defined (See the Makefile.maintainer.env,
+                                   NAMESPACE and COMPOSE_PROJECT environment
+                                   variables).
 EOF
 
   set_print_light_cyan
   cat << EOF
-- nuke_ide:                  Implies down_ide, that is, removes containers,
-                             networks and also all volumes related to the ide
-                             service.
+- nuke_ide:                        Implies down_ide, that is, removes
+                                   containers, networks and also all volumes
+                                   related to the ide service.
 EOF
 
   set_print_purple
   cat << EOF
-- rebuild:                   A shortcut target that runs clean and build
-                             targets.
+- rebuild:                         A shortcut target that runs clean and build
+                                   targets.
 EOF
 
   set_print_light_cyan
   cat << EOF
-- logs:                      Display logs of all running services and follow
-                             them.
+- logs:                            Display logs of all running services and
+                                   follow them.
 EOF
 
   set_print_purple
   cat << EOF
-- extract_conf:              Retrieve all configuration files from built
-                             images. Note that built images are necessary to
-                             retrieve configuration files from. Exits with an
-                             error if any image is missing. The
-                             'worldserver.conf' file is retrieved from the
-                             worldserver image. The 'authserver.conf' file is
-                             retrieved from the authserver image.
-                             'Makefile.env' and 'Makefile.maintainer.env' are
-                             retrieved from any built server image (database,
-                             authserver, worldserver, worldserver_console).
-                             Should any existing configuration file exist
-                             before the call of this target, they are backed-up
-                             to their respective directories and suffixed with
-                             the '.old' extension
+- extract_conf:                    Retrieve all configuration files from built
+                                   images. Note that built images are necessary
+                                   to retrieve configuration files from. Exits
+                                   with an error if any image is missing. The
+                                   'worldserver.conf' file is retrieved from
+                                   the worldserver image. The 'authserver.conf'
+                                   file is retrieved from the authserver image.
+                                   'Makefile.env' and 'Makefile.maintainer.env'
+                                   are retrieved from any built server image
+                                   (database, authserver, worldserver,
+                                   worldserver_remote_access). Should any
+                                   existing configuration file exist before the
+                                   call of this target, they are backed-up to
+                                   their respective directories and suffixed
+                                   with the '.old' extension
 EOF
   fi
 
@@ -264,7 +274,7 @@ There are some variables you can use to customize the bahvior of some targets:
                    Example: make help maintainer_mode=1
 - cmd:             This variable is useful only for the 'exec' target and
                    specify the command to execute with the
-                   'worldserver_console' service.
+                   'worldserver_remote_access' service.
                    Example: make exec cmd='server info'
                    If you issue the 'make exec' without specifying an explicit
                    value into the 'cmd' variable, the 'server info' command

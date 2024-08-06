@@ -70,8 +70,8 @@ define init
   @. make.d/scripts/init.sh
 endef
 
-define build_worldserver_console
-  @. make.d/scripts/build_worldserver_console.sh
+define build_worldserver_remote_access
+  @. make.d/scripts/build_worldserver_remote_access.sh
 endef
 
 define extract_conf
