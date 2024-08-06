@@ -1,3 +1,4 @@
+# TODO: introduce color here
 cat << EOF
 ********************************************************************************
 
@@ -30,7 +31,7 @@ Usage: make <target> where target is one of:
            command to execute. Example: make exec cmd='server info'
 EOF
 
-if [ ! $maintainer_mode -eq 0 ]; then
+if [ $maintainer_mode -ne 0 ]; then
   cat << EOF
 - config:                    Use this target to check the 'docker-compose.yml'
                              configuration. It is the same thing as running

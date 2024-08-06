@@ -1,7 +1,7 @@
 set -e
 
 if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-  export USER_HOME_DIR=/home/docker
+  export USER_HOME_DIR=${IDE_USER_HOME_DIR}
 fi
 
 if [ $USE_DOCKER_DESKTOP -eq 1 ]; then

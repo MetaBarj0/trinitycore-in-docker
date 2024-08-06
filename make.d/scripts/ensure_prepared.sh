@@ -136,6 +136,7 @@ check_realm_address() {
   || print_user_guidance_for_realmlist_address
 }
 
+# TODO: also verify Makefile.maintainer.env content
 main() {
   check_configuration_files \
   && check_use_docker_desktop \

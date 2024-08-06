@@ -8,23 +8,18 @@ main() {
   copy_configuration_files_in_builder_build_context \
   && copy_scripts_in_builder_build_context make.d/scripts/archive.sh
 
-  local user
-  local user_gid
-  local user_home_dir
-  local user_uid
-
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-    user=${IDE_USER_NAME}
-    user_gid=$(getent group docker | cut -d : -f 3)
-    user_home_dir=${IDE_USER_HOME_DIR}
-    user_uid=$(id -u)
+    local user=${IDE_USER_NAME}
+    local user_gid=$(getent group docker | cut -d : -f 3)
+    local user_home_dir=${IDE_USER_HOME_DIR}
+    local user_uid=$(id -u)
   fi
 
   if [ $USE_DOCKER_DESKTOP -eq 1 ]; then
-    user=root
-    user_gid=0
-    user_home_dir=/root
-    user_uid=0
+    local user=root
+    local user_gid=0
+    local user_home_dir=/root
+    local user_uid=0
   fi
 
   docker build \
