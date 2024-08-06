@@ -74,41 +74,37 @@ RUN \
   rsync
 
 FROM install_packages
+ARG AUTHSERVER_VERSION
+ARG BUILDER_VERSION
 ARG NAMESPACE
 ARG COMPOSE_PROJECT_NAME
 ARG USER
 ARG USER_HOME_DIR
+ARG WORLDSERVER_VERSION
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
+COPY \
+  --chown=${USER}:${USER} \
+  client_files.txt .
 COPY --chown=${USER}:${USER} docker.d docker.d
 COPY --chmod=755 scripts scripts
-RUN mkdir -p data
-RUN touch ./data/.volume
-VOLUME ${USER_HOME_DIR}/data
-RUN mkdir -p wsl2_client_copy
-RUN touch ${USER_HOME_DIR}/wsl2_client_copy/.volume
-VOLUME ${USER_HOME_DIR}/wsl2_client_copy
-RUN mkdir -p TrinityCore
-VOLUME ${USER_HOME_DIR}/TrinityCore
 RUN mkdir -p trinitycore_configurations
 COPY \
   --chown=${USER}:${USER} \
-  worldserver.conf trinitycore_configurations/
-COPY \
-  --chown=${USER}:${USER} \
-  authserver.conf trinitycore_configurations/
-COPY \
-  --chown=${USER}:${USER} \
-  Makefile.env trinitycore_configurations/
-COPY \
-  --chown=${USER}:${USER} \
-  Makefile.maintainer.env trinitycore_configurations/
+  worldserver.conf authserver.conf Makefile.env Makefile.maintainer.env \
+  trinitycore_configurations/
 RUN mkdir -p trinitycore_scripts
 COPY \
   --chown=${USER}:${USER} \
   archive.sh trinitycore_scripts/
-COPY \
-  --chown=${USER}:${USER} \
-  client_files.txt .
+RUN mkdir -p data wsl2_client_copy TrinityCore
+RUN touch wsl2_client_copy/.volume data/.volume TrinityCore/.volume
+VOLUME ${USER_HOME_DIR}/data
+VOLUME ${USER_HOME_DIR}/wsl2_client_copy
+VOLUME ${USER_HOME_DIR}/TrinityCore
+ENV AUTHSERVER_IMAGE_TAG=${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
+ENV BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
+ENV SHELL=/bin/bash
+ENV WORLDSERVER_IMAGE_TAG=${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}

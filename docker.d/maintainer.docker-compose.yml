@@ -1,17 +1,14 @@
 services:
   builder:
+    container_name: ${COMPOSE_PROJECT_NAME}_builder
     entrypoint: scripts/builder_entrypoint.sh
     environment:
-      - AUTHSERVER_IMAGE_TAG=${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
-      - BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
       - CLIENT_PATH
       - COMPOSE_PROJECT_NAME
       - NAMESPACE
-      - SHELL=/bin/bash
       - USE_CACHED_CLIENT_DATA
       - USER_HOME_DIR
       - WORLDSERVER_CONF_PATH
-      - WORLDSERVER_IMAGE_TAG=${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
     image: ${NAMESPACE}.builder:${BUILDER_VERSION}
     init: true
     network_mode: none
