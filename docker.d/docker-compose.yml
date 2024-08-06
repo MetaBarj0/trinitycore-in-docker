@@ -59,6 +59,7 @@ services:
       - type: volume
         source: trinitycore_shallow_clone
         target: /home/trinitycore/TrinityCore
+  # TODO: rename to worldserver_remote_access
   worldserver_console:
     build:
       args:

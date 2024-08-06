@@ -9,6 +9,7 @@ main() {
   local user
   local user_home_dir
 
+  # TODO: change user name for ide service
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
     user=docker
     user_home_dir=/home/docker
