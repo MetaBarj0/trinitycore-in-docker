@@ -78,7 +78,7 @@ check_use_docker_desktop() {
 }
 
 check_client_path_variable() {
-  [ ! -z "${CLIENT_PATH}" ] \
+  [ -n "${CLIENT_PATH}" ] \
   && [ -f "${CLIENT_PATH}/Wow.exe" ]
 }
 
@@ -107,11 +107,11 @@ check_authserver_conf_path() {
 }
 
 check_admin_account_name(){
-  [ ! -z "${ADMIN_ACCOUNT_NAME}" ]
+  [ -n "${ADMIN_ACCOUNT_NAME}" ]
 }
 
 check_admin_account_password() {
-  [ ! -z "${ADMIN_ACCOUNT_PASSWORD}" ]
+  [ -n "${ADMIN_ACCOUNT_PASSWORD}" ]
 }
 
 print_user_guidance_for_admin_account() {
@@ -134,7 +134,7 @@ check_admin_account() {
 }
 
 check_realmlist_address() {
-  [ ! -z "${REALMLIST_ADDRESS}" ]
+  [ -n "${REALMLIST_ADDRESS}" ]
 }
 
 print_user_guidance_for_realmlist_address() {
@@ -178,7 +178,7 @@ initialize and update all needed databases" \
 }
 
 check_tdb_full_uri() {
-  [ ! -z "${TDB_FULL_URI}" ] \
+  [ -n "${TDB_FULL_URI}" ] \
   || print_user_guidance_for_tdb_uri
 }
 
@@ -191,7 +191,7 @@ variable value." \
 }
 
 check_compose_project_name() {
-  [ ! -z "${COMPOSE_PROJECT_NAME}" ] \
+  [ -n "${COMPOSE_PROJECT_NAME}" ] \
   || print_user_guidance_for_compose_project_name
 }
 
@@ -204,7 +204,7 @@ variable value." \
 }
 
 check_namespace() {
-  [ ! -z "${NAMESPACE}" ] \
+  [ -n "${NAMESPACE}" ] \
   || print_user_guidance_for_namespace
 }
 
@@ -217,7 +217,7 @@ cloned." \
 }
 
 check_repository_uri() {
-  [ ! -z "${REPOSITORY_URI}" ] \
+  [ -n "${REPOSITORY_URI}" ] \
   || print_user_guidance_for_repository_uri
 }
 
@@ -230,7 +230,7 @@ worldserver.conf and authserver.conf file for servers to run." \
 }
 
 check_raw_repository_uri() {
-  [ ! -z "${RAW_REPOSITORY_URI}" ] \
+  [ -n "${RAW_REPOSITORY_URI}" ] \
   || print_user_guidance_for_raw_repository_uri
 }
 
@@ -243,7 +243,7 @@ must be set for the TrinityCore repository clone to proceed." \
 }
 
 check_repository_rev() {
-  [ ! -z "${REPOSITORY_REV}" ] \
+  [ -n "${REPOSITORY_REV}" ] \
   || print_user_guidance_for_repository_rev
 }
 
@@ -269,7 +269,7 @@ value." \
 }
 
 check_databases_version() {
-  [ ! -z "${DATABASES_VERSION}" ] \
+  [ -n "${DATABASES_VERSION}" ] \
   || print_user_guidance_for_databases_version
 }
 
@@ -282,7 +282,7 @@ value." \
 }
 
 check_builder_version() {
-  [ ! -z "${BUILDER_VERSION}" ] \
+  [ -n "${BUILDER_VERSION}" ] \
   || print_user_guidance_for_builder_version
 }
 
@@ -295,7 +295,7 @@ value." \
 }
 
 check_ide_version() {
-  [ ! -z "${IDE_VERSION}" ] \
+  [ -n "${IDE_VERSION}" ] \
   || print_user_guidance_for_ide_version
 }
 
@@ -308,7 +308,7 @@ on this variable value." \
 }
 
 check_worldserver_remote_access_version() {
-  [ ! -z "${WORLDSERVER_REMOTE_ACCESS_VERSION}" ] \
+  [ -n "${WORLDSERVER_REMOTE_ACCESS_VERSION}" ] \
   || print_user_guidance_for_worldserver_remote_access_version
 }
 
@@ -321,7 +321,7 @@ this variable value." \
 }
 
 check_authserver_version() {
-  [ ! -z "${AUTHSERVER_VERSION}" ] \
+  [ -n "${AUTHSERVER_VERSION}" ] \
   || print_user_guidance_for_authserver_version
 }
 
@@ -334,7 +334,7 @@ this variable value." \
 }
 
 check_worldserver_version() {
-  [ ! -z "${WORLDSERVER_VERSION}" ] \
+  [ -n "${WORLDSERVER_VERSION}" ] \
   || print_user_guidance_for_worldserver_version
 }
 
@@ -380,7 +380,7 @@ environment." \
 }
 
 check_ssh_public_key_path() {
-  [ ! -z "${SSH_PUBLIC_KEY_FILE_PATH}" ] \
+  [ -n "${SSH_PUBLIC_KEY_FILE_PATH}" ] \
   || print_user_guidance_for_ssh_public_key_file_path
 }
 
@@ -393,20 +393,20 @@ environment." \
 }
 
 check_ssh_secret_key_path() {
-  [ ! -z "${SSH_SECRET_KEY_FILE_PATH}" ] \
+  [ -n "${SSH_SECRET_KEY_FILE_PATH}" ] \
   || print_user_guidance_for_ssh_secret_key_file_path
 }
 
 print_user_guidance_for_neovim_rev() {
   print_problem_solution_guidance \
-  "Missing value for the IDE_NEOVIM_REV variable. The build of the
-ide service will fail because neovim is the main code editor of this
-environment and cannot be built without this variable value." \
+  "Missing value for the NEOVIM_REV variable. The build of the ide service will
+fail because neovim is the main code editor of this environment and cannot be
+built without this variable value." \
   "$(output_makefile_maintainer_solution)"
 }
 
 check_neovim_rev() {
-  [ ! -z "${IDE_NEOVIM_REV}" ] \
+  [ -n "${NEOVIM_REV}" ] \
   || print_user_guidance_for_neovim_rev
 }
 
@@ -418,7 +418,7 @@ ide service will fail as nodejs is a necessary dependency." \
 }
 
 check_nodejs_rev() {
-  [ ! -z "${NODEJS_VER}" ] \
+  [ -n "${NODEJS_VER}" ] \
   || print_user_guidance_for_nodejs_rev
 }
 
@@ -431,7 +431,7 @@ TrinityCore project." \
 }
 
 check_git_user_name() {
-  [ ! -z "${GIT_USER_NAME}" ] \
+  [ -n "${GIT_USER_NAME}" ] \
   || print_user_guidance_for_git_user_name
 }
 
@@ -444,7 +444,7 @@ wonderful TrinityCore project." \
 }
 
 check_git_user_email() {
-  [ ! -z "${GIT_USER_EMAIL}" ] \
+  [ -n "${GIT_USER_EMAIL}" ] \
   || print_user_guidance_for_git_user_email
 }
 
@@ -457,7 +457,7 @@ properly." \
 }
 
 check_trinitycore_repository_target_directory() {
-  [ ! -z "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" ] \
+  [ -n "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" ] \
   || print_user_guidance_for_repository_target_directory
 }
 
@@ -469,7 +469,7 @@ value is essential for some scripts in the ide service to run properly." \
 }
 
 check_trinitycore_install_directory() {
-  [ ! -z "${TRINITYCORE_INSTALL_DIRECTORY}" ] \
+  [ -n "${TRINITYCORE_INSTALL_DIRECTORY}" ] \
   || print_user_guidance_for_trinitycore_install_directory
 }
 
@@ -481,7 +481,7 @@ essential to allow you to login into the ide service container." \
 }
 
 check_shell_user_name() {
-  [ ! -z "${IDE_USER_NAME}" ] \
+  [ -n "${IDE_USER_NAME}" ] \
   || print_user_guidance_for_shell_user_name
 }
 
@@ -494,7 +494,7 @@ container." \
 }
 
 check_shell_user_home_dir() {
-  [ ! -z "${IDE_USER_HOME_DIR}" ] \
+  [ -n "${IDE_USER_HOME_DIR}" ] \
   || print_user_guidance_for_shell_user_home_dir
 }
 

@@ -3,11 +3,11 @@ ARG NAMESPACE
 FROM ${NAMESPACE}.builderbase AS fetch_neovim
 ARG USER
 ARG USER_HOME_DIR
-ARG IDE_NEOVIM_REV
+ARG NEOVIM_REV
 USER ${USER}
 RUN mkdir ${USER_HOME_DIR}/nvim-build
 WORKDIR ${USER_HOME_DIR}/nvim-build
-RUN git clone --branch ${IDE_NEOVIM_REV} --depth=1 \
+RUN git clone --branch ${NEOVIM_REV} --depth=1 \
  https://github.com/neovim/neovim
 
 FROM ${NAMESPACE}.builderbase AS fetch_nodejs

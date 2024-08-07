@@ -12,7 +12,7 @@ main() {
   docker build \
     --build-arg CLIENT_PATH="${CLIENT_PATH}" \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
-    --build-arg IDE_NEOVIM_REV=${IDE_NEOVIM_REV} \
+    --build-arg NEOVIM_REV=${NEOVIM_REV} \
     --build-arg NAMESPACE=${NAMESPACE} \
     --build-arg NODEJS_VER=${NODEJS_VER} \
     --build-arg USER=${user} \
