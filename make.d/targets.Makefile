@@ -52,11 +52,8 @@ Makefile.maintainer.env: ENV_FILE_TEMPLATE=$@.dist
 Makefile.maintainer.env:
 	$(call create_file_from_template)
 
-ide: TARGET_PLATFORM=local
 ide: build_ide up_ide shell_ide
 
-# TODO: remove platform specific stuff, not used anymore
-build_ide: TARGET_PLATFORM=local
 build_ide: ensure_prepared build_debian_upgraded build_server_base build_builder_base
 	$(call build_ide)
 

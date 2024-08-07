@@ -1,11 +1,4 @@
 main() {
-  local target_platform=local
-
-  if [ ! -z "${TARGET_PLATFORM}" ] && [ 'local' != "${TARGET_PLATFORM}" ]; then
-    local platform_tag=".$(echo $TARGET_PLATFORM | sed 's/\//./')"
-    target_platform=${TARGET_PLATFORM}
-  fi
-
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
     local user=${IDE_USER_NAME}
     local user_gid=$(getent group docker | cut -d : -f 3)
@@ -21,17 +14,15 @@ main() {
   fi
 
   docker build \
-    --platform ${target_platform} \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NAMESPACE=${NAMESPACE} \
-    --build-arg PLATFORM_TAG=${platform_tag} \
     --build-arg USE_DOCKER_DESKTOP=${USE_DOCKER_DESKTOP} \
     --build-arg USER=${user} \
     --build-arg USER_GID=${user_gid} \
     --build-arg USER_HOME_DIR=${user_home_dir} \
     --build-arg USER_UID=${user_uid} \
     -f docker.d/builderbase.Dockerfile \
-    -t ${NAMESPACE}.builderbase${platform_tag} \
+    -t ${NAMESPACE}.builderbase \
     docker.d
 }
 

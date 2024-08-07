@@ -1,7 +1,6 @@
 ARG NAMESPACE
-ARG PLATFORM_TAG
 
-FROM ${NAMESPACE}.serverbase${PLATFORM_TAG} AS install_prerequisites
+FROM ${NAMESPACE}.serverbase AS install_prerequisites
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
