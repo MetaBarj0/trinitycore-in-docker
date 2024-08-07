@@ -1,35 +1,12 @@
 #! /bin/sh
 
-check_admin_credentials() {
-  if [ -z "${ADMIN_ACCOUNT_NAME}" ] || [ -z "${ADMIN_ACCOUNT_PASSWORD}" ]; then
-    echo 'FATAL: administrator account creadentials must be set' >&2
-    echo '       ADMIN_ACCOUNT_NAME and ADMIN_ACCOUNT_PASSWORD must be set.' >&2
+generate_random_acount_credentials_string() {
+  local file="$1"
 
-    exit 1
-  fi
-
-  local name="$(echo ${ADMIN_ACCOUNT_NAME} | tr '[:lower:]' '[:upper:]')";
-  local password="$(echo ${ADMIN_ACCOUNT_PASSWORD} | tr '[:lower:]' '[:upper:]')";
-
-  if [ "${name}" = 'TC_ADMIN' ] || [ "${password}" = 'TC_ADMIN' ]; then
-    echo 'FATAL: security issue with admin account credentials!'
-    echo 'Do not use neither the bootstrap account name nor password.'
-
-    exit 1
-  fi
-
-  ADMIN_ACCOUNT_NAME="${name}"
-  ADMIN_ACCOUNT_PASSWORD="${password}"
-}
-
-create_admin_account_credentials() {
-  CREATED_ADMIN_ACCOUNT_NAME="${ADMIN_ACCOUNT_NAME}"
-  CREATED_ADMIN_ACCOUNT_PASSWORD="${ADMIN_ACCOUNT_PASSWORD}"
-}
-
-use_bootstrap_admin_account() {
-  ADMIN_ACCOUNT_NAME=TC_ADMIN
-  ADMIN_ACCOUNT_PASSWORD=TC_ADMIN
+  dd if=/dev/urandom ibs=1 count=12 2> /dev/null \
+  | base64 \
+  | tr '[:lower:]' '[:upper:]' \
+  | tr -d '\n'
 }
 
 wait_for_worldserver() {
@@ -38,23 +15,47 @@ wait_for_worldserver() {
   done
 }
 
-re_create_admin_account() {
-  /home/worldserver_remote_access/scripts/execute_console_command.sh \
-    'account delete '"${CREATED_ADMIN_ACCOUNT_NAME}"
+create_transient_admin_account() {
+  local account_name="$(generate_random_acount_credentials_string)"
+  local account_password="$(generate_random_acount_credentials_string)"
 
   /home/worldserver_remote_access/scripts/execute_console_command.sh \
-    'account create '"${CREATED_ADMIN_ACCOUNT_NAME}"' '"${CREATED_ADMIN_ACCOUNT_PASSWORD}"
+    'account create '"${account_name}"' '"${account_password}" > /dev/null \
+  && /home/worldserver_remote_access/scripts/execute_console_command.sh \
+    'account set addon '"${account_name}"' 2' > /dev/null \
+  && /home/worldserver_remote_access/scripts/execute_console_command.sh \
+    'account set gm '"${account_name}"' 3' > /dev/null
 
-  /home/worldserver_remote_access/scripts/execute_console_command.sh \
-    'account set addon '"${CREATED_ADMIN_ACCOUNT_NAME}"' 2'
-
-  /home/worldserver_remote_access/scripts/execute_console_command.sh \
-    'account set gm '"${CREATED_ADMIN_ACCOUNT_NAME}"' 3'
+  echo "${account_name}"
+  echo "${account_password}"
 }
 
-use_created_admin_account() {
-  ADMIN_ACCOUNT_NAME="${CREATED_ADMIN_ACCOUNT_NAME}"
-  ADMIN_ACCOUNT_PASSWORD="${CREATED_ADMIN_ACCOUNT_PASSWORD}"
+store_admin_credential_in_file() {
+  local credential="$1"
+  local file="$2"
+
+  echo "${credential}" \
+  | tr -d '\n' > "${file}"
+}
+
+store_admin_credentials_in_files() {
+  local account_name_set=false
+
+  while read input; do
+    if [ "${account_name_set}" = 'false' ]; then
+      store_admin_credential_in_file \
+        "${input}" \
+        '/home/worldserver_remote_access/.admin_account_name'
+
+      account_name_set=true
+    else
+      store_admin_credential_in_file \
+        "${input}" \
+        '/home/worldserver_remote_access/.admin_account_password'
+
+      return 0
+    fi
+  done
 }
 
 delete_bootstrap_admin_account() {
@@ -68,13 +69,22 @@ run_live_loop() {
   done
 }
 
+delete_admin_account() {
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
+    'account delete '"$(cat '/home/worldserver_remote_access/.admin_account_name')"
+
+  exit $?
+}
+
+setup_signal_handling() {
+  trap delete_admin_account INT QUIT HUP TERM
+}
+
 main() {
-  check_admin_credentials \
-  && create_admin_account_credentials \
-  && use_bootstrap_admin_account \
+  setup_signal_handling \
   && wait_for_worldserver \
-  && re_create_admin_account \
-  && use_created_admin_account \
+  && create_transient_admin_account \
+  |  store_admin_credentials_in_files \
   && delete_bootstrap_admin_account \
   && run_live_loop
 }

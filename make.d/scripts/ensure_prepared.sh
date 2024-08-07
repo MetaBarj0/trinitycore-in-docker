@@ -102,35 +102,9 @@ check_worldserver_conf_path() {
   :
 }
 
+# TODO
 check_authserver_conf_path() {
   :
-}
-
-check_admin_account_name(){
-  [ -n "${ADMIN_ACCOUNT_NAME}" ]
-}
-
-check_admin_account_password() {
-  [ -n "${ADMIN_ACCOUNT_PASSWORD}" ]
-}
-
-print_user_guidance_for_admin_account() {
-  print_problem_solution_guidance \
-"Missing configuration for the administrator account used for remote access.
-Missing values for either ADMIN_ACCOUNT_NAME or ADMIN_ACCOUNT_PASSWORD variable
-in Makefile.env file." \
-"Edit the Makefile.env file, look for ADMIN_ACCOUNT_NAME variable and set an
-account name. Follow instructions in the comment above.
-Edit the Makefile.env file, look for ADMIN_ACCOUNT_PASSWORD variable and set an
-account password. Follow instructions in the comment above.
-You can also set these variables by issuing the \`make init\` command and set
-only ADMIN_ACCOUNT_NAME and ADMIN_ACCOUNT_PASSWORD variables."
-}
-
-check_admin_account() {
-  check_admin_account_name \
-  && check_admin_account_password \
-  || print_user_guidance_for_admin_account
 }
 
 check_realmlist_address() {
@@ -156,7 +130,6 @@ check_makefile_env_variables() {
   && check_client_path \
   && check_worldserver_conf_path \
   && check_authserver_conf_path \
-  && check_admin_account \
   && check_realm_address
 }
 

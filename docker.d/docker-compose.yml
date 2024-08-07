@@ -57,9 +57,6 @@ services:
     depends_on:
       - worldserver
     entrypoint: /home/worldserver_remote_access/scripts/worldserver_remote_access_entrypoint.sh
-    environment:
-      - ADMIN_ACCOUNT_NAME
-      - ADMIN_ACCOUNT_PASSWORD
     healthcheck:
       test: ['CMD-SHELL', '/home/worldserver_remote_access/scripts/healthcheck.sh']
       interval: 5s

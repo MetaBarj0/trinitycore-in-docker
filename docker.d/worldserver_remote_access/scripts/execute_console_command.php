@@ -16,8 +16,8 @@ function extractCommand($args)
 function getAdminAccountCredentials()
 {
     return [
-        'name' => getenv('ADMIN_ACCOUNT_NAME'),
-        'password' => getenv('ADMIN_ACCOUNT_PASSWORD')
+        'name' => file_get_contents('/home/worldserver_remote_access/.admin_account_name'),
+        'password' => file_get_contents('/home/worldserver_remote_access/.admin_account_password')
     ];
 }
 

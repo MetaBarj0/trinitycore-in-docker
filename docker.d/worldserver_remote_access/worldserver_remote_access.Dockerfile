@@ -20,6 +20,8 @@ RUN ln -s \
   /home/worldserver_remote_access/scripts/execute_console_command.sh \
   /usr/local/bin/
 USER worldserver_remote_access
+RUN echo 'TC_ADMIN' | tr -d '\n' > .admin_account_name
+RUN echo 'TC_ADMIN' | tr -d '\n' > .admin_account_password
 ENV USER_HOME_DIR=/home/worldserver_remote_access
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}
