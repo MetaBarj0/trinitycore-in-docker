@@ -4,5 +4,5 @@ docker build \
   --build-arg TRINITYCORE_USER_GID=${TRINITYCORE_USER_GID} \
   --build-arg TRINITYCORE_USER_UID=${TRINITYCORE_USER_UID} \
   -f docker.d/serverbase.Dockerfile \
-  -t "${NAMESPACE}".serverbase \
+  -t "${NAMESPACE}".serverbase:${BUILDERBASE_VERSION} \
   docker.d

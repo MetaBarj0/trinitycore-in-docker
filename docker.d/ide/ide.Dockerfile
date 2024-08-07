@@ -1,6 +1,7 @@
 ARG NAMESPACE
+ARG BUILDERBASE_VERSION
 
-FROM ${NAMESPACE}.builderbase AS fetch_neovim
+FROM ${NAMESPACE}.builderbase:${BUILDERBASE_VERSION} AS fetch_neovim
 ARG USER
 ARG USER_HOME_DIR
 ARG NEOVIM_REV
@@ -10,7 +11,7 @@ WORKDIR ${USER_HOME_DIR}/nvim-build
 RUN git clone --branch ${NEOVIM_REV} --depth=1 \
  https://github.com/neovim/neovim
 
-FROM ${NAMESPACE}.builderbase AS fetch_nodejs
+FROM ${NAMESPACE}.builderbase:${BUILDERBASE_VERSION} AS fetch_nodejs
 ARG NODEJS_VER
 ARG USER
 ARG USER_HOME_DIR
@@ -36,7 +37,7 @@ RUN \
           && wget https://nodejs.org/dist/${version}/node-${version}-linux-${nodejs_arch}.tar.xz \
      )
 
-FROM ${NAMESPACE}.builderbase AS fetch_uctags
+FROM ${NAMESPACE}.builderbase:${BUILDERBASE_VERSION} AS fetch_uctags
 ARG USER
 ARG USER_HOME_DIR
 USER ${USER}
@@ -45,7 +46,7 @@ WORKDIR ${USER_HOME_DIR}/uctags-build
 RUN git clone --branch master --depth=1 \
   https://github.com/universal-ctags/ctags.git
 
-FROM ${NAMESPACE}.builderbase AS fetch_environments
+FROM ${NAMESPACE}.builderbase:${BUILDERBASE_VERSION} AS fetch_environments
 ARG USER
 ARG USER_HOME_DIR
 USER ${USER}
@@ -93,7 +94,7 @@ USER ${USER}
 WORKDIR ${USER_HOME_DIR}
 RUN tar x -f node-*-linux-*.tar.xz
 
-FROM ${NAMESPACE}.builderbase AS install_nodejs
+FROM ${NAMESPACE}.builderbase:${BUILDERBASE_VERSION} AS install_nodejs
 ARG USER_HOME_DIR
 ARG USER
 USER ${USER}

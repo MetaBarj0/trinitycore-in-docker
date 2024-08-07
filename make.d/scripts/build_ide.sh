@@ -10,6 +10,7 @@ main() {
   fi
 
   docker build \
+    --build-arg BUILDERBASE_VERSION="${BUILDERBASE_VERSION}" \
     --build-arg CLIENT_PATH="${CLIENT_PATH}" \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NEOVIM_REV=${NEOVIM_REV} \

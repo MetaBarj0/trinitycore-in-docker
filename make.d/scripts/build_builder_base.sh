@@ -16,13 +16,14 @@ main() {
   docker build \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NAMESPACE=${NAMESPACE} \
+    --build-arg SERVERBASE_VERSION=${SERVERBASE_VERSION} \
     --build-arg USE_DOCKER_DESKTOP=${USE_DOCKER_DESKTOP} \
     --build-arg USER=${user} \
     --build-arg USER_GID=${user_gid} \
     --build-arg USER_HOME_DIR=${user_home_dir} \
     --build-arg USER_UID=${user_uid} \
     -f docker.d/builderbase.Dockerfile \
-    -t ${NAMESPACE}.builderbase \
+    -t ${NAMESPACE}.builderbase:${BUILDERBASE_VERSION} \
     docker.d
 }
 

@@ -26,6 +26,7 @@ main() {
     --ssh default \
     --build-arg AUTHSERVER_VERSION=${AUTHSERVER_VERSION} \
     --build-arg BUILDER_VERSION=${BUILDER_VERSION} \
+    --build-arg BUILDERBASE_VERSION=${BUILDERBASE_VERSION} \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
     --build-arg NAMESPACE=${NAMESPACE} \
     --build-arg REPOSITORY_URI=${REPOSITORY_URI} \

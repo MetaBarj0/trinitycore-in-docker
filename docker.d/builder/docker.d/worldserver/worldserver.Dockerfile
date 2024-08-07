@@ -1,7 +1,8 @@
 ARG BUILDER_IMAGE
 ARG NAMESPACE
+ARG SERVERBASE_VERSION
 
-FROM ${NAMESPACE}.serverbase AS install_dependencies
+FROM ${NAMESPACE}.serverbase:${SERVERBASE_VERSION} AS install_dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \

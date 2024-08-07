@@ -102,7 +102,7 @@ check_worldserver_conf_path() {
   :
 }
 
-# TODO
+# TODO: implement this
 check_authserver_conf_path() {
   :
 }
@@ -246,6 +246,32 @@ check_databases_version() {
   || print_user_guidance_for_databases_version
 }
 
+print_user_guidance_for_builderbase_version() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the BUILDERBASE_VERSION variable.
+The build of the builderbase image will fail because it relies on this variable
+value." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_builderbase_version() {
+  [ -n "${BUILDERBASE_VERSION}" ] \
+  || print_user_guidance_for_builderbase_version
+}
+
+print_user_guidance_for_serverbase_version() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the check_serverbase_version variable.
+The build of the serverbase image will fail because it relies on this variable
+value." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_serverbase_version() {
+  [ -n "${SERVERBASE_VERSION}" ] \
+  || print_user_guidance_for_serverbase_version
+}
+
 print_user_guidance_for_builder_version() {
   print_problem_solution_guidance \
 "Missing or invalid value for the BUILDER_VERSION variable.
@@ -313,6 +339,8 @@ check_worldserver_version() {
 
 check_versions() {
   check_databases_version \
+  && check_builderbase_version \
+  && check_serverbase_version \
   && check_builder_version \
   && check_ide_version \
   && check_worldserver_remote_access_version \
