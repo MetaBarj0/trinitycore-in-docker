@@ -9,7 +9,7 @@ main() {
   && copy_scripts_in_builder_build_context make.d/scripts/archive.sh
 
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-    local user=${IDE_USER_NAME}
+    local user=${SHELL_USER_NAME}
     local user_gid=$(getent group docker | cut -d : -f 3)
     local user_home_dir=${IDE_USER_HOME_DIR}
     local user_uid=$(id -u)

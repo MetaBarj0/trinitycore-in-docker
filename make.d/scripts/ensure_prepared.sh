@@ -301,10 +301,10 @@ check_ide_version() {
 
 print_user_guidance_for_worldserver_remote_access_version() {
   print_problem_solution_guidance \
-  "Missing or invalid value for the WORLDSERVER_REMOTE_ACCESS_VERSION variable.
+"Missing or invalid value for the WORLDSERVER_REMOTE_ACCESS_VERSION variable.
 The build of the worldserver_remote_access service will fail because it relies
 on this variable value." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_worldserver_remote_access_version() {
@@ -314,10 +314,10 @@ check_worldserver_remote_access_version() {
 
 print_user_guidance_for_authserver_version() {
   print_problem_solution_guidance \
-  "Missing or invalid value for the AUTHSERVER_VERSION variable.
+"Missing or invalid value for the AUTHSERVER_VERSION variable.
 The build of the authserver service will fail because it relies on
 this variable value." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_authserver_version() {
@@ -327,10 +327,10 @@ check_authserver_version() {
 
 print_user_guidance_for_worldserver_version() {
   print_problem_solution_guidance \
-  "Missing or invalid value for the WORLDSERVER_VERSION variable.
+"Missing or invalid value for the WORLDSERVER_VERSION variable.
 The build of the worldserver service will fail because it relies on
 this variable value." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_worldserver_version() {
@@ -349,9 +349,9 @@ check_versions() {
 
 print_user_guidance_for_trinitycore_user_gid() {
   print_problem_solution_guidance \
-  "Missing or invalid value for the TRINITYCORE_USER_GID variable. This value
+"Missing or invalid value for the TRINITYCORE_USER_GID variable. This value
 must be set with a value above 1000" \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_trinitycore_user_gid() {
@@ -361,9 +361,9 @@ check_trinitycore_user_gid() {
 
 print_user_guidance_for_trinitycore_user_uid() {
   print_problem_solution_guidance \
-  "Missing or invalid value for the TRINITYCORE_USER_UID variable. This value
+"Missing or invalid value for the TRINITYCORE_USER_UID variable. This value
 must be set with a value above 1000" \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_trinitycore_user_uid() {
@@ -373,10 +373,10 @@ check_trinitycore_user_uid() {
 
 print_user_guidance_for_ssh_public_key_file_path() {
   print_problem_solution_guidance \
-  "Missing value for the SSH_PUBLIC_KEY_FILE_PATH variable. The build of the
+"Missing value for the SSH_PUBLIC_KEY_FILE_PATH variable. The build of the
 ide service will fail because this key is required to setup the development
 environment." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_ssh_public_key_path() {
@@ -386,10 +386,10 @@ check_ssh_public_key_path() {
 
 print_user_guidance_for_ssh_secret_key_file_path() {
   print_problem_solution_guidance \
-  "Missing value for the SSH_SECRET_KEY_FILE_PATH variable. The build of the
+"Missing value for the SSH_SECRET_KEY_FILE_PATH variable. The build of the
 ide service will fail because this key is required to setup the development
 environment." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_ssh_secret_key_path() {
@@ -399,10 +399,10 @@ check_ssh_secret_key_path() {
 
 print_user_guidance_for_neovim_rev() {
   print_problem_solution_guidance \
-  "Missing value for the NEOVIM_REV variable. The build of the ide service will
+"Missing value for the NEOVIM_REV variable. The build of the ide service will
 fail because neovim is the main code editor of this environment and cannot be
 built without this variable value." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_neovim_rev() {
@@ -412,9 +412,9 @@ check_neovim_rev() {
 
 print_user_guidance_for_nodejs_rev() {
   print_problem_solution_guidance \
-  "Missing value for the NODEJS_VER variable. The build of the
+"Missing value for the NODEJS_VER variable. The build of the
 ide service will fail as nodejs is a necessary dependency." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_nodejs_rev() {
@@ -424,10 +424,10 @@ check_nodejs_rev() {
 
 print_user_guidance_for_git_user_name() {
   print_problem_solution_guidance \
-  "Missing value for the GIT_USER_NAME variable. The git user name is essential
+"Missing value for the GIT_USER_NAME variable. The git user name is essential
 to identify yourself in commits you could made to contribute to the wonderful
 TrinityCore project." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_git_user_name() {
@@ -437,10 +437,10 @@ check_git_user_name() {
 
 print_user_guidance_for_git_user_email() {
   print_problem_solution_guidance \
-  "Missing value for the GIT_USER_EMAIL variable. The git user email is
+"Missing value for the GIT_USER_EMAIL variable. The git user email is
 essential to identify yourself in commits you could made to contribute to the
 wonderful TrinityCore project." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_git_user_email() {
@@ -450,10 +450,10 @@ check_git_user_email() {
 
 print_user_guidance_for_repository_target_directory() {
   print_problem_solution_guidance \
-  "Missing value for the TRINITYCORE_REPOSITORY_TARGET_DIRECTORY variable. This
+"Missing value for the TRINITYCORE_REPOSITORY_TARGET_DIRECTORY variable. This
 variable value is essential for some scripts in the ide service to run
 properly." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_trinitycore_repository_target_directory() {
@@ -463,9 +463,9 @@ check_trinitycore_repository_target_directory() {
 
 print_user_guidance_for_trinitycore_install_directory() {
   print_problem_solution_guidance \
-  "Missing value for the TRINITYCORE_INSTALL_DIRECTORY variable. This variable
+"Missing value for the TRINITYCORE_INSTALL_DIRECTORY variable. This variable
 value is essential for some scripts in the ide service to run properly." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_trinitycore_install_directory() {
@@ -475,22 +475,22 @@ check_trinitycore_install_directory() {
 
 print_user_guidance_for_shell_user_name() {
   print_problem_solution_guidance \
-  "Missing value for the IDE_USER_NAME variable. This variable value is
+"Missing value for the SHELL_USER_NAME variable. This variable value is
 essential to allow you to login into the ide service container." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_shell_user_name() {
-  [ -n "${IDE_USER_NAME}" ] \
+  [ -n "${SHELL_USER_NAME}" ] \
   || print_user_guidance_for_shell_user_name
 }
 
 print_user_guidance_for_shell_user_home_dir() {
   print_problem_solution_guidance \
-  "Missing value for the IDE_USER_HOME_DIR variable. This variable value is
+"Missing value for the IDE_USER_HOME_DIR variable. This variable value is
 essential to setup the home directory of your user into the ide service
 container." \
-  "$(output_makefile_maintainer_solution)"
+"$(output_makefile_maintainer_solution)"
 }
 
 check_shell_user_home_dir() {

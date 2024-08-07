@@ -1,6 +1,6 @@
 main() {
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
-    local user=${IDE_USER_NAME}
+    local user=${SHELL_USER_NAME}
     local user_home_dir=${IDE_USER_HOME_DIR}
   fi
 
