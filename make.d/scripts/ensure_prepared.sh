@@ -1,4 +1,5 @@
-# TODO: introduce color
+. make.d/scripts/color.sh
+
 ensure_server_configuration_file_exists() {
   local file_path="$1"
 
@@ -13,18 +14,23 @@ print_problem_solution_guidance() {
   local problem="$1"
   local solution="$2"
 
+  set_print_red
   cat << EOF >&2
-
 Problem:
 --------
 
 ${problem}
+EOF
 
+  set_print_blue
+  cat << EOF >&2
 Solution:
 ---------
 
 ${solution}
 EOF
+
+  reset_print_color
 
   return 1
 }
