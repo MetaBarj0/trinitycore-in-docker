@@ -8,7 +8,7 @@ main() {
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
       local user=${SHELL_USER_NAME}
       local user_gid=$(getent group docker | cut -d : -f 3)
-      local user_home_dir=${IDE_USER_HOME_DIR}
+      local user_home_dir=${SHELL_USER_HOME_DIR}
       local user_uid=$(id -u)
   fi
 

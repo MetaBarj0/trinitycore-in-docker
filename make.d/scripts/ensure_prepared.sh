@@ -487,14 +487,14 @@ check_shell_user_name() {
 
 print_user_guidance_for_shell_user_home_dir() {
   print_problem_solution_guidance \
-"Missing value for the IDE_USER_HOME_DIR variable. This variable value is
+"Missing value for the SHELL_USER_HOME_DIR variable. This variable value is
 essential to setup the home directory of your user into the ide service
 container." \
 "$(output_makefile_maintainer_solution)"
 }
 
 check_shell_user_home_dir() {
-  [ -n "${IDE_USER_HOME_DIR}" ] \
+  [ -n "${SHELL_USER_HOME_DIR}" ] \
   || print_user_guidance_for_shell_user_home_dir
 }
 
