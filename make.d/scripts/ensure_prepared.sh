@@ -9,7 +9,7 @@ ensure_server_configuration_file_exists() {
   fi
 }
 
-print_problem_solution_guildance() {
+print_problem_solution_guidance() {
   local problem="$1"
   local solution="$2"
 
@@ -30,7 +30,7 @@ EOF
 }
 
 print_user_guidance_for_configuration_files() {
-  print_problem_solution_guildance \
+  print_problem_solution_guidance \
 "One or more server configuration files are missing and you attempted to build
 trinitycore servers without them. If you would have continued, the build would
 have miserably failed and you would have been dispaired by the resulting
@@ -52,12 +52,12 @@ ensure_servers_configuration_files_exist() {
 }
 
 check_use_docker_desktop_variable() {
-  [ ${USE_DOCKER_DESKTOP} -ne 0 ] \
-  || [ ${USE_DOCKER_DESKTOP} -ne 1 ]
+  [ ${USE_DOCKER_DESKTOP} -eq 0 ] \
+  || [ ${USE_DOCKER_DESKTOP} -eq 1 ]
 }
 
 print_user_guidance_for_use_docker_desktop() {
-  print_problem_solution_guildance \
+  print_problem_solution_guidance \
 "The USE_DOCKER_DESKTOP variable contains an out-of-range value or does not
 contain a value at all." \
 "Edit the Makefile.env file and set the USE_DOCKER_DESKTOP variable value
@@ -77,7 +77,7 @@ check_client_path_variable() {
 }
 
 print_user_guidance_for_client_path() {
-  print_problem_solution_guildance \
+  print_problem_solution_guidance \
 "Invalid value for the CLIENT_PATH variable. The build system cannot find the
 World of Warcraft client installation directory. It is necessary to generate
 all client data the server need to operate." \
@@ -109,7 +109,7 @@ check_admin_account_password() {
 }
 
 print_user_guidance_for_admin_account() {
-  print_problem_solution_guildance \
+  print_problem_solution_guidance \
 "Missing configuration for the administrator account used for remote access.
 Missing values for either ADMIN_ACCOUNT_NAME or ADMIN_ACCOUNT_PASSWORD variable
 in Makefile.env file." \
@@ -132,7 +132,7 @@ check_realmlist_address() {
 }
 
 print_user_guidance_for_realmlist_address() {
-  print_problem_solution_guildance \
+  print_problem_solution_guidance \
 "Missing value for the REALMLIST_ADDRESS variable. Without this you could not
 test or play with the built server." \
 "Edit the Makefile.env file, find the REALMLIST_ADDRESS variable with a valid
@@ -154,9 +154,371 @@ check_makefile_env_variables() {
   && check_realm_address
 }
 
+output_makefile_maintainer_solution() {
+  cat << EOF
+initialize this variable either with:
+- make init maintainer_mode=1 and follow the guide
+- make prepare and manually edit the Makefile.maintainer.env
+  file.
+EOF
+}
+
+print_user_guidance_for_tdb_uri() {
+  print_problem_solution_guidance \
+"Missing value for the TDB_FULL_URI variable.
+The build will succeed but the first run of server will fail to
+initialize and update all needed databases" \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_tdb_full_uri() {
+  [ ! -z "${TDB_FULL_URI}" ] \
+  || print_user_guidance_for_tdb_uri
+}
+
+print_user_guidance_for_compose_project_name() {
+  print_problem_solution_guidance \
+"Missing value for the COMPOSE_PROJECT_NAME variable.
+The build will fail as produced docker image names rely on this
+variable value." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_compose_project_name() {
+  [ ! -z "${COMPOSE_PROJECT_NAME}" ] \
+  || print_user_guidance_for_compose_project_name
+}
+
+print_user_guidance_for_namespace() {
+  print_problem_solution_guidance \
+"Missing value for the NAMESPACE variable.
+The build will fail as produced docker image names rely on this
+variable value." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_namespace() {
+  [ ! -z "${NAMESPACE}" ] \
+  || print_user_guidance_for_namespace
+}
+
+print_user_guidance_for_repository_uri() {
+  print_problem_solution_guidance \
+"Missing value for the REPOSITORY_URI variable.
+The build will fail because no TrinityCore repository will be
+cloned." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_repository_uri() {
+  [ ! -z "${REPOSITORY_URI}" ] \
+  || print_user_guidance_for_repository_uri
+}
+
+print_user_guidance_for_raw_repository_uri() {
+  print_problem_solution_guidance \
+"Missing value for the RAW_REPOSITORY_URI variable.
+The build will fail because the system won't be able to create
+worldserver.conf and authserver.conf file for servers to run." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_raw_repository_uri() {
+  [ ! -z "${RAW_REPOSITORY_URI}" ] \
+  || print_user_guidance_for_raw_repository_uri
+}
+
+print_user_guidance_for_repository_rev() {
+  print_problem_solution_guidance \
+"Missing value for the REPOSITORY_REV variable.
+The build will fail because a specific revision (tag, branch)
+must be set for the TrinityCore repository clone to proceed." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_repository_rev() {
+  [ ! -z "${REPOSITORY_REV}" ] \
+  || print_user_guidance_for_repository_rev
+}
+
+print_user_guidance_for_use_cached_client_data() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the USE_CACHED_CLIENT_DATA
+variable. This value must be set with either 0 or 1." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_use_cached_client_data() {
+  [ ${USE_CACHED_CLIENT_DATA} -eq 0 ] \
+  || [ ${USE_CACHED_CLIENT_DATA} -eq 1 ] \
+  || print_user_guidance_for_use_cached_client_data
+}
+
+print_user_guidance_for_databases_version() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DATABASES_VERSION variable.
+The build of the databases service will fail because it relies on this variable
+value." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_databases_version() {
+  [ ! -z "${DATABASES_VERSION}" ] \
+  || print_user_guidance_for_databases_version
+}
+
+print_user_guidance_for_builder_version() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the BUILDER_VERSION variable.
+The build of the builder image will fail because it relies on this variable
+value." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_builder_version() {
+  [ ! -z "${BUILDER_VERSION}" ] \
+  || print_user_guidance_for_builder_version
+}
+
+print_user_guidance_for_ide_version() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the IDE_VERSION variable.
+The build of the ide service will fail because it relies on this variable
+value." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_ide_version() {
+  [ ! -z "${IDE_VERSION}" ] \
+  || print_user_guidance_for_ide_version
+}
+
+print_user_guidance_for_worldserver_remote_access_version() {
+  print_problem_solution_guidance \
+  "Missing or invalid value for the WORLDSERVER_REMOTE_ACCESS_VERSION variable.
+The build of the worldserver_remote_access service will fail because it relies
+on this variable value." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_worldserver_remote_access_version() {
+  [ ! -z "${WORLDSERVER_REMOTE_ACCESS_VERSION}" ] \
+  || print_user_guidance_for_worldserver_remote_access_version
+}
+
+print_user_guidance_for_authserver_version() {
+  print_problem_solution_guidance \
+  "Missing or invalid value for the AUTHSERVER_VERSION variable.
+The build of the authserver service will fail because it relies on
+this variable value." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_authserver_version() {
+  [ ! -z "${AUTHSERVER_VERSION}" ] \
+  || print_user_guidance_for_authserver_version
+}
+
+print_user_guidance_for_worldserver_version() {
+  print_problem_solution_guidance \
+  "Missing or invalid value for the WORLDSERVER_VERSION variable.
+The build of the worldserver service will fail because it relies on
+this variable value." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_worldserver_version() {
+  [ ! -z "${WORLDSERVER_VERSION}" ] \
+  || print_user_guidance_for_worldserver_version
+}
+
+check_versions() {
+  check_databases_version \
+  && check_builder_version \
+  && check_ide_version \
+  && check_worldserver_remote_access_version \
+  && check_authserver_version \
+  && check_worldserver_version
+}
+
+print_user_guidance_for_trinitycore_user_gid() {
+  print_problem_solution_guidance \
+  "Missing or invalid value for the TRINITYCORE_USER_GID variable. This value
+must be set with a value above 1000" \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_trinitycore_user_gid() {
+  [ ${TRINITYCORE_USER_GID} -gt 1000 ] \
+  || print_user_guidance_for_trinitycore_user_gid
+}
+
+print_user_guidance_for_trinitycore_user_uid() {
+  print_problem_solution_guidance \
+  "Missing or invalid value for the TRINITYCORE_USER_UID variable. This value
+must be set with a value above 1000" \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_trinitycore_user_uid() {
+  [ ${TRINITYCORE_USER_UID} -gt 1000 ] \
+  || print_user_guidance_for_trinitycore_user_uid
+}
+
+print_user_guidance_for_ssh_public_key_file_path() {
+  print_problem_solution_guidance \
+  "Missing value for the SSH_PUBLIC_KEY_FILE_PATH variable. The build of the
+ide service will fail because this key is required to setup the development
+environment." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_ssh_public_key_path() {
+  [ ! -z "${SSH_PUBLIC_KEY_FILE_PATH}" ] \
+  || print_user_guidance_for_ssh_public_key_file_path
+}
+
+print_user_guidance_for_ssh_secret_key_file_path() {
+  print_problem_solution_guidance \
+  "Missing value for the SSH_SECRET_KEY_FILE_PATH variable. The build of the
+ide service will fail because this key is required to setup the development
+environment." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_ssh_secret_key_path() {
+  [ ! -z "${SSH_SECRET_KEY_FILE_PATH}" ] \
+  || print_user_guidance_for_ssh_secret_key_file_path
+}
+
+print_user_guidance_for_neovim_rev() {
+  print_problem_solution_guidance \
+  "Missing value for the IDE_NEOVIM_REV variable. The build of the
+ide service will fail because neovim is the main code editor of this
+environment and cannot be built without this variable value." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_neovim_rev() {
+  [ ! -z "${IDE_NEOVIM_REV}" ] \
+  || print_user_guidance_for_neovim_rev
+}
+
+print_user_guidance_for_nodejs_rev() {
+  print_problem_solution_guidance \
+  "Missing value for the NODEJS_VER variable. The build of the
+ide service will fail as nodejs is a necessary dependency." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_nodejs_rev() {
+  [ ! -z "${NODEJS_VER}" ] \
+  || print_user_guidance_for_nodejs_rev
+}
+
+print_user_guidance_for_git_user_name() {
+  print_problem_solution_guidance \
+  "Missing value for the GIT_USER_NAME variable. The git user name is essential
+to identify yourself in commits you could made to contribute to the wonderful
+TrinityCore project." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_git_user_name() {
+  [ ! -z "${GIT_USER_NAME}" ] \
+  || print_user_guidance_for_git_user_name
+}
+
+print_user_guidance_for_git_user_email() {
+  print_problem_solution_guidance \
+  "Missing value for the GIT_USER_EMAIL variable. The git user email is
+essential to identify yourself in commits you could made to contribute to the
+wonderful TrinityCore project." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_git_user_email() {
+  [ ! -z "${GIT_USER_EMAIL}" ] \
+  || print_user_guidance_for_git_user_email
+}
+
+print_user_guidance_for_repository_target_directory() {
+  print_problem_solution_guidance \
+  "Missing value for the TRINITYCORE_REPOSITORY_TARGET_DIRECTORY variable. This
+variable value is essential for some scripts in the ide service to run
+properly." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_trinitycore_repository_target_directory() {
+  [ ! -z "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" ] \
+  || print_user_guidance_for_repository_target_directory
+}
+
+print_user_guidance_for_trinitycore_install_directory() {
+  print_problem_solution_guidance \
+  "Missing value for the TRINITYCORE_INSTALL_DIRECTORY variable. This variable
+value is essential for some scripts in the ide service to run properly." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_trinitycore_install_directory() {
+  [ ! -z "${TRINITYCORE_INSTALL_DIRECTORY}" ] \
+  || print_user_guidance_for_trinitycore_install_directory
+}
+
+print_user_guidance_for_shell_user_name() {
+  print_problem_solution_guidance \
+  "Missing value for the IDE_USER_NAME variable. This variable value is
+essential to allow you to login into the ide service container." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_shell_user_name() {
+  [ ! -z "${IDE_USER_NAME}" ] \
+  || print_user_guidance_for_shell_user_name
+}
+
+print_user_guidance_for_shell_user_home_dir() {
+  print_problem_solution_guidance \
+  "Missing value for the IDE_USER_HOME_DIR variable. This variable value is
+essential to setup the home directory of your user into the ide service
+container." \
+  "$(output_makefile_maintainer_solution)"
+}
+
+check_shell_user_home_dir() {
+  [ ! -z "${IDE_USER_HOME_DIR}" ] \
+  || print_user_guidance_for_shell_user_home_dir
+}
+
+check_makefile_maintainer_env_variables() {
+  check_tdb_full_uri \
+  && check_compose_project_name \
+  && check_namespace \
+  && check_repository_uri \
+  && check_raw_repository_uri \
+  && check_repository_rev \
+  && check_use_cached_client_data \
+  && check_versions \
+  && check_trinitycore_user_gid \
+  && check_trinitycore_user_uid \
+  && check_ssh_public_key_path \
+  && check_ssh_secret_key_path \
+  && check_neovim_rev \
+  && check_nodejs_rev \
+  && check_git_user_name \
+  && check_git_user_email \
+  && check_trinitycore_repository_target_directory \
+  && check_trinitycore_install_directory \
+  && check_shell_user_name \
+  && check_shell_user_home_dir
+}
+
 main() {
   ensure_servers_configuration_files_exist \
-  && check_makefile_env_variables
+  && check_makefile_env_variables \
+  && check_makefile_maintainer_env_variables
 }
 
 main
