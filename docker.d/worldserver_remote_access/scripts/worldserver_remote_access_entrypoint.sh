@@ -69,25 +69,14 @@ run_live_loop() {
 }
 
 main() {
-  check_admin_credentials
-  create_admin_account_credentials
-
-  use_bootstrap_admin_account
-    wait_for_worldserver
-    re_create_admin_account
-  use_created_admin_account
-
-  delete_bootstrap_admin_account
-
-  run_live_loop
+  check_admin_credentials \
+  && create_admin_account_credentials \
+  && use_bootstrap_admin_account \
+  && wait_for_worldserver \
+  && re_create_admin_account \
+  && use_created_admin_account \
+  && delete_bootstrap_admin_account \
+  && run_live_loop
 }
 
 main
-
-trap shutdown SIGTERM
-
-shutdown() {
-  echo Terminating gracefully worldserver_remote_access service...
-
-  exit 0
-}
