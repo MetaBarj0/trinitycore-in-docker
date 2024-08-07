@@ -98,13 +98,61 @@ check_client_path() {
   || print_user_guidance_for_client_path
 }
 
-check_worldserver_conf_path() {
-  :
+str_compare_with() {
+  local fragment="$1"
+
+  while read input; do
+    [ "${input}" = "${fragment}" ] \
+    && return 0 \
+    || return 1
+  done
 }
 
-# TODO: implement this
+ensure_path_ends_with() {
+  local uri="$1"
+  local fragment="$2"
+
+  echo "${uri}" \
+  | rev \
+  | sed -E 's%(^[^/]+)/%\1%' \
+  | rev \
+  | str_compare_with "${fragment}"
+}
+
+print_user_guidance_for_worldserver_conf_path() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the WORLDSERVER_CONF_PATH variable. The build
+will fail without a valid value.
+Make sure you specify either an absolute or a relative file path ending with
+'worldserver.conf'" \
+"Edit the Makefile.env file, look for the WORLDSERVER_CONF_PATH variable and
+set a correct value here.
+You can also set the WORLDSERVER_CONF_PATH variable with the \`make init\`
+command."
+}
+
+check_worldserver_conf_path() {
+  [ -n "${WORLDSERVER_CONF_PATH}" ] \
+  && ensure_path_ends_with "${WORLDSERVER_CONF_PATH}" 'worldserver.conf' \
+  || print_user_guidance_for_worldserver_conf_path
+}
+
+print_user_guidance_for_authserver_conf_path() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the AUTHSERVER_CONF_PATH variable. The build
+will fail without a valid value.
+Make sure you specify either an absolute or a relative file path ending with
+'authserver.conf'" \
+"Edit the Makefile.env file, look for the AUTHSERVER_CONF_PATH variable and
+set a correct value here.
+You can also set the AUTHSERVER_CONF_PATH variable with the \`make init\`
+command."
+}
+
 check_authserver_conf_path() {
-  :
+  [ -n "${AUTHSERVER_CONF_PATH}" ] \
+  && ensure_path_ends_with "${AUTHSERVER_CONF_PATH}" 'authserver.conf' \
+  || print_user_guidance_for_authserver_conf_path
 }
 
 check_realmlist_address() {
@@ -523,9 +571,9 @@ check_makefile_maintainer_env_variables() {
 }
 
 main() {
-  ensure_servers_configuration_files_exist \
-  && check_makefile_env_variables \
-  && check_makefile_maintainer_env_variables
+  check_makefile_env_variables \
+  && check_makefile_maintainer_env_variables \
+  && ensure_servers_configuration_files_exist
 }
 
 main
