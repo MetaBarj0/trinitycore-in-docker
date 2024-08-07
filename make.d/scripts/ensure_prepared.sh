@@ -1,4 +1,5 @@
-check_for_configuration_file() {
+# TODO: introduce color
+ensure_server_configuration_file_exists() {
   local file_path="$1"
 
   if [ ! -f "${file_path}" ]; then
@@ -44,9 +45,9 @@ And follow instructions. Then you could just build the whole thing with:
 - make build"
 }
 
-check_configuration_files() {
-  check_for_configuration_file "${AUTHSERVER_CONF_PATH}" \
-  && check_for_configuration_file "${WORLDSERVER_CONF_PATH}" \
+ensure_servers_configuration_files_exist() {
+  ensure_server_configuration_file_exists "${AUTHSERVER_CONF_PATH}" \
+  && ensure_server_configuration_file_exists "${WORLDSERVER_CONF_PATH}" \
   || print_user_guidance_for_configuration_files
 }
 
@@ -89,6 +90,14 @@ You can also set the CLIENT_PATH variable with the \`make init\` command."
 check_client_path() {
   check_client_path_variable \
   || print_user_guidance_for_client_path
+}
+
+check_worldserver_conf_path() {
+  :
+}
+
+check_authserver_conf_path() {
+  :
 }
 
 check_admin_account_name(){
@@ -136,13 +145,18 @@ check_realm_address() {
   || print_user_guidance_for_realmlist_address
 }
 
-# TODO: also verify Makefile.maintainer.env content
-main() {
-  check_configuration_files \
-  && check_use_docker_desktop \
+check_makefile_env_variables() {
+  check_use_docker_desktop \
   && check_client_path \
+  && check_worldserver_conf_path \
+  && check_authserver_conf_path \
   && check_admin_account \
   && check_realm_address
+}
+
+main() {
+  ensure_servers_configuration_files_exist \
+  && check_makefile_env_variables
 }
 
 main
