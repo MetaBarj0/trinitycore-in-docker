@@ -185,13 +185,6 @@ ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
 ARG USER
 ARG USER_HOME_DIR
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
-ENV NVIM_LLDB_VSCODE_PATH=/usr/bin/lldb-vscode
-ENV PATH=${PATH}:${USER_HOME_DIR}/scripts
-ENV SHELL=/bin/bash
-ENV TERM=xterm-256color
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
 COPY --chmod=755 scripts scripts
@@ -216,5 +209,13 @@ RUN touch \
   ${USER_HOME_DIR}/.npm-cache/.volume \
   ${USER_HOME_DIR}/.init/.volume \
   ${USER_HOME_DIR}/.local/.volume
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+ENV NVIM_LLDB_VSCODE_PATH=/usr/bin/lldb-vscode
+ENV PATH=${PATH}:${USER_HOME_DIR}/scripts
+ENV SHELL=/bin/bash
+ENV TERM=xterm-256color
+ENV USER_HOME_DIR=${USER_HOME_DIR}
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}
