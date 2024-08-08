@@ -1,61 +1,41 @@
+# TODO: duplicated code
 get_real_install_directory() {
   echo "${TRINITYCORE_INSTALL_DIRECTORY}" \
   | sed -E "s%^~(/.+)%${USER_HOME_DIR}\1%"
 }
 
-ensure_conf_file_exists() {
-  local file="$(get_real_install_directory)/etc/$1"
-
-  if [ ! -f "${file}" ]; then
-    cat << EOF
-Fatal: The ${file} file does not exist.
------- You can create it from template in the
-${TRINITYCORE_INSTALL_DIRECTORY}/etc directory.
-Alternatively, you can extract the configuration files from docker images such
-as ${NAMESPACE}.authserver:${AUTHSERVER_VERSION} or
-${NAMESPACE}.worldserver:${WORLDSERVER_VERSION} should you have built them with
-the trinitycore-in-docker project. First, change your current directory to the
-root directory of the trinitycore-in-docker repository. Then, issue the
-following command to proceed:
-
-  make extract_conf
-
-If everything is going well, you should have both worldserver.conf and
-authserver.conf files in your current directory.
-Copy them to ${TRINITYCORE_INSTALL_DIRECTORY}/etc and restart this script to
-patch them automatically.
-EOF
-
-  return 1
-  fi
+# TODO: duplicated code
+get_real_source_directory() {
+  echo "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" \
+  | sed -E "s%^~(/.+)%${USER_HOME_DIR}\1%"
 }
 
 apply_worldserver_patch() {
   patch "$(get_real_install_directory)/etc/worldserver.conf" << EOF
+67c67
+< RealmID = 1
+---
+> RealmID = ${DEBUG_REALM_ID}
 76c76
 < DataDir = "/home/trinitycore/trinitycore/data"
 ---
 > DataDir = "${USER_HOME_DIR}/client_data"
-1368c1368
-< Updates.EnableDatabases = 7
+110,112c110,112
+< LoginDatabaseInfo     = "databases;3306;trinity;trinity;auth"
+< WorldDatabaseInfo     = "databases;3306;trinity;trinity;world"
+< CharacterDatabaseInfo = "databases;3306;trinity;trinity;characters"
 ---
-> Updates.EnableDatabases = 0
-1376c1376
-< Updates.AutoSetup   = 1
+> LoginDatabaseInfo     = "databases;3306;trinity;trinity;${DEBUG_AUTH_DATABASE_NAME}"
+> WorldDatabaseInfo     = "databases;3306;trinity;trinity;${DEBUG_WORLD_DATABASE_NAME}"
+> CharacterDatabaseInfo = "databases;3306;trinity;trinity;${DEBUG_CHARACTERS_DATABASE_NAME}"
+154c154
+< WorldServerPort = 8085
 ---
-> Updates.AutoSetup   = 0
-1385c1385
-< Updates.Redundancy  = 1
+> WorldServerPort = ${DEBUG_WORLDSERVER_PORT}
+202c202
+< SourceDirectory  = "/home/trinitycore/TrinityCore"
 ---
-> Updates.Redundancy  = 0
-1402c1402
-< Updates.AllowRehash = 1
----
-> Updates.AllowRehash = 0
-1414c1414
-< Updates.CleanDeadRefMaxCount = 3
----
-> Updates.CleanDeadRefMaxCount = 0
+> SourceDirectory  = "$(get_real_source_directory)"
 3012c3012
 < Console.Enable = 0
 ---
@@ -71,44 +51,36 @@ apply_worldserver_patch() {
 EOF
 }
 
-patch_worldserver_conf() {
-  ensure_conf_file_exists worldserver.conf \
-  && apply_worldserver_patch
-}
-
 apply_authserver_patch() {
   patch "$(get_real_install_directory)/etc/authserver.conf" << EOF
-258c258
-< Updates.EnableDatabases = 1
+56c56
+< RealmServerPort = 3724
 ---
-> Updates.EnableDatabases = 0
-266c266
-< Updates.AutoSetup   = 1
+> RealmServerPort = ${DEBUG_AUTHSERVER_PORT}
+157c157
+< SourceDirectory  = "/home/trinitycore/TrinityCore"
 ---
-> Updates.AutoSetup   = 0
-275c275
-< Updates.Redundancy  = 1
+> SourceDirectory  = "$(get_real_source_directory)"
+207c207
+< LoginDatabaseInfo = "databases;3306;trinity;trinity;auth"
 ---
-> Updates.Redundancy  = 0
-292c292
-< Updates.AllowRehash = 1
----
-> Updates.AllowRehash = 0
-304c304
-< Updates.CleanDeadRefMaxCount = 3
----
-> Updates.CleanDeadRefMaxCount = 0
+> LoginDatabaseInfo = "databases;3306;trinity;trinity;${DEBUG_AUTH_DATABASE_NAME}"
 EOF
 }
 
-patch_authserver_conf() {
-  ensure_conf_file_exists authserver.conf \
-  && apply_authserver_patch
+install_configuration_files() {
+  mkdir -p "$(get_real_install_directory)/etc"
+
+  cp -f \
+    "${USER_HOME_DIR}/trinitycore_configurations/authserver.conf" \
+    "${USER_HOME_DIR}/trinitycore_configurations/worldserver.conf" \
+    "$(get_real_install_directory)/etc"
 }
 
 main() {
-  patch_worldserver_conf \
-  && patch_authserver_conf
+  install_configuration_files \
+  && apply_worldserver_patch \
+  && apply_authserver_patch
 }
 
 main

@@ -38,12 +38,21 @@ services:
     entrypoint: scripts/ide_entrypoint.sh
     environment:
       - AUTHSERVER_VERSION
+      - DEBUG_AUTH_DATABASE_NAME
+      - DEBUG_AUTHSERVER_PORT
+      - DEBUG_CHARACTERS_DATABASE_NAME
+      - DEBUG_REALM_ID
+      - DEBUG_REALM_NAME
+      - DEBUG_REALMLIST_ADDRESS
+      - DEBUG_WORLD_DATABASE_NAME
+      - DEBUG_WORLDSERVER_PORT
       - GIT_USER_EMAIL
       - GIT_USER_NAME
       - NAMESPACE
       - REPOSITORY_REV
       - REPOSITORY_SHA
       - REPOSITORY_URI
+      - TDB_FULL_URI
       - TRINITYCORE_INSTALL_DIRECTORY
       - TRINITYCORE_REPOSITORY_TARGET_DIRECTORY
       - WORLDSERVER_VERSION
@@ -51,19 +60,17 @@ services:
     image: ${NAMESPACE}.ide:${IDE_VERSION}
     init: true
     networks:
-      dev:
       inside:
         ipv4_address: 11.12.13.5
-    #TODO: make exposed ports configurable (after research on how ports work for trinitycore)
     ports:
-      - target: 8085
+      - target: ${DEBUG_WORLDSERVER_PORT}
         host_ip: 0.0.0.0
-        published: '8085'
+        published: ${DEBUG_WORLDSERVER_PORT}
         protocol: tcp
         mode: host
-      - target: 3724
+      - target: ${DEBUG_AUTHSERVER_PORT}
         host_ip: 0.0.0.0
-        published: '3724'
+        published: ${DEBUG_AUTHSERVER_PORT}
         protocol: tcp
         mode: host
     profiles:
@@ -110,8 +117,6 @@ services:
         target: ${USER_HOME_DIR:-implementation defined}/.local
         volume:
           nocopy: false
-networks:
-  dev:
 secrets:
   ide_ssh_public_key:
     file: ${SSH_PUBLIC_KEY_FILE_PATH}

@@ -166,7 +166,7 @@ RUN \
   apt-get update \
   && apt-get install -y --no-install-recommends \
   tmux python3-neovim locales clangd-16 sudo tig man-db less make btop \
-  python3.11-venv cmake-curses-gui lldb-16 clang-format-16 telnet
+  python3.11-venv cmake-curses-gui lldb-16 clang-format-16 telnet p7zip jq wget
 RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-16 100
 RUN update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-16 100
 RUN update-alternatives --install /usr/bin/lldb-vscode lldb-vscode /usr/bin/lldb-vscode-16 100
@@ -188,6 +188,12 @@ ARG USER_HOME_DIR
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
 COPY --chmod=755 scripts scripts
+RUN mkdir -p trinitycore_configurations
+COPY \
+  --chown=${USER}:${USER} \
+  --chmod=440 \
+  worldserver.conf authserver.conf \
+  trinitycore_configurations/
 RUN mkdir -p \
   ${USER_HOME_DIR}/client_data/ \
   ${USER_HOME_DIR}/ide_storage/ \

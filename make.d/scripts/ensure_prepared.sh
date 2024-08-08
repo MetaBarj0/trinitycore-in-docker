@@ -547,6 +547,113 @@ check_shell_user_home_dir() {
   || print_user_guidance_for_shell_user_home_dir
 }
 
+print_user_guidance_for_debug_authserver_port() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DEBUG_AUTHSERVER_PORT variable. This variable value is
+essential to setup the debug authserver port and make it runnable. Be sure to
+setup a value that is greater than 3724 and lesser than 65535 (it is a port)" \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_debug_authserver_port() {
+  [ ${DEBUG_AUTHSERVER_PORT} -gt 3724 ] \
+  && [ ${DEBUG_AUTHSERVER_PORT} -lt 65535 ] \
+  || print_user_guidance_for_debug_authserver_port
+}
+
+print_user_guidance_for_debug_worldserver_port() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DEBUG_WORLDSERVER_PORT variable. This
+variable value is essential to setup the debug authserver port and make it
+runnable. Be sure to setup a value that is greater than 8085 and lesser than
+65535 (it is a port)" \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_debug_worldserver_port() {
+  [ ${DEBUG_WORLDSERVER_PORT} -gt 8085 ] \
+  && [ ${DEBUG_WORLDSERVER_PORT} -lt 65535 ] \
+  || print_user_guidance_for_debug_worldserver_port
+}
+
+check_debug_servers_ports() {
+  check_debug_authserver_port \
+  && check_debug_worldserver_port
+}
+
+print_user_guidance_for_debug_auth_database_name() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DEBUG_AUTH_DATABASE_NAME variable. This
+variable value is essential to setup the debug version of the auth database.
+You must specify a value here. The name 'auth' is forbidden." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_debug_auth_database_name() {
+  [ -n "${DEBUG_AUTH_DATABASE_NAME}" ] \
+  && [ "${DEBUG_AUTH_DATABASE_NAME}" != 'auth' ] \
+  || print_user_guidance_for_debug_auth_database_name
+}
+
+print_user_guidance_for_debug_characters_database_name() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DEBUG_CHARACTERS_DATABASE_NAME variable. This
+variable value is essential to setup the debug version of the characters
+database. You must specify a value here. The name 'characters' is forbidden." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_debug_characters_database_name() {
+  [ -n "${DEBUG_CHARACTERS_DATABASE_NAME}" ] \
+  && [ "${DEBUG_CHARACTERS_DATABASE_NAME}" != 'characters' ] \
+  || print_user_guidance_for_debug_characters_database_name
+}
+
+print_user_guidance_for_debug_world_database_name() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DEBUG_WORLD_DATABASE_NAME variable. This
+variable value is essential to setup the debug version of the world database.
+You must specify a value here. The name 'world' is forbidden." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_debug_world_database_name() {
+  [ -n "${DEBUG_WORLD_DATABASE_NAME}" ] \
+  && [ "${DEBUG_WORLD_DATABASE_NAME}" != 'world' ] \
+  || print_user_guidance_for_debug_world_database_name
+}
+
+check_debug_database_names() {
+  check_debug_auth_database_name \
+  && check_debug_characters_database_name \
+  && check_debug_world_database_name
+}
+
+print_user_guidance_for_debug_realm_id() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DEBUG_REALM_ID variable. This variable value
+is essential to setup the debug realm identifier. You must specify a value
+here. Any value greater than 1 will do." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_debug_realm_id() {
+  [ ${DEBUG_REALM_ID} -gt 1 ] \
+  || print_user_guidance_for_debug_realm_id
+}
+
+print_user_guidance_for_debug_realmlist_address() {
+  print_problem_solution_guidance \
+"Missing or invalid value for the DEBUG_REALMLIST_ADDRESS variable. This variable value
+is essential to make your debug realm reachable on your network." \
+"$(output_makefile_maintainer_solution)"
+}
+
+check_debug_realmlist_address() {
+  [ -n "${DEBUG_REALMLIST_ADDRESS}" ] \
+  || print_user_guidance_for_debug_realmlist_address
+}
+
 check_makefile_maintainer_env_variables() {
   check_tdb_full_uri \
   && check_compose_project_name \
@@ -567,7 +674,11 @@ check_makefile_maintainer_env_variables() {
   && check_trinitycore_repository_target_directory \
   && check_trinitycore_install_directory \
   && check_shell_user_name \
-  && check_shell_user_home_dir
+  && check_shell_user_home_dir \
+  && check_debug_servers_ports \
+  && check_debug_database_names \
+  && check_debug_realm_id \
+  && check_debug_realmlist_address
 }
 
 main() {

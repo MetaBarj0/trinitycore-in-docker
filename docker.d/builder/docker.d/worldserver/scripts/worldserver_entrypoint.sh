@@ -72,13 +72,37 @@ mysql -h databases -u trinity -ptrinity -b auth -e
  'UPDATE realmlist set address = "${REALMLIST_ADDRESS}"
   WHERE id = 1;'
 EOF
-)"
+    )"
 
   until eval $cmd; do
-    echo 'Updating realmlist address...'
+    echo 'Updating realm address...'
 
     sleep 1
   done
+}
+
+update_realmlist_name() {
+  if [ -z "${REALM_NAME}" ]; then
+    return 0
+  fi
+
+  local cmd="$(cat << EOF
+mysql -h databases -u trinity -ptrinity -b auth -e
+ 'UPDATE realmlist set name = "${REALM_NAME}"
+  WHERE id = 1;'
+EOF
+    )"
+
+  until eval $cmd; do
+    echo 'Updating realm name...'
+
+    sleep 1
+  done
+}
+
+update_realmlist() {
+  set_realmlist_address \
+  && update_realmlist_name
 }
 
 run_worldserver() {
@@ -100,7 +124,7 @@ main() {
   && uncompress_tdb_full_to_worldserver \
   && run_worldserver \
   && create_bootstrap_admin_account \
-  && set_realmlist_address \
+  && update_realmlist \
   && run_live_loop
 }
 

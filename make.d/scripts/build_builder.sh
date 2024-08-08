@@ -1,11 +1,12 @@
-. ./make.d/scripts/copy_configuration_files_in_builder_build_context.sh
+. ./make.d/scripts/copy_configuration_files_in_build_context.sh
 
 copy_scripts_in_builder_build_context() {
   cp $@ docker.d/builder
 }
 
 main() {
-  copy_configuration_files_in_builder_build_context \
+  copy_configuration_files_in_build_context \
+    'docker.d/builder' \
   && copy_scripts_in_builder_build_context make.d/scripts/archive.sh
 
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then

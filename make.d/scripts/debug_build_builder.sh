@@ -1,7 +1,8 @@
-. make.d/scripts/copy_configuration_files_in_builder_build_context.sh
+. make.d/scripts/copy_configuration_files_in_build_context.sh
 
 main() {
-  copy_configuration_files_in_builder_build_context
+  copy_configuration_files_in_build_context \
+    'docker.d/builder'
 
   export BUILDX_EXPERIMENTAL=1
 

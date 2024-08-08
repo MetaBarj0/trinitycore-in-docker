@@ -2,7 +2,7 @@
 
 set -e
 
-# TODO; handle depreacation warning send by mariadb at start
+# TODO: handle depreacation warning send by mariadb at start
 install_databases() {
   mysql_install_db --user=mysql --datadir=/var/lib/mysql/data
 }
@@ -47,6 +47,7 @@ run_live_loop() {
   done
 }
 
+# TODO: chain of success
 main() {
   install_databases
   start_mysql_daemon
@@ -57,6 +58,7 @@ main() {
 
 main
 
+# TODO: rewrite signal handling
 trap shutdown SIGTERM
 
 kill_mysql_daemon() {
@@ -68,5 +70,6 @@ kill_mysql_daemon() {
 shutdown() {
   kill_mysql_daemon
 
+  # TODO: exit with $?
   exit 0
 }

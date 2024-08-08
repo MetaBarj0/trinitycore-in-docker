@@ -29,6 +29,7 @@ services:
     entrypoint: /home/trinitycore/scripts/worldserver_entrypoint.sh
     environment:
       - REALMLIST_ADDRESS
+      - REALM_NAME
       - TDB_FULL_URI
     image: ${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
     init: true
