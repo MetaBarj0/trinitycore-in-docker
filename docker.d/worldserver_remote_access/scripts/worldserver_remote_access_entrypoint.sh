@@ -1,5 +1,16 @@
 #! /bin/sh
 
+delete_admin_account() {
+  /home/worldserver_remote_access/scripts/execute_console_command.sh \
+    'account delete '"$(cat '/home/worldserver_remote_access/.admin_account_name')"
+
+  exit $?
+}
+
+setup_signal_handling() {
+  trap delete_admin_account INT QUIT HUP TERM
+}
+
 generate_random_acount_credentials_string() {
   local file="$1"
 
@@ -67,17 +78,6 @@ run_live_loop() {
   while true; do
     sleep 1
   done
-}
-
-delete_admin_account() {
-  /home/worldserver_remote_access/scripts/execute_console_command.sh \
-    'account delete '"$(cat '/home/worldserver_remote_access/.admin_account_name')"
-
-  exit $?
-}
-
-setup_signal_handling() {
-  trap delete_admin_account INT QUIT HUP TERM
 }
 
 main() {
