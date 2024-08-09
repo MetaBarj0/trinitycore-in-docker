@@ -7,5 +7,5 @@ EOF
   exit 1
 fi
 
-docker exec ${COMPOSE_PROJECT_NAME}_worldserver_remote_access_container \
+docker exec ${COMPOSE_PROJECT_NAME}_worldserver_remote_access \
   sh -c "execute_console_command.sh '${cmd}'"
