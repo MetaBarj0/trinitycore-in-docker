@@ -1,5 +1,11 @@
 . make.d/scripts/fetch_servers_configuration_files_in.sh
 
+rm_servers_configuration_files_in_build_context() {
+  rm -f \
+    docker.d/ide/authserver.conf \
+    docker.d/ide/worldserver.conf
+}
+
 patch_authserver_configuration() {
   cd docker.d/ide > /dev/null
 
@@ -63,6 +69,11 @@ patch_configuration_file_in_build_context() {
   && patch_worldserver_configuration
 }
 
+copy_scripts_in_build_context() {
+  cp make.d/scripts/color.sh \
+    docker.d/ide
+}
+
 build_image() {
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
     local user=${SHELL_USER_NAME}
@@ -88,16 +99,11 @@ build_image() {
     docker.d/ide
 }
 
-rm_servers_configuration_files_in_build_context() {
-  rm -f \
-    docker.d/ide/authserver.conf \
-    docker.d/ide/worldserver.conf
-}
-
 main() {
   rm_servers_configuration_files_in_build_context \
   && fetch_servers_configuration_files_in 'docker.d/ide' \
   && patch_configuration_file_in_build_context \
+  && copy_scripts_in_build_context \
   && build_image
 }
 

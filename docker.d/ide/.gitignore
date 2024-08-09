@@ -2,3 +2,6 @@ worldserver.conf
 authserver.conf
 Makefile.env
 Makefile.maintainer.env
+
+*.sh
+!scripts/*.sh

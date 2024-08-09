@@ -188,6 +188,7 @@ ARG USER_HOME_DIR
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
 COPY --chmod=755 scripts scripts
+COPY --chmod=755 color.sh scripts/
 RUN mkdir -p trinitycore_configurations
 COPY \
   --chown=${USER}:${USER} \
