@@ -46,7 +46,10 @@ To begin with your development endeavors you can:
      'trinitycore_patch_conf_in_install_directory.sh'
 07. start trinitycore-in-docker databases service with the following command:
      'make up service=databases'
-08. Ensure debug databases are created with the following command:
+08. start the debug version of the build 'worldserver' to create and populate
+    databases with default data set.
+08. Ensure debug databases are created and filled with debug data set with the
+    following command:
      'trinitycore_ensure_debug_databases_exist.sh'
 09. start your debug versions of servers
 10. Enjoy the debug environment (lldb + supercharged neovim)

@@ -2,6 +2,7 @@ include:
   - maintainer.docker-compose.yml
 services:
   databases:
+    container_name: ${COMPOSE_PROJECT_NAME}_databases
     entrypoint: /root/scripts/databases_entrypoint.sh
     healthcheck:
       test: ['CMD-SHELL', '/root/scripts/healthcheck.sh']
@@ -23,6 +24,7 @@ services:
         source: trinitycore_shallow_clone
         target: /root/TrinityCore
   worldserver:
+    container_name: ${COMPOSE_PROJECT_NAME}_worldserver
     depends_on:
       databases:
         condition: service_healthy
@@ -71,6 +73,7 @@ services:
       inside:
         ipv4_address: 11.12.13.3
   authserver:
+    container_name: ${COMPOSE_PROJECT_NAME}_authserver
     depends_on:
       databases:
         condition: service_healthy
