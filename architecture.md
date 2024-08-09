@@ -11,16 +11,19 @@ trinitycore server with very few efforts needed in configuration. Moreover, it
 should also be seen as a complete development platform to maintain TrinityCore
 providing all you need to develop, debug and test modification of the
 TrinityCore project.
+It's also a great way to quickly setup a TrinityCore server ecosystem and test
+it with a local or distant client (World of Warcraft 3.3.5a build 12340).
 
 ## How to use
 
 It is designed to be simple and self guided:
 
 1. `make help` is here to get a first overview
-2. `make build` builds the whole thing, provided you filled necessary
+2. `make init` to auto-pilot the initialization process.
+3. `make build` builds the whole thing, provided you filled necessary
    conditions. Should you have missed something, `make build` should tell it to
    you with hints to fix.
-3. `make up` bring servers up and running
+4. `make up` bring servers up and running
 
 ## Prerequisites
 
@@ -28,6 +31,25 @@ They differ depending the operating system you use but in general you need:
 
 - docker (with compose and buildx plugins)
 - make
+
+To enjoy the development environment in the 'ide' service, you need also:
+
+- patch
+
+### MacOS
+
+I recommend using [orbstack](https://orbstack.dev/) as an alternative to docker
+desktop. It's free for a personnal usage and is very convenient to use. I use
+it every day for my development endeavors.
+
+### Linux
+
+Not tested yet but as `trinitycore-in-docker` runs exclusively within docker
+containers, any distribution capable of installing a recent docker version
+should do.
+Beside, I test extensively in a linux virtual machine hosted by
+[orbstack](https://orbstack.dev/) without any issue. The virtual machine
+operating system used is Alpine edge.
 
 ### Microsoft Windows
 
@@ -42,18 +64,6 @@ To summarize:
 
 - Docker Desktop is unsupported
 - WSL2 with docker is partially supported
-
-### MacOS
-
-I recommend using [orbstack](https://orbstack.dev/) as an alternative to docker
-desktop. It's free for a personnal usage and is very convenient to use. I use
-it every day for my development endeavors.
-
-### Linux
-
-Not tested yet but as `trinitycore-in-docker` runs exclusively within docker
-containers, any distribution capable of installing a recent docker version
-should do.
 
 #### Known issues
 
@@ -99,18 +109,22 @@ confortable in editing text files containing environment variable definitions.
 ### Usage
 
 - Primarily `make help` to learn basics about how `trinitycore_in-docker` works
+- `make init` to auto-pilot the initialization of needed environment variables.
+    - Alternatively, `make prepare` creates several files regarding the
+      configuration
+        - Edit `Makefile.env` and initialize all mandatory things. Comments above
+        each variable should help.
+        - Edit `worldserver.conf` and `authserver.conf` to get a server reflecting
+        your needs.
 - `make build` then, figure out something is missing. Reading instructions
   leads to issue...
-- `make prepare` that create several files regarding the configuration
-    - Edit `Makefile.env` and initialize all mandatory things. Comments above
-      each variable should help.
-    - Edit `worldserver.conf` and `authserver.conf` to get a server reflecting
-      your needs.
 - Once again issue `make build`. If something goes wrong, follow given
   instructions. If all is ok everything is being built.
 - `make up` runs the whole thing
-- change the `realmlist.wtf` file according to your configuration and your
-  locale
+- in the World of Warcraft 3.3.5a installation directory, change the
+  `Data/<locale>/realmlist.wtf` file according to your configuration,
+  `<locale>` being your World of Warcraft installed language, for instance,
+  `enUS`.
 
 ## Maintain and modify servers
 
@@ -126,5 +140,6 @@ Good knowledge of docker and build tools for C++ projects.
 ### Usage
 
 - Primarily, everything the casual user can do plus:
+- `make init maintainer_mode=1` to setup every environment variable.
 - `make ide` build and run a full IDE to work on servers and tools.
 - `make maintainer_mode=1 help` to see what's possible to do
