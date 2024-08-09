@@ -34,7 +34,7 @@ services:
         source: trinitycore_shallow_clone
         target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
   ide:
-    container_name: ${COMPOSE_PROJECT_NAME}_ide_container
+    container_name: ${COMPOSE_PROJECT_NAME}_ide
     entrypoint: scripts/ide_entrypoint.sh
     environment:
       - AUTHSERVER_VERSION
