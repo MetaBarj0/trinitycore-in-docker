@@ -3,8 +3,6 @@
 patch_authserver_configuration() {
   cd docker.d/ide > /dev/null
 
-  # TODO: this diff is the same as the one builder applies in its entrypoint
-  #       for authserver.conf
   patch authserver.conf << EOF
 157c157
 < SourceDirectory  = ""
@@ -26,8 +24,6 @@ EOF
 patch_worldserver_configuration() {
   cd docker.d/ide > /dev/null
 
-  # TODO: this diff is the same as the one builder applies in its entrypoint
-  #       for worldserver.conf
   patch worldserver.conf << EOF
 76c76
 < DataDir = "."
