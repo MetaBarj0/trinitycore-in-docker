@@ -1,14 +1,4 @@
-# TODO: duplicated code
-get_real_install_directory() {
-  echo "${TRINITYCORE_INSTALL_DIRECTORY}" \
-  | sed -E "s%^~(/.+)%${USER_HOME_DIR}\1%"
-}
-
-# TODO: duplicated code
-get_real_source_directory() {
-  echo "${TRINITYCORE_REPOSITORY_TARGET_DIRECTORY}" \
-  | sed -E "s%^~(/.+)%${USER_HOME_DIR}\1%"
-}
+. "${USER_HOME_DIR}/scripts/trinitycore_script_utility.sh"
 
 apply_worldserver_patch() {
   patch "$(get_real_install_directory)/etc/worldserver.conf" << EOF
