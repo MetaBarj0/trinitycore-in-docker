@@ -1,5 +1,6 @@
 echo_ext() {
   [ "${SHELL}" = "/bin/sh" ] \
+  || [ "${SHELL}" = "/bin/ash" ] \
   && echo -e $@ \
   || echo $@
 
