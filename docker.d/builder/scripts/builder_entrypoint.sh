@@ -38,6 +38,8 @@ prepare_authserver_configuration() {
 }
 
 generate_Cameras_dbc_and_maps_in_client_dir() {
+  copy_data_to_wsl2_container_if_needed
+
   if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
@@ -100,6 +102,8 @@ generate_Cameras_dbc_and_maps() {
 }
 
 generate_vmaps_in_client_dir() {
+  copy_data_to_wsl2_container_if_needed
+
   if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
@@ -163,6 +167,8 @@ generate_vmaps() {
 }
 
 generate_mmaps_in_client_dir() {
+  copy_data_to_wsl2_container_if_needed
+
   if is_within_wsl2_container; then
     cd wsl2_client_copy/WoW-3.3.5a-12340/
   else
@@ -251,7 +257,6 @@ is_within_wsl2_container() {
   uname -a | grep WSL2 > /dev/null
 }
 
-# TODO: remove volume, copy to container
 copy_data_to_wsl2_container_if_needed() {
   if is_within_wsl2_container; then
     cd WoW-3.3.5a-12340
@@ -275,8 +280,7 @@ build_gameservers_image() {
 }
 
 create_gameservers_image() {
-  copy_data_to_wsl2_container_if_needed \
-  && generate_client_data \
+  generate_client_data \
   && prepare_worldserver_configuration \
   && prepare_authserver_configuration \
   && archive_configuration_files \
