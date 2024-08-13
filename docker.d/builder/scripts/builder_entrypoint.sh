@@ -256,6 +256,7 @@ copy_data_to_wsl2_container_if_needed() {
   if is_within_wsl2_container; then
     cd WoW-3.3.5a-12340
 
+    mkdir -p ../wsl2_client_copy/WoW-3.3.5a-12340
     rsync -avz --delete --progress --files-from ../client_files.txt . ../wsl2_client_copy/WoW-3.3.5a-12340
 
     cd -

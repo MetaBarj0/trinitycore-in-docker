@@ -27,9 +27,6 @@ services:
         source: client_data
         target: ${USER_HOME_DIR:-implementation defined}/data
       - type: volume
-        source: wsl2_client_copy
-        target: ${USER_HOME_DIR:-implementation defined}/wsl2_client_copy
-      - type: volume
         source: trinitycore_shallow_clone
         target: ${USER_HOME_DIR:-implementation defined}/TrinityCore
   ide:
@@ -124,7 +121,6 @@ volumes:
   client_data:
   ide_storage:
   trinitycore_shallow_clone:
-  wsl2_client_copy:
   ide_npm_prefix:
   ide_npm_cache:
   ide_xdg_init:

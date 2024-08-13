@@ -102,12 +102,9 @@ RUN mkdir -p trinitycore_scripts
 COPY \
   --chown=${USER}:${USER} \
   archive.sh trinitycore_scripts/
-# TODO: remove wsl2_client_copy volume here, copy into container should be
-#       sufficient
-RUN mkdir -p data wsl2_client_copy TrinityCore
-RUN touch wsl2_client_copy/.volume data/.volume TrinityCore/.volume
+RUN mkdir -p data TrinityCore
+RUN touch data/.volume TrinityCore/.volume
 VOLUME ${USER_HOME_DIR}/data
-VOLUME ${USER_HOME_DIR}/wsl2_client_copy
 VOLUME ${USER_HOME_DIR}/TrinityCore
 ENV BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
 ENV GAMESERVERS_IMAGE_TAG=${NAMESPACE}.gameservers:${GAMESERVERS_VERSION}
