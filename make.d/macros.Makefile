@@ -14,8 +14,8 @@ define build_builder
   @. make.d/scripts/build_builder.sh
 endef
 
-define build_servers_and_tools
-  @. make.d/scripts/build_servers_and_tools.sh
+define build_gameservers_and_tools
+  @. make.d/scripts/build_gameservers_and_tools.sh
 endef
 
 define debug_build_builder

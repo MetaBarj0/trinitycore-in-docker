@@ -10,7 +10,6 @@ services:
       - SERVERBASE_VERSION
       - USE_CACHED_CLIENT_DATA
       - USER_HOME_DIR
-      - WORLDSERVER_CONF_PATH
     image: ${NAMESPACE}.builder:${BUILDER_VERSION}
     init: true
     network_mode: none
@@ -37,7 +36,6 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_ide
     entrypoint: scripts/ide_entrypoint.sh
     environment:
-      - AUTHSERVER_VERSION
       - DEBUG_AUTH_DATABASE_NAME
       - DEBUG_AUTHSERVER_PORT
       - DEBUG_CHARACTERS_DATABASE_NAME
@@ -46,6 +44,7 @@ services:
       - DEBUG_REALMLIST_ADDRESS
       - DEBUG_WORLD_DATABASE_NAME
       - DEBUG_WORLDSERVER_PORT
+      - GAMESERVERS_VERSION
       - GIT_USER_EMAIL
       - GIT_USER_NAME
       - NAMESPACE
@@ -55,7 +54,6 @@ services:
       - TDB_FULL_URI
       - TRINITYCORE_INSTALL_DIRECTORY
       - TRINITYCORE_REPOSITORY_TARGET_DIRECTORY
-      - WORLDSERVER_VERSION
     hostname: ide
     image: ${NAMESPACE}.ide:${IDE_VERSION}
     init: true

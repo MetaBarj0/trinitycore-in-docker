@@ -1,5 +1,5 @@
-is_authserver_image_exists() {
-  local image_name="${NAMESPACE}.authserver:${AUTHSERVER_VERSION}"
+is_gameservers_image_exists() {
+  local image_name="${NAMESPACE}.gameservers:${GAMESERVERS_VERSION}"
   local id=$(docker image ls -q ${image_name})
 
   [ ! -z "$id" ]
@@ -55,30 +55,17 @@ backup_env_files_if_needed() {
   && backup_makefile_maintainer_env_if_needed
 }
 
-extract_conf_files_from_authserver() {
-  local container_id=$(docker run --rm -it -d ${NAMESPACE}.authserver:${AUTHSERVER_VERSION})
+extract_conf_files_from_gameservers() {
+  local container_id=$(docker run --rm -it -d ${NAMESPACE}.gameservers:${GAMESERVERS_VERSION})
 
   docker exec ${container_id} tar x -f configuration_files.tar
 
   docker cp ${container_id}:/home/trinitycore/authserver.conf "${AUTHSERVER_CONF_PATH}" > /dev/null
+  docker cp ${container_id}:/home/trinitycore/worldserver.conf "${WORLDSERVER_CONF_PATH}" > /dev/null
   docker cp ${container_id}:/home/trinitycore/Makefile.env . > /dev/null
   docker cp ${container_id}:/home/trinitycore/Makefile.maintainer.env . > /dev/null
 
   docker kill ${container_id} > /dev/null
-}
-
-extract_authserver_conf() {
-  is_authserver_image_exists \
-  && backup_authserver_conf_file_if_needed \
-  && backup_env_files_if_needed \
-  && extract_conf_files_from_authserver
-}
-
-is_worldserver_image_exists() {
-  local image_name="${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}"
-  local id=$(docker image ls -q ${image_name})
-
-  [ ! -z "$id" ]
 }
 
 is_worldserver_conf_file_already_backed_up() {
@@ -96,28 +83,12 @@ backup_worldserver_conf_file_if_needed() {
   || backup_worldserver_conf_file
 }
 
-extract_conf_files_from_worldserver() {
-  local container_id=$(docker run --rm -it -d ${NAMESPACE}.worldserver:${WORLDSERVER_VERSION})
-
-  docker exec ${container_id} tar x -f configuration_files.tar
-
-  docker cp ${container_id}:/home/trinitycore/worldserver.conf "${WORLDSERVER_CONF_PATH}" > /dev/null
-  docker cp ${container_id}:/home/trinitycore/Makefile.env . > /dev/null
-  docker cp ${container_id}:/home/trinitycore/Makefile.maintainer.env . > /dev/null
-
-  docker kill ${container_id} > /dev/null
-}
-
-extract_worldserver_conf() {
-  is_worldserver_image_exists \
+extract_gameservers_conf() {
+  is_gameservers_image_exists \
+  && backup_authserver_conf_file_if_needed \
   && backup_worldserver_conf_file_if_needed \
   && backup_env_files_if_needed \
-  && extract_conf_files_from_worldserver
-}
-
-extract_game_servers_conf() {
-  extract_authserver_conf \
-  && extract_worldserver_conf
+  && extract_conf_files_from_gameservers
 }
 
 report_total_success() {
@@ -127,7 +98,7 @@ Info: configuration files have been extracted successfully.
 EOF
 }
 
-report_game_servers_conf_extraction_failure() {
+report_gameservers_conf_extraction_failure() {
   cat << EOF >&2
 
 Warning: some game server configuration files couldn't be extracted. Make sure
@@ -145,11 +116,11 @@ is_databases_image_exists() {
   [ ! -z "$id" ]
 }
 
-extract_makefiles_from_container() {
-  local container_name="$1"
-  local container_version="$2"
+extract_env_files_from_image() {
+  local image_name="$1"
+  local image_version="$2"
 
-  local container_id=$(docker run --rm -it -d ${NAMESPACE}.${container_name}:${container_version})
+  local container_id=$(docker run --rm -it -d ${NAMESPACE}.${image_name}:${image_version})
 
   local user_home_dir=$(docker exec ${container_id} env \
                         | grep USER_HOME_DIR \
@@ -166,7 +137,7 @@ extract_makefiles_from_container() {
 extract_databases_conf() {
   is_databases_image_exists \
   && backup_env_files_if_needed \
-  && extract_makefiles_from_container 'databases' "${DATABASES_VERSION}"
+  && extract_env_files_from_image 'databases' "${DATABASES_VERSION}"
 }
 
 is_worldserver_remote_access_image_exists() {
@@ -179,7 +150,7 @@ is_worldserver_remote_access_image_exists() {
 extract_worldserver_remote_access_conf() {
   is_worldserver_remote_access_image_exists \
   && backup_env_files_if_needed \
-  && extract_makefiles_from_container 'worldserver_remote_access' "${WORLDSERVER_REMOTE_ACCESS_VERSION}"
+  && extract_env_files_from_image 'worldserver_remote_access' "${WORLDSERVER_REMOTE_ACCESS_VERSION}"
 }
 
 extract_auxiliary_servers_conf() {
@@ -206,10 +177,10 @@ EOF
 }
 
 main() {
-  extract_game_servers_conf \
+  extract_gameservers_conf \
   && report_total_success \
   || (
-       report_game_servers_conf_extraction_failure \
+       report_gameservers_conf_extraction_failure \
        && extract_auxiliary_servers_conf \
        && report_partial_success \
        || report_total_failure

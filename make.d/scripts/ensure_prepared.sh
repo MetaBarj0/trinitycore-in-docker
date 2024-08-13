@@ -359,30 +359,17 @@ check_worldserver_remote_access_version() {
   || print_user_guidance_for_worldserver_remote_access_version
 }
 
-print_user_guidance_for_authserver_version() {
+print_user_guidance_for_gameservers_version() {
   print_problem_solution_guidance \
-"Missing or invalid value for the AUTHSERVER_VERSION variable.
-The build of the authserver service will fail because it relies on
-this variable value." \
+"Missing or invalid value for the GAMESERVERS_VERSION variable.
+The build of the worldserver and authserver services will fail because it
+relies on this variable value." \
 "$(output_makefile_maintainer_solution)"
 }
 
-check_authserver_version() {
-  [ -n "${AUTHSERVER_VERSION}" ] \
-  || print_user_guidance_for_authserver_version
-}
-
-print_user_guidance_for_worldserver_version() {
-  print_problem_solution_guidance \
-"Missing or invalid value for the WORLDSERVER_VERSION variable.
-The build of the worldserver service will fail because it relies on
-this variable value." \
-"$(output_makefile_maintainer_solution)"
-}
-
-check_worldserver_version() {
-  [ -n "${WORLDSERVER_VERSION}" ] \
-  || print_user_guidance_for_worldserver_version
+check_gameservers_version() {
+  [ -n "${GAMESERVERS_VERSION}" ] \
+  || print_user_guidance_for_gameservers_version
 }
 
 check_versions() {
@@ -392,8 +379,7 @@ check_versions() {
   && check_builder_version \
   && check_ide_version \
   && check_worldserver_remote_access_version \
-  && check_authserver_version \
-  && check_worldserver_version
+  && check_gameservers_version
 }
 
 print_user_guidance_for_trinitycore_user_gid() {

@@ -33,7 +33,7 @@ services:
       - REALMLIST_ADDRESS
       - REALM_NAME
       - TDB_FULL_URI
-    image: ${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
+    image: ${NAMESPACE}.gameservers:${GAMESERVERS_VERSION}
     init: true
     networks:
       inside:
@@ -78,7 +78,7 @@ services:
       databases:
         condition: service_healthy
     entrypoint: /home/trinitycore/scripts/authserver_entrypoint.sh
-    image: ${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
+    image: ${NAMESPACE}.gameservers:${GAMESERVERS_VERSION}
     init: true
     networks:
       inside:

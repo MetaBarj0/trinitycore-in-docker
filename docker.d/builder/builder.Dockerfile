@@ -38,10 +38,15 @@ RUN \
   --mount=type=cache,target=${USER_HOME_DIR}/TrinityCore/build,uid=${USER_UID},gid=${USER_GID} \
   cmake \
   -G Ninja \
+  -DBUILD_TESTING=OFF \
   -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_CXX_STANDARD=20 \
   -DCMAKE_INSTALL_PREFIX=/home/trinitycore/trinitycore \
   -DCONF_DIR=/home/trinitycore/trinitycore/etc \
+  -DSCRIPTS=dynamic \
   -DWITHOUT_METRICS=ON \
+  -DWITH_DETAILED_METRICS=OFF \
+  -DWITH_DYNAMIC_LINKING=ON \
   ..
 
 FROM configure_build AS cmake_build
@@ -75,13 +80,12 @@ RUN \
   rsync
 
 FROM install_packages
-ARG AUTHSERVER_VERSION
 ARG BUILDER_VERSION
+ARG GAMESERVERS_VERSION
 ARG NAMESPACE
 ARG COMPOSE_PROJECT_NAME
 ARG USER
 ARG USER_HOME_DIR
-ARG WORLDSERVER_VERSION
 USER ${USER}
 WORKDIR ${USER_HOME_DIR}
 COPY \
@@ -98,14 +102,15 @@ RUN mkdir -p trinitycore_scripts
 COPY \
   --chown=${USER}:${USER} \
   archive.sh trinitycore_scripts/
+# TODO: remove wsl2_client_copy volume here, copy into container should be
+#       sufficient
 RUN mkdir -p data wsl2_client_copy TrinityCore
 RUN touch wsl2_client_copy/.volume data/.volume TrinityCore/.volume
 VOLUME ${USER_HOME_DIR}/data
 VOLUME ${USER_HOME_DIR}/wsl2_client_copy
 VOLUME ${USER_HOME_DIR}/TrinityCore
-ENV AUTHSERVER_IMAGE_TAG=${NAMESPACE}.authserver:${AUTHSERVER_VERSION}
 ENV BUILDER_IMAGE=${NAMESPACE}.builder:${BUILDER_VERSION}
+ENV GAMESERVERS_IMAGE_TAG=${NAMESPACE}.gameservers:${GAMESERVERS_VERSION}
 ENV SHELL=/bin/bash
-ENV WORLDSERVER_IMAGE_TAG=${NAMESPACE}.worldserver:${WORLDSERVER_VERSION}
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}

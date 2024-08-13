@@ -14,8 +14,8 @@ config:
 build_databases: ensure_prepared
 	$(call build_databases)
 
-build_servers_and_tools: build_builder
-	$(call build_servers_and_tools)
+build_gameservers_and_tools: build_builder
+	$(call build_gameservers_and_tools)
 
 build_worldserver_remote_access:
 	$(call build_worldserver_remote_access)

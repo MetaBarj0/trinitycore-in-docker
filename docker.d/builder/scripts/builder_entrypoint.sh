@@ -2,7 +2,7 @@
 set -e
 
 patch_authserver_configuration() {
-  cd docker.d/authserver/patches/configuration
+  cd docker.d/gameservers/patches/configuration
 
   patch \
     ${USER_HOME_DIR}/trinitycore_configurations/authserver.conf \
@@ -11,9 +11,7 @@ patch_authserver_configuration() {
   cd -
 }
 
-archive_configuration_files_for() {
-  local server_name="$1"
-
+archive_configuration_files() {
   . trinitycore_scripts/archive.sh
 
   cd trinitycore_configurations
@@ -21,38 +19,22 @@ archive_configuration_files_for() {
   archive_files_to \
     Makefile.env \
     Makefile.maintainer.env \
-    ${server_name}.conf \
-    ../docker.d/${server_name}/configuration_files.tar
+    authserver.conf \
+    worldserver.conf \
+    ../docker.d/gameservers/configuration_files.tar
 
   cd -
 }
 
-copy_authserver_configuration_in_authserver_build_context() {
+copy_authserver_configuration_in_gameservers_build_context() {
   cp \
     trinitycore_configurations/authserver.conf \
-    docker.d/authserver/
+    docker.d/gameservers/
 }
 
 prepare_authserver_configuration() {
   patch_authserver_configuration \
-  && archive_configuration_files_for authserver \
-  && copy_authserver_configuration_in_authserver_build_context
-}
-
-build_authserver_image() {
-  docker build \
-    --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} \
-    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
-    --build-arg NAMESPACE=${NAMESPACE} \
-    --build-arg SERVERBASE_VERSION=${SERVERBASE_VERSION} \
-    -f docker.d/authserver/authserver.Dockerfile \
-    -t ${AUTHSERVER_IMAGE_TAG} \
-    docker.d/authserver
-}
-
-create_auth_server_image() {
-  prepare_authserver_configuration \
-  && build_authserver_image
+  && copy_authserver_configuration_in_gameservers_build_context
 }
 
 generate_Cameras_dbc_and_maps_in_client_dir() {
@@ -245,7 +227,7 @@ generate_client_data() {
 }
 
 patch_worldserver_configuration() {
-  cd docker.d/worldserver/patches/configuration
+  cd docker.d/gameservers/patches/configuration
 
   patch \
     ${USER_HOME_DIR}/trinitycore_configurations/worldserver.conf \
@@ -254,34 +236,23 @@ patch_worldserver_configuration() {
   cd -
 }
 
-copy_worldserver_configuration_in_worldserver_build_context() {
+copy_worldserver_configuration_in_gameservers_build_context() {
   cp \
     trinitycore_configurations/worldserver.conf \
-    docker.d/worldserver/
+    docker.d/gameservers/
 }
 
 prepare_worldserver_configuration() {
   patch_worldserver_configuration \
-  && archive_configuration_files_for worldserver \
-  && copy_worldserver_configuration_in_worldserver_build_context
-}
-
-build_worldserver_image() {
-  docker build \
-    --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} \
-    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
-    --build-arg NAMESPACE=${NAMESPACE} \
-    --build-arg SERVERBASE_VERSION=${SERVERBASE_VERSION} \
-    -f docker.d/worldserver/worldserver.Dockerfile \
-    -t ${WORLDSERVER_IMAGE_TAG} \
-    docker.d/worldserver
+  && copy_worldserver_configuration_in_gameservers_build_context
 }
 
 is_within_wsl2_container() {
   uname -a | grep WSL2 > /dev/null
 }
 
-copy_data_to_wsl2_container() {
+# TODO: remove volume, copy to container
+copy_data_to_wsl2_container_if_needed() {
   if is_within_wsl2_container; then
     cd WoW-3.3.5a-12340
 
@@ -291,16 +262,28 @@ copy_data_to_wsl2_container() {
   fi
 }
 
-create_world_server_image() {
-  copy_data_to_wsl2_container \
+build_gameservers_image() {
+  docker build \
+    --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} \
+    --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
+    --build-arg NAMESPACE=${NAMESPACE} \
+    --build-arg SERVERBASE_VERSION=${SERVERBASE_VERSION} \
+    -f docker.d/gameservers/gameservers.Dockerfile \
+    -t ${GAMESERVERS_IMAGE_TAG} \
+    docker.d/gameservers
+}
+
+create_gameservers_image() {
+  copy_data_to_wsl2_container_if_needed \
   && generate_client_data \
   && prepare_worldserver_configuration \
-  && build_worldserver_image
+  && prepare_authserver_configuration \
+  && archive_configuration_files \
+  && build_gameservers_image
 }
 
 main() {
-  create_auth_server_image \
-  && create_world_server_image
+  create_gameservers_image
 }
 
 main

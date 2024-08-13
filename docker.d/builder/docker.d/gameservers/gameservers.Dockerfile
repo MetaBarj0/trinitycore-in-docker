@@ -23,11 +23,42 @@ COPY \
   bin/worldserver
 COPY \
   --from=builder \
+  /home/trinitycore/trinitycore/bin/scripts/ \
+  bin/scripts/
+COPY \
+  --from=builder \
+  /home/trinitycore/trinitycore/lib \
+  lib/
+COPY \
+  --from=builder \
   /home/trinitycore/trinitycore/etc/worldserver.conf.dist \
   etc/worldserver.conf.dist
 COPY worldserver.conf etc/
 
-FROM install_worldserver
+FROM install_worldserver AS install_authserver
+USER trinitycore
+WORKDIR /home/trinitycore
+RUN mkdir -p trinitycore/bin trinitycore/etc
+WORKDIR /home/trinitycore/trinitycore
+COPY \
+  --from=builder \
+  /home/trinitycore/trinitycore/bin/authserver \
+  bin/authserver
+COPY \
+  --from=builder \
+  /home/trinitycore/trinitycore/bin/scripts/ \
+  bin/scripts/
+COPY \
+  --from=builder \
+  /home/trinitycore/trinitycore/lib/ \
+  lib/
+COPY \
+  --from=builder \
+  /home/trinitycore/trinitycore/etc/authserver.conf.dist \
+  etc/authserver.conf.dist
+COPY authserver.conf etc/
+
+FROM install_authserver
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
 USER trinitycore
@@ -38,10 +69,10 @@ COPY \
   scripts/ ./scripts/
 COPY \
   --chown=trinitycore:trinitycore \
-  sql/ ./sql/
+  configuration_files.tar .
 COPY \
   --chown=trinitycore:trinitycore \
-  configuration_files.tar .
+  sql/ ./sql/
 RUN \
   mkdir -p \
   downloads trinitycore/data TrinityCore
@@ -52,5 +83,6 @@ RUN touch \
 VOLUME /home/trinitycore/downloads
 VOLUME /home/trinitycore/trinitycore/data
 VOLUME /home/trinitycore/TrinityCore
+
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}

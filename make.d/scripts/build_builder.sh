@@ -25,10 +25,10 @@ main() {
 
   docker build \
     --ssh default \
-    --build-arg AUTHSERVER_VERSION=${AUTHSERVER_VERSION} \
     --build-arg BUILDER_VERSION=${BUILDER_VERSION} \
     --build-arg BUILDERBASE_VERSION=${BUILDERBASE_VERSION} \
     --build-arg COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} \
+    --build-arg GAMESERVERS_VERSION=${GAMESERVERS_VERSION} \
     --build-arg NAMESPACE=${NAMESPACE} \
     --build-arg REPOSITORY_URI=${REPOSITORY_URI} \
     --build-arg REPOSITORY_REV=${REPOSITORY_REV} \
@@ -37,7 +37,6 @@ main() {
     --build-arg USER_GID=${user_gid} \
     --build-arg USER_HOME_DIR=${user_home_dir} \
     --build-arg USER_UID=${user_uid} \
-    --build-arg WORLDSERVER_VERSION=${WORLDSERVER_VERSION} \
     -t ${NAMESPACE}.builder:${BUILDER_VERSION} \
     -f docker.d/builder/builder.Dockerfile \
     docker.d/builder
