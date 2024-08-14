@@ -56,7 +56,7 @@ backup_env_files_if_needed() {
 }
 
 extract_conf_files_from_gameservers() {
-  local container_id=$(docker run --rm -it -d ${NAMESPACE}.gameservers:${GAMESERVERS_VERSION})
+  local container_id=$(docker run --rm -it -d ${NAMESPACE}.gameservers:${GAMESERVERS_VERSION} bash)
 
   docker exec ${container_id} tar x -f configuration_files.tar
 
@@ -120,7 +120,7 @@ extract_env_files_from_image() {
   local image_name="$1"
   local image_version="$2"
 
-  local container_id=$(docker run --rm -it -d ${NAMESPACE}.${image_name}:${image_version})
+  local container_id=$(docker run --rm -it -d ${NAMESPACE}.${image_name}:${image_version} bash)
 
   local user_home_dir=$(docker exec ${container_id} env \
                         | grep USER_HOME_DIR \

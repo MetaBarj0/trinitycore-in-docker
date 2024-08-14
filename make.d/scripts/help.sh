@@ -60,7 +60,7 @@ EOF
            command to execute. Example: make exec cmd='server info'
 EOF
 
-  if [ $maintainer_mode -ne 0 ]; then
+  if [ $maintainer_mode -eq 1 ]; then
     set_print_light_cyan
     cat << EOF
 - config:                          Use this target to check the
@@ -220,6 +220,27 @@ EOF
                                    with the '.old' extension
 EOF
   fi
+
+  set_print_light_cyan
+  cat << EOF
+- release_gameservers_image:       Build a release version of the gameservers
+                                   image. The produced gameservers images
+                                   differs in 2 points from the gameservers
+                                   image built by the 'build' target:
+                                   - the worldserver configuration disable the
+                                     database auto update feature
+                                   - The container does not download any
+                                     database snapshot for installation
+                                     purposes.
+                                   It means that databases must have been
+                                   populated beforehand. To ensure it is the
+                                   case, you can run 'make up' and wait for the
+                                   worldserver to be ready at least once. You
+                                   can ensure the world server is ready by
+                                   issuing 'make exec'. If the output is some
+                                   server information, the worldserver is ready
+                                   and you can sefely invoke this target.
+EOF
 
   reset_print_color
 

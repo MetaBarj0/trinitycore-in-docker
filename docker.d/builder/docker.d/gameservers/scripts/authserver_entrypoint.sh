@@ -15,8 +15,8 @@ run_live_loop() {
 }
 
 main() {
-  start_auth_server
-  run_live_loop
+  start_auth_server \
+  && run_live_loop
 }
 
 main

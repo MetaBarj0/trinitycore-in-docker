@@ -77,3 +77,7 @@ endef
 define extract_conf
   @. make.d/scripts/extract_conf.sh
 endef
+
+define release_gameservers_image
+  @. make.d/scripts/release_gameservers_image.sh
+endef

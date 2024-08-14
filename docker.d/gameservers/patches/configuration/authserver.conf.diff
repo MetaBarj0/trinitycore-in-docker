@@ -1,0 +1,16 @@
+258c258
+< Updates.EnableDatabases = 1
+---
+> Updates.EnableDatabases = 0
+266c266
+< Updates.AutoSetup   = 1
+---
+> Updates.AutoSetup   = 0
+292c292
+< Updates.AllowRehash = 1
+---
+> Updates.AllowRehash = 0
+304c304
+< Updates.CleanDeadRefMaxCount = 3
+---
+> Updates.CleanDeadRefMaxCount = 0
