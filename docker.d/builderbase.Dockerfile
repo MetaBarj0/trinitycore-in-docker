@@ -1,5 +1,5 @@
-ARG NAMESPACE
-ARG SERVERBASE_VERSION
+ARG NAMESPACE=InvalidDefaultNamespace
+ARG SERVERBASE_VERSION=InvalidVersion
 
 FROM ${NAMESPACE}.serverbase:${SERVERBASE_VERSION} AS install_prerequisites
 RUN \

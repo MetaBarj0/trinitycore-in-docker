@@ -1,4 +1,4 @@
-ARG NAMESPACE
+ARG NAMESPACE=InvalidDefaultNamespace
 
 FROM ${NAMESPACE}.debian:12_slim_upgraded AS debian_upgraded
 RUN \
