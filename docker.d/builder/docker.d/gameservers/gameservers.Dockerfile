@@ -12,15 +12,10 @@ RUN \
 
 FROM ${BUILDER_IMAGE} AS builder
 
-FROM install_dependencies AS install_worldserver
+FROM scratch AS install_shared_objects
+COPY --from=install_dependencies / /
 USER trinitycore
-WORKDIR /home/trinitycore
-RUN mkdir -p trinitycore/bin trinitycore/etc
 WORKDIR /home/trinitycore/trinitycore
-COPY \
-  --from=builder \
-  /home/trinitycore/trinitycore/bin/worldserver \
-  bin/worldserver
 COPY \
   --from=builder \
   /home/trinitycore/trinitycore/bin/scripts/ \
@@ -29,6 +24,14 @@ COPY \
   --from=builder \
   /home/trinitycore/trinitycore/lib \
   lib/
+
+FROM install_shared_objects AS install_worldserver
+USER trinitycore
+WORKDIR /home/trinitycore/trinitycore
+COPY \
+  --from=builder \
+  /home/trinitycore/trinitycore/bin/worldserver \
+  bin/worldserver
 COPY \
   --from=builder \
   /home/trinitycore/trinitycore/etc/worldserver.conf.dist \
@@ -37,21 +40,11 @@ COPY worldserver.conf etc/
 
 FROM install_worldserver AS install_authserver
 USER trinitycore
-WORKDIR /home/trinitycore
-RUN mkdir -p trinitycore/bin trinitycore/etc
 WORKDIR /home/trinitycore/trinitycore
 COPY \
   --from=builder \
   /home/trinitycore/trinitycore/bin/authserver \
   bin/authserver
-COPY \
-  --from=builder \
-  /home/trinitycore/trinitycore/bin/scripts/ \
-  bin/scripts/
-COPY \
-  --from=builder \
-  /home/trinitycore/trinitycore/lib/ \
-  lib/
 COPY \
   --from=builder \
   /home/trinitycore/trinitycore/etc/authserver.conf.dist \

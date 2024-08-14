@@ -11,11 +11,12 @@ RUN \
   libboost-system1.81.0 libboost-chrono1.81.0 libboost-atomic1.81.0 \
   mariadb-client
 
-FROM debian_upgraded
+FROM scratch
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
 ARG TRINITYCORE_USER_GID
 ARG TRINITYCORE_USER_UID
+COPY --from=debian_upgraded / /
 RUN groupadd -g ${TRINITYCORE_USER_GID} trinitycore
 RUN useradd -g ${TRINITYCORE_USER_GID} -u ${TRINITYCORE_USER_UID} -m -s /bin/bash trinitycore
 LABEL project=${COMPOSE_PROJECT_NAME}

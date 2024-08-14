@@ -79,7 +79,8 @@ RUN \
   && apt-get install -y --no-install-recommends \
   rsync
 
-FROM install_packages
+FROM scratch
+COPY --from=install_packages / /
 ARG BUILDER_VERSION
 ARG GAMESERVERS_VERSION
 ARG NAMESPACE

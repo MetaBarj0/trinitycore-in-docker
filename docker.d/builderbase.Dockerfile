@@ -12,7 +12,8 @@ RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-16 100
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-16 100
 RUN update-alternatives --install /usr/bin/ld ld /usr/bin/lld-16 100
 
-FROM install_prerequisites AS install_docker
+FROM scratch AS install_docker
+COPY --from=install_prerequisites / /
 USER root
 # docker installation for debian
 # see:
@@ -36,7 +37,7 @@ RUN \
   && apt-get install -y --no-install-recommends \
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-FROM install_docker
+FROM scratch
 ARG COMPOSE_PROJECT_NAME
 ARG NAMESPACE
 ARG USE_DOCKER_DESKTOP
@@ -44,6 +45,7 @@ ARG USER
 ARG USER_GID
 ARG USER_HOME_DIR
 ARG USER_UID
+COPY --from=install_docker / /
 RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || [ ! -z ${USER_GID} ] && groupmod -g ${USER_GID} docker
 RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || useradd -d ${USER_HOME_DIR} -m -s /bin/bash -g docker ${USER}
 RUN [ ${USE_DOCKER_DESKTOP} -eq 1 ] && exit 0 || [ ! -z ${USER_UID} ] && usermod -u ${USER_UID} ${USER}

@@ -23,13 +23,13 @@ build_worldserver_remote_access:
 build_debian_upgraded:
 	$(call build_debian_upgraded)
 
-build_server_base:
-	$(call build_server_base)
+build_serverbase: build_debian_upgraded
+	$(call build_serverbase)
 
-build_builder_base:
-	$(call build_builder_base)
+build_builderbase: build_serverbase
+	$(call build_builderbase)
 
-build_builder: build_debian_upgraded build_server_base build_builder_base
+build_builder: build_builderbase
 	$(call build_builder)
 
 debug_build_databases:
@@ -54,7 +54,7 @@ Makefile.maintainer.env:
 
 ide: build_ide up_ide shell_ide
 
-build_ide: ensure_prepared build_debian_upgraded build_server_base build_builder_base
+build_ide: ensure_prepared build_debian_upgraded build_builderbase
 	$(call build_ide)
 
 up_ide: service = ide

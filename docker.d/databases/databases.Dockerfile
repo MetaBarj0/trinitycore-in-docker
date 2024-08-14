@@ -1,10 +1,13 @@
-FROM alpine:edge
-ARG COMPOSE_PROJECT_NAME
-ARG NAMESPACE
+FROM alpine:edge AS system
 RUN \
   --mount=type=cache,target=/var/cache/apk,sharing=locked \
   apk update \
   && apk add mariadb mariadb-client patch
+
+FROM scratch
+ARG COMPOSE_PROJECT_NAME
+ARG NAMESPACE
+COPY --from=system / /
 COPY configuration/mariadb-server.cnf /etc/my.cnf.d/
 WORKDIR /root
 COPY sql/root_privileges.sql ./sql/
