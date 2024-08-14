@@ -233,13 +233,10 @@ EOF
                                      database snapshot for installation
                                      purposes.
                                    It means that databases must have been
-                                   populated beforehand. To ensure it is the
-                                   case, you can run 'make up' and wait for the
-                                   worldserver to be ready at least once. You
-                                   can ensure the world server is ready by
-                                   issuing 'make exec'. If the output is some
-                                   server information, the worldserver is ready
-                                   and you can sefely invoke this target.
+                                   populated beforehand. This is why the entire
+                                   project is run once to ensure databases are
+                                   in a valid state before executing this
+                                   target.
 EOF
 
   set_print_purple

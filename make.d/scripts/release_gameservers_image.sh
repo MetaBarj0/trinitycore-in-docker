@@ -36,6 +36,23 @@ patch_worldserver_configuration() {
   cd -
 }
 
+ping_worldserver() {
+  make exec 2> /dev/null 1>&2
+}
+
+wait_for_a_ready_worldserver() {
+  while ! ping_worldserver; do
+    echo 'finalizing world server initialization...'
+    sleep 3
+  done
+}
+
+ensure_gameservers_image_can_be_rebuilt() {
+  make up \
+  && wait_for_a_ready_worldserver \
+  ; make down
+}
+
 prepare_worldserver_configuration() {
   copy_server_configuraton_file_to_build_context worldserver.conf \
   && patch_worldserver_configuration
@@ -52,7 +69,8 @@ build_gameservers_image() {
 }
 
 create_gameservers_image() {
-  prepare_worldserver_configuration \
+  ensure_gameservers_image_can_be_rebuilt \
+  && prepare_worldserver_configuration \
   && prepare_authserver_configuration \
   && build_gameservers_image
 }
