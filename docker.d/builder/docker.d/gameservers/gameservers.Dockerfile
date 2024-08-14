@@ -18,10 +18,12 @@ USER trinitycore
 WORKDIR /home/trinitycore/trinitycore
 COPY \
   --from=builder \
+  --chown=trinitycore:trinitycore \
   /home/trinitycore/trinitycore/bin/scripts/ \
   bin/scripts/
 COPY \
   --from=builder \
+  --chown=trinitycore:trinitycore \
   /home/trinitycore/trinitycore/lib \
   lib/
 
@@ -30,26 +32,34 @@ USER trinitycore
 WORKDIR /home/trinitycore/trinitycore
 COPY \
   --from=builder \
+  --chown=trinitycore:trinitycore \
   /home/trinitycore/trinitycore/bin/worldserver \
   bin/worldserver
 COPY \
   --from=builder \
+  --chown=trinitycore:trinitycore \
   /home/trinitycore/trinitycore/etc/worldserver.conf.dist \
   etc/worldserver.conf.dist
-COPY worldserver.conf etc/
+COPY \
+  --chown=trinitycore:trinitycore \
+  worldserver.conf etc/
 
 FROM install_worldserver AS install_authserver
 USER trinitycore
 WORKDIR /home/trinitycore/trinitycore
 COPY \
   --from=builder \
+  --chown=trinitycore:trinitycore \
   /home/trinitycore/trinitycore/bin/authserver \
   bin/authserver
 COPY \
   --from=builder \
+  --chown=trinitycore:trinitycore \
   /home/trinitycore/trinitycore/etc/authserver.conf.dist \
   etc/authserver.conf.dist
-COPY authserver.conf etc/
+COPY \
+  --chown=trinitycore:trinitycore \
+  authserver.conf etc/
 
 FROM install_authserver
 ARG COMPOSE_PROJECT_NAME

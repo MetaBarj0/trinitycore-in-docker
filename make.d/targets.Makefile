@@ -87,5 +87,5 @@ ensure_prepared:
 extract_conf:
 	$(call extract_conf)
 
-release_gameservers_image: build
+release_gameservers_image:
 	$(call release_gameservers_image)
