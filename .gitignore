@@ -6,3 +6,4 @@ Makefile.env.old
 Makefile.maintainer.env.old
 worldserver.conf.old
 authserver.conf.old
+*.tar

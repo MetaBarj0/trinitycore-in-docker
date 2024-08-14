@@ -242,6 +242,34 @@ EOF
                                    and you can sefely invoke this target.
 EOF
 
+  set_print_purple
+  cat << EOF
+- export_project:                  Export images and volumes necessary to run a
+                                   complete trinitycore server. Exported images
+                                   are:
+                                   - databases
+                                   - gameservers
+                                   - worldserver_remote_access
+                                   Exported volumes are:
+                                   - databases_data
+                                   - client_data
+                                   As such, this target requires the 'build'
+                                   and 'release_gameservers_image' targets to
+                                   have run beforehand. Moreover, services must
+                                   be down.
+                                   The result of this exportation is a tar
+                                   archive whose the name is:
+                                   '${NAMESPACE}.${COMPOSE_PROJECT_NAME}.tar'
+                                   If the above file name looks incorrect or
+                                   invalid, it is caused by bad values in
+                                   either the NAMESPACE or the
+                                   COMPOSE_PROJECT_NAME environment variable.
+                                   You can change by editing them in the
+                                   Makefile.maintainer.env file or with the
+                                   following command: make init
+                                   'maintainer_mode=1'.
+EOF
+
   reset_print_color
 
   cat << EOF

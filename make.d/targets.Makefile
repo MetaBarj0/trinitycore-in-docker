@@ -89,3 +89,6 @@ extract_conf:
 
 release_gameservers_image:
 	$(call release_gameservers_image)
+
+export_project: release_gameservers_image down
+	$(call export_project)

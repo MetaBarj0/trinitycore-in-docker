@@ -81,3 +81,7 @@ endef
 define release_gameservers_image
   @. make.d/scripts/release_gameservers_image.sh
 endef
+
+define export_project
+  @. make.d/scripts/export_project.sh
+endef
