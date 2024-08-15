@@ -267,6 +267,22 @@ EOF
                                    'maintainer_mode=1'.
 EOF
 
+  set_print_light_cyan
+  cat << EOF
+- import_project:                  Import an entire trinitycore-in-docker
+                                   project from a specified archive file. You
+                                   must specify the archive to import using the
+                                   'archive' target variable.
+                                   This target automatically fails if there is
+                                   an existing trinitycore-in-docker project on
+                                   the host.
+                                   Should you need to overwrite an existing
+                                   project, you have to erase it first from the
+                                   host using 'make nuke' beforehand.
+                                   Example usage:
+                                   make import_project archive=project.tar
+EOF
+
   reset_print_color
 
   cat << EOF

@@ -85,3 +85,7 @@ endef
 define export_project
   @. make.d/scripts/export_project.sh
 endef
+
+define import_project
+  @. make.d/scripts/import_project.sh
+endef

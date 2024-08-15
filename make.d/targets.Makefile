@@ -92,3 +92,7 @@ release_gameservers_image:
 
 export_project: release_gameservers_image down
 	$(call export_project)
+
+import_project: archive=
+import_project:
+	$(call import_project)
