@@ -91,7 +91,8 @@ main() {
   echo "starting ${NAMESPACE}.${COMPOSE_PROJECT_NAME} project export..."
 
   export_volumes \
-  && export_images
+  && export_images \
+  && echo "project successfully exported to ${NAMESPACE}.${COMPOSE_PROJECT_NAME}.tar archive."
 }
 
 main
