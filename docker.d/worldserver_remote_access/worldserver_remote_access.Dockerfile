@@ -2,7 +2,7 @@ FROM alpine:edge AS install_php_for_soap
 RUN \
   --mount=type=cache,target=/var/cache/apk,sharing=locked \
   apk update \
-  && apk add php83-litespeed php83-soap
+  && apk add php83-litespeed php83-soap tar
 
 FROM scratch AS create_user
 ARG COMPOSE_PROJECT_NAME
@@ -21,6 +21,7 @@ RUN ln -s \
   /home/worldserver_remote_access/scripts/execute_console_command.sh \
   /usr/local/bin/
 USER worldserver_remote_access
+# TODO: printf instead of echo | tr
 RUN echo 'TC_ADMIN' | tr -d '\n' > .admin_account_name
 RUN echo 'TC_ADMIN' | tr -d '\n' > .admin_account_password
 ENV USER_HOME_DIR=/home/worldserver_remote_access
