@@ -4,6 +4,11 @@ copy_scripts_in_builder_build_context() {
   cp $@ docker.d/builder
 }
 
+# TODO: fix - rethink conf file patch, outside the container, taking
+#             environment variable into account regarding repository target
+#             directory for TrinityCore sources. Currently broken if I change
+#             env variables. WHen fixed, no need to copy archive.sh file into
+#             build context anymore.
 main() {
   copy_configuration_files_in_build_context \
     'docker.d/builder' \

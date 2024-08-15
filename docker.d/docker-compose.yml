@@ -20,9 +20,6 @@ services:
       - type: volume
         source: databases_data
         target: /var/lib/mysql/data
-      - type: volume
-        source: trinitycore_shallow_clone
-        target: /root/TrinityCore
   worldserver:
     container_name: ${COMPOSE_PROJECT_NAME}_worldserver
     depends_on:

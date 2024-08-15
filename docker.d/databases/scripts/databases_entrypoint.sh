@@ -38,10 +38,10 @@ install_root_privileges() {
   apply_sql_file '/root/sql/root_privileges.sql'
 }
 
-patch_create_mariadb_script() {
+# TODO: all patch outside of container. Lighter entrypoint, less responsibility
+patch_create_mysql_script() {
   cd /root/sql > /dev/null
 
-  cp /root/TrinityCore/sql/create/create_mysql.sql .
   patch create_mysql.sql /root/diffs/sql/create_mysql.sql.diff
 
   cd - > /dev/null
@@ -52,7 +52,7 @@ apply_trinitycore_databases_creation_script() {
 }
 
 create_trinitycore_databases() {
-  patch_create_mariadb_script \
+  patch_create_mysql_script \
   && apply_trinitycore_databases_creation_script
 }
 

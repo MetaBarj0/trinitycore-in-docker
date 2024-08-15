@@ -10,12 +10,12 @@ ARG NAMESPACE
 COPY --from=system / /
 COPY configuration/mariadb-server.cnf /etc/my.cnf.d/
 WORKDIR /root
-COPY sql/root_privileges.sql ./sql/
+COPY sql/ sql/
+COPY create_mysql.sql sql/
 COPY diffs ./diffs/
 COPY configuration_files.tar ./
-COPY --chmod=755 scripts/ ./scripts/
+COPY --chmod=755 scripts/ scripts/
 VOLUME /var/lib/mysql
-VOLUME /root/TrinityCore
 ENV USER_HOME_DIR=/root
 LABEL project=${COMPOSE_PROJECT_NAME}
 LABEL namespace=${NAMESPACE}

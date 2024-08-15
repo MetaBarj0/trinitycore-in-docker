@@ -6,4 +6,5 @@ Makefile.env.old
 Makefile.maintainer.env.old
 worldserver.conf.old
 authserver.conf.old
+create_mysql.sql
 *.tar

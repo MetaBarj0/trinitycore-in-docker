@@ -1,3 +1,4 @@
+# TODO: export volume first, using related image to avoid download alpine:edge
 export_databases_image() {
   echo '  exporting databases image...'
 
