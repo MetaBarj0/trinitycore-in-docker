@@ -1,7 +1,12 @@
-. make.d/scripts/copy_configuration_files_in_build_context.sh
+. make.d/scripts/copy_files_in_build_context.sh
 
 main() {
-  copy_configuration_files_in_build_context \
+  copy_files_in_build_context \
+    "${WORLDSERVER_CONF_PATH}" \
+    "${AUTHSERVER_CONF_PATH}" \
+    Makefile.env \
+    Makefile.maintainer.env \
+    make.d/scripts/archive.sh \
     'docker.d/builder'
 
   export BUILDX_EXPERIMENTAL=1

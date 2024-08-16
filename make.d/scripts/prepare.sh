@@ -1,4 +1,4 @@
-. make.d/scripts/fetch_servers_configuration_files_in.sh
+. make.d/scripts/fetch_repository_files_and_copy_to.sh
 
 check_file_paths() {
   if [ -z "${AUTHSERVER_CONF_PATH}" ] || [ -z "${WORLDSERVER_CONF_PATH}" ]; then
@@ -37,7 +37,7 @@ EOF
 
 main() {
   check_file_paths \
-  && fetch_servers_configuration_files_in . \
+  && fetch_repository_files_and_copy_to . \
   && print_post_prepare_message
 }
 

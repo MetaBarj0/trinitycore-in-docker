@@ -1,4 +1,4 @@
-. make.d/scripts/fetch_servers_configuration_files_in.sh
+. make.d/scripts/fetch_repository_files_and_copy_to.sh
 
 rm_servers_configuration_files_in_build_context() {
   rm -f \
@@ -101,7 +101,7 @@ build_image() {
 
 main() {
   rm_servers_configuration_files_in_build_context \
-  && fetch_servers_configuration_files_in 'docker.d/ide' \
+  && fetch_repository_files_and_copy_to 'docker.d/ide' \
   && patch_configuration_file_in_build_context \
   && copy_scripts_in_build_context \
   && build_image

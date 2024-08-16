@@ -1,18 +1,13 @@
-. ./make.d/scripts/copy_configuration_files_in_build_context.sh
+. ./make.d/scripts/copy_files_in_build_context.sh
 
-copy_scripts_in_builder_build_context() {
-  cp $@ docker.d/builder
-}
-
-# TODO: fix - rethink conf file patch, outside the container, taking
-#             environment variable into account regarding repository target
-#             directory for TrinityCore sources. Currently broken if I change
-#             env variables. WHen fixed, no need to copy archive.sh file into
-#             build context anymore.
 main() {
-  copy_configuration_files_in_build_context \
-    'docker.d/builder' \
-  && copy_scripts_in_builder_build_context make.d/scripts/archive.sh
+  copy_files_in_build_context \
+    "${WORLDSERVER_CONF_PATH}" \
+    "${AUTHSERVER_CONF_PATH}" \
+    Makefile.env \
+    Makefile.maintainer.env \
+    make.d/scripts/archive.sh \
+    'docker.d/builder'
 
   if [ $USE_DOCKER_DESKTOP -eq 0 ]; then
     local user=${SHELL_USER_NAME}

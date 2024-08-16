@@ -1,5 +1,5 @@
 . ./make.d/scripts/archive.sh
-. ./make.d/scripts/copy_configuration_files_in_build_context.sh
+. ./make.d/scripts/copy_files_in_build_context.sh
 
 main() {
   archive_files_to \
@@ -7,7 +7,8 @@ main() {
     Makefile.maintainer.env \
     ./docker.d/databases/configuration_files.tar
 
-  copy_create_mysql_in_build_context \
+  copy_files_in_build_context \
+    'create_mysql.sql' \
     'docker.d/databases' \
 
   docker build \

@@ -38,7 +38,6 @@ install_root_privileges() {
   apply_sql_file '/root/sql/root_privileges.sql'
 }
 
-# TODO: all patch outside of container. Lighter entrypoint, less responsibility
 patch_create_mysql_script() {
   cd /root/sql > /dev/null
 

@@ -31,6 +31,8 @@ They differ depending the operating system you use but in general you need:
 
 - docker (with compose and buildx plugins)
 - make
+- gnu tar (for import / export features)
+- curl
 
 To enjoy the development environment in the 'ide' service, you need also:
 
